@@ -339,8 +339,8 @@ $txt2 = 'APRENDIZAJE';
 // Multicell test
 $pdf->SetFillColor(194, 0, 31);
 $pdf->SetTextColor(255, 255, 255);
-$pdf->MultiCell(92, 10,$txt, 0, 'C', 1, 0, 13, 70, true);
-$pdf->MultiCell(92, 10,$txt1, 0, 'C', 1, 0, 107, 70, true);
+$pdf->MultiCell(92, 10,$txt, 0, 'C', 1, 0, 13, 70, 'M');
+$pdf->MultiCell(92, 10,$txt1, 0, 'C', 1, 0, 107, 70, 'M');
 
 $pdf->SetFillColor(247, 247, 246);
 // $pdf->MultiCell(80, 0, $left_column, 0, 'J', 1, 0, '', '', true, 0, false, true, 0);
