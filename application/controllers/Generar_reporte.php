@@ -7,10 +7,11 @@ class Generar_reporte extends CI_Controller {
     parent::__construct();
     $this->load->helper('url');
     $this->load->library('My_tcpdf');
-    include_once 'jpgraph/src/jpgraph.php';
-    include_once 'jpgraph/src/jpgraph_pie.php';
-    include_once 'jpgraph/src/jpgraph_pie3d.php';
-    include_once 'jpgraph/src/jpgraph_bar.php';
+    $this->load->library('Graph');
+    // include_once 'jpgraph/src/jpgraph.php';
+    // include_once 'jpgraph/src/jpgraph_pie.php';
+    // include_once 'jpgraph/src/jpgraph_bar.php';
+
 
   }// __construct()
 
@@ -59,7 +60,7 @@ class Generar_reporte extends CI_Controller {
     $graph_p->Add($p1);
     $p1->ShowBorder();
     $p1->SetColor('black');
-    $p1->SetSliceColors(array('#1E90FF','#2E8B57','#ADFF2F','#DC143C'));
+    $p1->SetSliceColors(array('#F9EC13','#F07622','#CD2027','#DBDAD8'));
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
     ///Termina creación de grafica de pastel
@@ -104,20 +105,21 @@ class Generar_reporte extends CI_Controller {
     $data1y=array(1,2,4,6,10,2);
     $data2y=array(6,3,8,5,7,8);
     // $data3y=array(0,0,0,0,0,0);
-    $graph = new Graph(350,200,'auto');
-    $graph->SetScale("textlin");
+    $graph1 = new Graph(350,200,'auto');
+    $graph1->SetScale("textlin");
     $theme_class=new UniversalTheme;
-    $graph->SetTheme($theme_class);
-    // $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
-    $graph->SetBox(false);
-    $graph->ygrid->SetFill(false);
-    $graph->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
-    $graph->yaxis->HideLine(false);
-    $graph->yaxis->HideTicks(false,false);
+    $graph1->SetTheme($theme_class);
+    // $graph1->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+    $graph1->SetBox(false);
+    $graph1->ygrid->SetFill(false);
+    // $graph1->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
+    $graph1->xaxis->Hide();
+    $graph1->yaxis->HideLine(false);
+    $graph1->yaxis->HideTicks(false,false);
     $b1plot = new BarPlot($data1y);
     $b2plot = new BarPlot($data2y);
     $gbplot = new GroupBarPlot(array($b1plot,$b2plot));
-    $graph->Add($gbplot);
+    $graph1->Add($gbplot);
     $b1plot->SetColor("white");
     $b1plot->SetFillColor("#F47B2F");
     $b2plot->SetColor("white");
@@ -130,7 +132,7 @@ class Generar_reporte extends CI_Controller {
 
     // $b3plot->SetColor("white");
     // $b3plot->SetFillColor("#FFFFFF");
-    $graph->Stroke('barras1.png');
+    $graph1->Stroke('barras1.png');
     ///Termina creación de grafica de barras
 
     $pdf->Image('barras1.png', 115,140,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
@@ -515,7 +517,7 @@ text-align: center;
 <table WIDTH="245">
 <tbody>
 <tr>
-<td colspan="4"></td>
+<td colspan="4">ANALFABETISMO</td>
 </tr>
 <tr>
 <td>&nbsp;</td>
