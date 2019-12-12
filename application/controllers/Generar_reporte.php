@@ -133,7 +133,7 @@ class Generar_reporte extends CI_Controller {
     $graph->Stroke('barras1.png');
     ///Termina creación de grafica de barras
 
-    $pdf->Image('barras1.png', 115,150,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('barras1.png', 115,140,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras1.png');
 
 
@@ -233,11 +233,11 @@ class Generar_reporte extends CI_Controller {
     </table>
 		';
 
-		$html3 = <<<EOT
+		$encabezado = <<<EOT
 		$str_htm3
 EOT;
 
-		$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $html3, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+		$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
     $str_htm3 = '
 		<style>
@@ -325,6 +325,8 @@ $pdf->SetFillColor(0, 0, 127);
 // set some text for example
 $txt = 'ASISTENCIA';
 $txt1 = 'PERMANENCIA';
+$txt2 = 'APRENDIZAJE';
+
 
 
 
@@ -341,6 +343,7 @@ $pdf->SetFillColor(247, 247, 246);
 $pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 13, 80, true);
 $pdf->MultiCell(92, 150,'', 0, 'C', 1, 0, 107, 80, true);
 
+$pdf->SetTextColor(0, 0, 0);
 
 $str_htm3 = '
 <style>
@@ -406,9 +409,320 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=90, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
+$str_htm3 = '
+<style>
+table td{
+border: 1px solid black;
+padding: 2px !important;
+}
+table th{
+border: 1px solid black;
+padding: 2px !important;
+text-align: center;
+}
+</style>
+<table WIDTH="245">
+<tbody>
+<tr>
+<td colspan="7"></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td colspan="2"></td>
+<td colspan="2"></td>
+<td colspan="2"></td>
+</tr>
+</tbody>
+</table>';
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+
+$pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=165, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 
-    $pdf->Output('certificado.pdf', 'I');
+$str_htm3 = '
+<style>
+table td{
+border: 1px solid black;
+padding: 2px !important;
+}
+table th{
+border: 1px solid black;
+padding: 2px !important;
+text-align: center;
+}
+</style>
+<table WIDTH="245">
+<tbody>
+<tr>
+<td colspan="7">REZAGO EDUCATIVO</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td colspan="3"></td>
+<td colspan="3"></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>';
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+
+$pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=195, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+$str_htm3 = '
+<style>
+table td{
+border: 1px solid black;
+padding: 2px !important;
+}
+table th{
+border: 1px solid black;
+padding: 2px !important;
+text-align: center;
+}
+</style>
+<table WIDTH="245">
+<tbody>
+<tr>
+<td colspan="4"></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>';
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+
+$pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=230, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+
+$str_htm3 = '
+<style>
+table td{
+border: 1px solid black;
+padding: 2px !important;
+}
+table th{
+border: 1px solid black;
+padding: 2px !important;
+text-align: center;
+}
+</style>
+<table WIDTH="245">
+<tbody>
+
+<tr>
+<td>&nbsp;</td>
+<td colspan="2"></td>
+<td colspan="2"></td>
+<td colspan="2"></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>';
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+
+$pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=120, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+$str_htm3 = '
+<style>
+table td{
+border: 1px solid black;
+padding: 2px !important;
+}
+table th{
+border: 1px solid black;
+padding: 2px !important;
+text-align: center;
+}
+</style>
+<table WIDTH="245">
+<tbody>
+
+<tr>
+<td colspan="3"></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td colspan="2"></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td colspan="2"></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>';
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+
+$pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=195, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+$str_htm3 = '
+<style>
+table td{
+border: 1px solid black;
+padding: 2px !important;
+}
+table th{
+border: 1px solid black;
+padding: 2px !important;
+text-align: center;
+}
+</style>
+<table WIDTH="245">
+<tbody>
+
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>';
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+
+$pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+$pdf->SetAutoPageBreak(TRUE, 0);
+$pdf->AddPage('P', 'A4');
+$pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
+$pdf->SetAutoPageBreak(FALSE, 0);
+
+$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->SetFillColor(194, 0, 31);
+$pdf->SetTextColor(255, 255, 255);
+$pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
+
+
+///Empieza creación de grafica de barras
+$data1y=array(1,2,4,6);
+$data2y=array(6,3,8,5);
+// $data3y=array(0,0,0,0,0,0);
+$graph = new Graph(350,200,'auto');
+$graph->SetScale("textlin");
+$theme_class=new UniversalTheme;
+$graph->SetTheme($theme_class);
+// $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+$graph->SetBox(false);
+$graph->ygrid->SetFill(false);
+$graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
+$graph->yaxis->HideLine(false);
+$graph->yaxis->HideTicks(false,false);
+$b1plot = new BarPlot($data1y);
+$b2plot = new BarPlot($data2y);
+$gbplot = new GroupBarPlot(array($b1plot,$b2plot));
+$graph->Add($gbplot);
+$b1plot->SetColor("white");
+$b1plot->SetFillColor("#F47B2F");
+$b2plot->SetColor("white");
+$b2plot->SetFillColor("#EE1D23");
+$graph->Stroke('barras2.png');
+
+$pdf->Image('barras2.png', 10,160,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+$pdf->Image('barras2.png', 110,160,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+
+unlink('barras2.png');
+
+$pdf->SetTextColor(0, 0, 0);
+
+$pdf->SetAutoPageBreak(TRUE, 0);
+$pdf->AddPage('L', 'A4');
+$pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
+$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->SetAutoPageBreak(FALSE, 0);
+
+$pdf->SetAutoPageBreak(TRUE, 0);
+$pdf->AddPage('L', 'A4');
+$pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
+$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->SetAutoPageBreak(FALSE, 0);
+
+$pdf->Output('certificado.pdf', 'I');
 
 
 
