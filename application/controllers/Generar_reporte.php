@@ -47,14 +47,18 @@ class Generar_reporte extends CI_Controller {
 
     ///Empieza creación de grafica de pastel
     $graph_p = new PieGraph(350,250);
-    $theme_class="DefaultTheme";
+    // $theme_class="DefaultTheme";
     // $graph_p->title->Set("A Simple Pie Plot 1");
-    $graph_p->SetBox(true);
+    // $graph_p->SetBackgroundImage("assets/img/background.png",BGIMG_FILLFRAME);
+
+
+    $graph_p->SetBox(false);
     $p1 = new PiePlot($data);
     $graph_p->Add($p1);
     $p1->ShowBorder();
     $p1->SetColor('black');
     $p1->SetSliceColors(array('#F9EC13','#F07622','#CD2027','#DBDAD8'));
+    $graph_p->SetColor('#F7F7F6');      
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
     ///Termina creación de grafica de pastel
@@ -71,6 +75,7 @@ class Generar_reporte extends CI_Controller {
     $graph->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph->SetTheme($theme_class);
+    $graph->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
     $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
     $graph->SetBox(false);
     $graph->ygrid->SetFill(false);
@@ -103,6 +108,7 @@ class Generar_reporte extends CI_Controller {
     $graph1->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph1->SetTheme($theme_class);
+    $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
     // $graph1->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
