@@ -58,7 +58,7 @@ class Generar_reporte extends CI_Controller {
     $p1->ShowBorder();
     $p1->SetColor('black');
     $p1->SetSliceColors(array('#F9EC13','#F07622','#CD2027','#DBDAD8'));
-    $graph_p->SetColor('#F7F7F6');      
+    $graph_p->SetColor('#F7F7F6');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
     ///Termina creación de grafica de pastel
@@ -147,6 +147,10 @@ class Generar_reporte extends CI_Controller {
       border: none;
       padding: 5px !important;
       background-color:#ECECEE;
+      padding-top:2px;
+      padding-left:2px;
+      padding-right:2px;
+      padding-bottom:2px;
 		}
 		</style>
     <table WIDTH="524">
@@ -350,13 +354,12 @@ $pdf->SetTextColor(0, 0, 0);
 $str_htm3 = '
 <style>
 table td{
-border: 1px solid black;
+border: .3px solid #BFC0C3;
 padding: 2px !important;
-}
-table th{
-border: 1px solid black;
-padding: 2px !important;
-text-align: center;
+padding-top:1px;
+padding-left:1px;
+padding-right:1px;
+padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
@@ -414,13 +417,12 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=90, $html5, $border=0, $ln=1, $fill=0, 
 $str_htm3 = '
 <style>
 table td{
-border: 1px solid black;
+border: .3px solid #BFC0C3;
 padding: 2px !important;
-}
-table th{
-border: 1px solid black;
-padding: 2px !important;
-text-align: center;
+padding-top:1px;
+padding-left:1px;
+padding-right:1px;
+padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
@@ -456,13 +458,12 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=165, $html5, $border=0, $ln=1, $fill=0,
 $str_htm3 = '
 <style>
 table td{
-border: 1px solid black;
+border: .3px solid #BFC0C3;
 padding: 2px !important;
-}
-table th{
-border: 1px solid black;
-padding: 2px !important;
-text-align: center;
+padding-top:1px;
+padding-left:1px;
+padding-right:1px;
+padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
@@ -505,13 +506,12 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=195, $html5, $border=0, $ln=1, $fill=0,
 $str_htm3 = '
 <style>
 table td{
-border: 1px solid black;
+border: .3px solid #BFC0C3;
 padding: 2px !important;
-}
-table th{
-border: 1px solid black;
-padding: 2px !important;
-text-align: center;
+padding-top:1px;
+padding-left:1px;
+padding-right:1px;
+padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
@@ -544,13 +544,12 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=230, $html5, $border=0, $ln=1, $fill=0,
 $str_htm3 = '
 <style>
 table td{
-border: 1px solid black;
+border: .3px solid #BFC0C3;
 padding: 2px !important;
-}
-table th{
-border: 1px solid black;
-padding: 2px !important;
-text-align: center;
+padding-top:1px;
+padding-left:1px;
+padding-right:1px;
+padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
@@ -583,13 +582,12 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=120, $html5, $border=0, $ln=1, $fill=0
 $str_htm3 = '
 <style>
 table td{
-border: 1px solid black;
+border: .3px solid #BFC0C3;
 padding: 2px !important;
-}
-table th{
-border: 1px solid black;
-padding: 2px !important;
-text-align: center;
+padding-top:1px;
+padding-left:1px;
+padding-right:1px;
+padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
@@ -636,13 +634,12 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=195, $html5, $border=0, $ln=1, $fill=0
 $str_htm3 = '
 <style>
 table td{
-border: 1px solid black;
+border: .3px solid #BFC0C3;
 padding: 2px !important;
-}
-table th{
-border: 1px solid black;
-padding: 2px !important;
-text-align: center;
+padding-top:1px;
+padding-left:1px;
+padding-right:1px;
+padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
