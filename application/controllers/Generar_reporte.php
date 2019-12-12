@@ -63,7 +63,7 @@ class Generar_reporte extends CI_Controller {
     $graph_p->Stroke('pastel.png');
     ///Termina creación de grafica de pastel
 
-    $pdf->Image('pastel.png', 130,90,35, 25, 'png', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('pastel.png', 125,80,55, 38, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
 
 
@@ -364,7 +364,7 @@ padding-bottom:1px;
 </style>
 <table WIDTH="245">
 <tbody>
-<tr>
+<tr style="background-color:#ACADB1;">
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -375,17 +375,7 @@ padding-bottom:1px;
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td>&nbsp;</td>
+<td style="background-color:#DCDDDF;">&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -395,7 +385,17 @@ padding-bottom:1px;
 <td>&nbsp;</td>
 </tr>
 <tr>
+<td style="background-color:#DCDDDF;">&nbsp;</td>
 <td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td style="background-color:#DCDDDF;">&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -428,10 +428,7 @@ padding-bottom:1px;
 <table WIDTH="245">
 <tbody>
 <tr>
-<td colspan="7"></td>
-</tr>
-<tr>
-<td>&nbsp;</td>
+<td style="background-color:#DCDDDF;">&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -440,7 +437,7 @@ padding-bottom:1px;
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td>&nbsp;</td>
+<td style="background-color:#DCDDDF;">&nbsp;</td>
 <td colspan="2"></td>
 <td colspan="2"></td>
 <td colspan="2"></td>
@@ -471,12 +468,12 @@ padding-bottom:1px;
 <tr>
 <td colspan="7">REZAGO EDUCATIVO</td>
 </tr>
-<tr>
+<tr style="background-color:#DCDDDF;">
 <td>&nbsp;</td>
 <td colspan="3"></td>
 <td colspan="3"></td>
 </tr>
-<tr>
+<tr style="background-color:#DCDDDF;">
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -486,7 +483,7 @@ padding-bottom:1px;
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td>&nbsp;</td>
+<td style="background-color:#DCDDDF;">&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -519,14 +516,14 @@ padding-bottom:1px;
 <tr>
 <td colspan="4">ANALFABETISMO</td>
 </tr>
-<tr>
+<tr style="background-color:#DCDDDF;">
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td>&nbsp;</td>
+<td style="background-color:#DCDDDF;">&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -555,7 +552,7 @@ padding-bottom:1px;
 <table WIDTH="245">
 <tbody>
 
-<tr>
+<tr style="background-color:#DCDDDF;">
 <td>&nbsp;</td>
 <td colspan="2"></td>
 <td colspan="2"></td>
@@ -593,7 +590,7 @@ padding-bottom:1px;
 <table WIDTH="245">
 <tbody>
 
-<tr>
+<tr style="background-color:#E6E7E9;">
 <td colspan="3"></td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -603,8 +600,8 @@ padding-bottom:1px;
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td>&nbsp;</td>
-<td colspan="2"></td>
+<td style="background-color:#F5842A;">&nbsp;</td>
+<td colspan="2" style="background-color:#DCDDDF;"></td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -613,8 +610,8 @@ padding-bottom:1px;
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td>&nbsp;</td>
-<td colspan="2"></td>
+<td style="background-color:#D1232A;">&nbsp;</td>
+<td colspan="2" style="background-color:#DCDDDF;"></td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -645,7 +642,7 @@ padding-bottom:1px;
 <table WIDTH="245">
 <tbody>
 
-<tr>
+<tr style="background-color:#B7BCC8;">
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
