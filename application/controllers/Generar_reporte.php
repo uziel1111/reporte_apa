@@ -6,12 +6,6 @@ class Generar_reporte extends CI_Controller {
   {
     parent::__construct();
     $this->load->helper('url');
-    // $this->load->library('My_tcpdf');
-    // $this->load->library('Graph');
-    // include_once 'jpgraph/src/jpgraph.php';
-    // include_once 'jpgraph/src/jpgraph_pie.php';
-    // include_once 'jpgraph/src/jpgraph_bar.php';
-
 
   }// __construct()
 
