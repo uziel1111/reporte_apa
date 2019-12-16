@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Generar_reporte extends CI_Controller {
 
@@ -6,7 +7,7 @@ class Generar_reporte extends CI_Controller {
   {
     parent::__construct();
     $this->load->helper('url');
-
+    $this->load->model('Apa_model');
   }// __construct()
 
 
@@ -18,26 +19,34 @@ class Generar_reporte extends CI_Controller {
 
 
   function rep(){
-    $pastel=array(29,14,30,322);
-    // $barras=array(array(1,2,3),array(4,5,6),array(7,8,9));
-    // $barras=array(1,2,3,4,5,6,7,8);
-    // $this->graf($pastel,$barras);
-    $this->graf($pastel);
-
+    $riesgo=$this->Apa_model->get_riesgo_abandono();
+    $historico=$this->Apa_model->get_historico_mat();
+    $distribucion=$this->Apa_model->get_distribucionxgrado();
+    $planea_aprov=$this->Apa_model->get_planea_aprov();
+    $array_datos_escuela=$this->Apa_model->get_datos_escuela();
+    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela);
   }
 
-  function graf($pastel,$barras=NULL){
+  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela){
+    // echo "<pre>";print_r($array_datos_escuela);die();
 
-    $data = $pastel;
+    //// Parámetros iniciales para PDF///
+    $nombre=$array_datos_escuela['nombre'];
+    $cct=$array_datos_escuela['cct'];
+    $director=$array_datos_escuela['director'];
+    $turno=$array_datos_escuela['turno'];
+    $municipio=$array_datos_escuela['municipio'];
+    $modalidad=$array_datos_escuela['modalidad'];
+
+
     $pdf = new My_tcpdf('P', 'mm', 'A4', true, 'UTF-8', false);
-    // set document information
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor('Nicola Asuni');
     $pdf->SetTitle('TCPDF Example 031');
     $pdf->SetSubject('TCPDF Tutorial');
     $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
-
+    ///Se agrega el header y footer
     $pdf->SetAutoPageBreak(TRUE, 0);
     $pdf->AddPage('P', 'A4');
     $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
@@ -45,15 +54,10 @@ class Generar_reporte extends CI_Controller {
     $pdf->SetAutoPageBreak(FALSE, 0);
 
 
-    ///Empieza creación de grafica de pastel
+    ///Empieza creación de grafica de pastel PERMANENCIA
     $graph_p = new PieGraph(350,250);
-    // $theme_class="DefaultTheme";
-    // $graph_p->title->Set("A Simple Pie Plot 1");
-    // $graph_p->SetBackgroundImage("assets/img/background.png",BGIMG_FILLFRAME);
-
-
     $graph_p->SetBox(false);
-    $p1 = new PiePlot($data);
+    $p1 = new PiePlot($riesgo);
     $graph_p->Add($p1);
     $p1->ShowBorder();
     $p1->SetColor('black');
@@ -61,16 +65,14 @@ class Generar_reporte extends CI_Controller {
     $graph_p->SetColor('#F7F7F6');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
+    $pdf->Image('pastel.png', 125,80,55, 39, 'png', '', '', false, 300, '', false, false, 0);
+    unlink('pastel.png');
     ///Termina creación de grafica de pastel
 
-    $pdf->Image('pastel.png', 125,80,55, 38, 'png', '', '', false, 300, '', false, false, 0);
-    unlink('pastel.png');
-
-
-    ///Empieza creación de grafica de barras
-    $data1y=array(47,80,40,116,10,20);
-    $data2y=array(61,30,82,105,10,20);
-    $data3y=array(115,50,70,93,10,20);
+    ///Empieza creación de grafica de barras MATRICULA
+    $data1y=$historico[0];
+    $data2y=$historico[1];
+    $data3y=$historico[2];
     $graph = new Graph(350,200,'auto');
     $graph->SetScale("textlin");
     $theme_class=new UniversalTheme;
@@ -94,25 +96,20 @@ class Generar_reporte extends CI_Controller {
     $b3plot->SetColor("white");
     $b3plot->SetFillColor("#399443");
     $graph->Stroke('barras.png');
-    ///Termina creación de grafica de barras
-
     $pdf->Image('barras.png', 20,110,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras.png');
+    ///Termina creación de grafica de barras
 
-
-    ///Empieza creación de grafica de barras
-    $data1y=array(1,2,4,6,10,2);
-    $data2y=array(6,3,8,5,7,8);
-    // $data3y=array(0,0,0,0,0,0);
+    ///Empieza creación de grafica de barras DISTRIBUCION POR GRADO
+    $data1y=$distribucion[0];
+    $data2y=$distribucion[1];
     $graph1 = new Graph(350,200,'auto');
     $graph1->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph1->SetTheme($theme_class);
     $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-    // $graph1->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
-    // $graph1->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
     $graph1->xaxis->Hide();
     $graph1->yaxis->HideLine(false);
     $graph1->yaxis->HideTicks(false,false);
@@ -124,26 +121,20 @@ class Generar_reporte extends CI_Controller {
     $b1plot->SetFillColor("#F47B2F");
     $b2plot->SetColor("white");
     $b2plot->SetFillColor("#EE1D23");
-
-
-
-
-
-
-    // $b3plot->SetColor("white");
-    // $b3plot->SetFillColor("#FFFFFF");
     $graph1->Stroke('barras1.png');
-    ///Termina creación de grafica de barras
-
     $pdf->Image('barras1.png', 115,140,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras1.png');
+    ///Termina creación de grafica de barras
 
 
     $pdf->SetFont('', '', 8);
 
-    $str_htm3 = '
-		<style>
-		table td{
+
+
+
+    $str_htm3 =<<<EOD
+    <style>
+    table td{
       border: none;
       padding: 5px !important;
       background-color:#ECECEE;
@@ -151,118 +142,217 @@ class Generar_reporte extends CI_Controller {
       padding-left:2px;
       padding-right:2px;
       padding-bottom:2px;
-		}
-		</style>
+    }
+    </style>
     <table WIDTH="524">
-    <tbody>
-    <tr>
-    <td WIDTH="2"></td>
-    <td WIDTH="85"></td>
-    <td WIDTH="10"></td>
-    <td WIDTH="130"></td>
-    <td WIDTH="5"></td>
-    <td WIDTH="25"></td>
-    <td WIDTH="10"></td>
-    <td WIDTH="45"></td>
-    <td WIDTH="30"></td>
-    <td WIDTH="40"></td>
-    <td WIDTH="20"></td>
-    <td WIDTH="50"></td>
-    <td WIDTH="85"></td>
-    <td WIDTH="2"></td>
-    </tr>
-    <tr>
-    <td WIDTH="2"></td>
-    <td WIDTH="85">Nombre:</td>
-    <td WIDTH="10">&nbsp;</td>
-    <td WIDTH="130"><strong>LICENCIADO BENITO JUAREZ</strong></td>
-    <td WIDTH="5">&nbsp;</td>
-    <td WIDTH="25">&nbsp;</td>
-    <td WIDTH="10">&nbsp;</td>
-    <td WIDTH="45">&nbsp;</td>
-    <td WIDTH="30">&nbsp;</td>
-    <td WIDTH="40">Muncipio:</td>
-    <td WIDTH="20">&nbsp;</td>
-    <td WIDTH="50"><strong>CULIACAN</strong></td>
-    <td WIDTH="85">&nbsp;</td>
-    <td WIDTH="2"></td>
-    </tr>
-    <tr>
-    <td WIDTH="2"></td>
-    <td WIDTH="85">CCT:</td>
-    <td WIDTH="10">&nbsp;</td>
-    <td WIDTH="130"><strong>25DPR2893V</strong></td>
-    <td WIDTH="5">&nbsp;</td>
-    <td WIDTH="25">Turno:</td>
-    <td WIDTH="10">&nbsp;</td>
-    <td WIDTH="45"><strong>MATUTINO</strong></td>
-    <td WIDTH="30">&nbsp;</td>
-    <td WIDTH="40">Modalidad:</td>
-    <td WIDTH="20">&nbsp;</td>
-    <td WIDTH="50"><strong>GENERAL</strong></td>
-    <td WIDTH="85">&nbsp;</td>
-    <td WIDTH="2"></td>
-    </tr>
-    <tr>
-    <td WIDTH="2"></td>
-    <td WIDTH="85">Director / Responsable:</td>
-    <td WIDTH="10">&nbsp;</td>
-    <td WIDTH="130"><strong>ALEYDA HERNANDEZ MONTES</strong></td>
-    <td WIDTH="5">&nbsp;</td>
-    <td WIDTH="25">&nbsp;</td>
-    <td WIDTH="10">&nbsp;</td>
-    <td WIDTH="45">&nbsp;</td>
-    <td WIDTH="30">&nbsp;</td>
-    <td WIDTH="40">&nbsp;</td>
-    <td WIDTH="20">&nbsp;</td>
-    <td WIDTH="50">&nbsp;</td>
-    <td WIDTH="85">&nbsp;</td>
-    <td WIDTH="2"></td>
-    </tr>
-    <tr>
-    <td WIDTH="2"></td>
-    <td WIDTH="85"></td>
-    <td WIDTH="10"></td>
-    <td WIDTH="130"></td>
-    <td WIDTH="5"></td>
-    <td WIDTH="25"></td>
-    <td WIDTH="10"></td>
-    <td WIDTH="45"></td>
-    <td WIDTH="30"></td>
-    <td WIDTH="40"></td>
-    <td WIDTH="20"></td>
-    <td WIDTH="50"></td>
-    <td WIDTH="85"></td>
-    <td WIDTH="2"></td>
-    </tr>
-    </tbody>
+      <tbody>
+        <tr>
+          <td WIDTH="2"></td>
+          <td WIDTH="85"></td>
+          <td WIDTH="10"></td>
+          <td WIDTH="130"></td>
+          <td WIDTH="5"></td>
+          <td WIDTH="25"></td>
+          <td WIDTH="10"></td>
+          <td WIDTH="45"></td>
+          <td WIDTH="30"></td>
+          <td WIDTH="40"></td>
+          <td WIDTH="20"></td>
+          <td WIDTH="50"></td>
+          <td WIDTH="85"></td>
+          <td WIDTH="2"></td>
+        </tr>
+        <tr>
+          <td WIDTH="2"></td>
+          <td WIDTH="85">Nombre:</td>
+          <td WIDTH="10">&nbsp;</td>
+          <td WIDTH="130"><strong>$nombre</strong></td>
+          <td WIDTH="5">&nbsp;</td>
+          <td WIDTH="25">&nbsp;</td>
+          <td WIDTH="10">&nbsp;</td>
+          <td WIDTH="45">&nbsp;</td>
+          <td WIDTH="30">&nbsp;</td>
+          <td WIDTH="40">Muncipio:</td>
+          <td WIDTH="20">&nbsp;</td>
+          <td WIDTH="50"><strong>$municipio</strong></td>
+          <td WIDTH="85">&nbsp;</td>
+          <td WIDTH="2"></td>
+        </tr>
+        <tr>
+          <td WIDTH="2"></td>
+          <td WIDTH="85">CCT:</td>
+          <td WIDTH="10">&nbsp;</td>
+          <td WIDTH="130"><strong>$cct</strong></td>
+          <td WIDTH="5">&nbsp;</td>
+          <td WIDTH="25">Turno:</td>
+          <td WIDTH="10">&nbsp;</td>
+          <td WIDTH="45"><strong>$turno</strong></td>
+          <td WIDTH="30">&nbsp;</td>
+          <td WIDTH="40">Modalidad:</td>
+          <td WIDTH="20">&nbsp;</td>
+          <td WIDTH="50"><strong>$modalidad</strong></td>
+          <td WIDTH="85">&nbsp;</td>
+          <td WIDTH="2"></td>
+        </tr>
+        <tr>
+          <td WIDTH="2"></td>
+          <td WIDTH="85">Director / Responsable:</td>
+          <td WIDTH="10">&nbsp;</td>
+          <td WIDTH="130"><strong>$director</strong></td>
+          <td WIDTH="5">&nbsp;</td>
+          <td WIDTH="25">&nbsp;</td>
+          <td WIDTH="10">&nbsp;</td>
+          <td WIDTH="45">&nbsp;</td>
+          <td WIDTH="30">&nbsp;</td>
+          <td WIDTH="40">&nbsp;</td>
+          <td WIDTH="20">&nbsp;</td>
+          <td WIDTH="50">&nbsp;</td>
+          <td WIDTH="85">&nbsp;</td>
+          <td WIDTH="2"></td>
+        </tr>
+        <tr>
+          <td WIDTH="2"></td>
+          <td WIDTH="85"></td>
+          <td WIDTH="10"></td>
+          <td WIDTH="130"></td>
+          <td WIDTH="5"></td>
+          <td WIDTH="25"></td>
+          <td WIDTH="10"></td>
+          <td WIDTH="45"></td>
+          <td WIDTH="30"></td>
+          <td WIDTH="40"></td>
+          <td WIDTH="20"></td>
+          <td WIDTH="50"></td>
+          <td WIDTH="85"></td>
+          <td WIDTH="2"></td>
+        </tr>
+      </tbody>
     </table>
-		';
+EOD;
 
-		$encabezado = <<<EOT
+$encabezado_v = <<<EOT
 		$str_htm3
 EOT;
 
-		$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+// border: none;
+// border: 1px solid black;
+$str_htm3 = <<<EOT
+<style>
+table td{
+  border: none;
+  padding: 5px !important;
+  background-color:#ECECEE;
+  padding-top:2px;
+  padding-left:2px;
+  padding-right:2px;
+  padding-bottom:2px;
+}
+</style>
+<table WIDTH="740">
+  <tbody>
+    <tr>
+      <td WIDTH="10"></td>
+      <td WIDTH="85"></td>
+      <td WIDTH="50"></td>
+      <td WIDTH="150"></td>
+      <td WIDTH="40"></td>
+      <td WIDTH="25"></td>
+      <td WIDTH="30"></td>
+      <td WIDTH="60"></td>
+      <td WIDTH="30"></td>
+      <td WIDTH="40"></td>
+      <td WIDTH="40"></td>
+      <td WIDTH="60"></td>
+      <td WIDTH="165"></td>
+    </tr>
+    <tr>
+      <td WIDTH="10"></td>
+      <td WIDTH="85">Nombre:</td>
+      <td WIDTH="50">&nbsp;</td>
+      <td WIDTH="150"><strong>$nombre</strong></td>
+      <td WIDTH="40">&nbsp;</td>
+      <td WIDTH="25">&nbsp;</td>
+      <td WIDTH="30">&nbsp;</td>
+      <td WIDTH="60">&nbsp;</td>
+      <td WIDTH="30">&nbsp;</td>
+      <td WIDTH="40">Muncipio:</td>
+      <td WIDTH="40">&nbsp;</td>
+      <td WIDTH="60"><strong>$municipio</strong></td>
+      <td WIDTH="165">&nbsp;</td>
+    </tr>
+    <tr>
+      <td WIDTH="10"></td>
+      <td WIDTH="85">CCT:</td>
+      <td WIDTH="50">&nbsp;</td>
+      <td WIDTH="150"><strong>$cct</strong></td>
+      <td WIDTH="40">&nbsp;</td>
+      <td WIDTH="25">Turno:</td>
+      <td WIDTH="30">&nbsp;</td>
+      <td WIDTH="60"><strong>$turno</strong></td>
+      <td WIDTH="30">&nbsp;</td>
+      <td WIDTH="40">Modalidad:</td>
+      <td WIDTH="40">&nbsp;</td>
+      <td WIDTH="60"><strong>$modalidad</strong></td>
+      <td WIDTH="165">&nbsp;</td>
+    </tr>
+    <tr>
+      <td WIDTH="10"></td>
+      <td WIDTH="85">Director / Responsable:</td>
+      <td WIDTH="50">&nbsp;</td>
+      <td WIDTH="150"><strong>$director</strong></td>
+      <td WIDTH="40">&nbsp;</td>
+      <td WIDTH="25">&nbsp;</td>
+      <td WIDTH="30">&nbsp;</td>
+      <td WIDTH="60">&nbsp;</td>
+      <td WIDTH="30">&nbsp;</td>
+      <td WIDTH="40">&nbsp;</td>
+      <td WIDTH="40">&nbsp;</td>
+      <td WIDTH="60">&nbsp;</td>
+      <td WIDTH="165">&nbsp;</td>
+    </tr>
+    <tr>
+      <td WIDTH="10"></td>
+      <td WIDTH="85"></td>
+      <td WIDTH="50"></td>
+      <td WIDTH="150"></td>
+      <td WIDTH="40"></td>
+      <td WIDTH="25"></td>
+      <td WIDTH="30"></td>
+      <td WIDTH="60"></td>
+      <td WIDTH="30"></td>
+      <td WIDTH="40"></td>
+      <td WIDTH="40"></td>
+      <td WIDTH="60"></td>
+      <td WIDTH="165"></td>
+      </tr>
+  </tbody>
+</table>
+EOT;
 
-    $str_htm3 = '
-		<style>
-		table td{
+$encabezado_h = <<<EOT
+$str_htm3
+EOT;
+
+		$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+    $str_htm3 = <<<EOT
+    <style>
+    table td{
       border: none;
       padding: 5px !important;
       background-color:#DAD7D6;
-		}
-		</style>
+    }
+    </style>
     <table WIDTH="527">
-    <tbody>
-    <tr>
-    <td WIDTH="24"></td>
-    <td WIDTH="500">El propósito de este reporte es aportar información que ayude a tomar decisiones a las escuelas para asegurar la asistencia, permanencia y aprendizaje de todos
-    sus estudiantes. Se sugiere ampliamente que el Consejo Técnico Escolar lo analice y actúe según lo juzgue necesario.</td>
-    </tr>
-    </tbody>
-    </table>
-		';
+      <tbody>
+        <tr>
+          <td WIDTH="24"></td>
+          <td WIDTH="500">El propósito de este reporte es aportar información que ayude a tomar decisiones a las escuelas para asegurar la asistencia, permanencia y aprendizaje de todos
+            sus estudiantes. Se sugiere ampliamente que el Consejo Técnico Escolar lo analice y actúe según lo juzgue necesario.</td>
+          </tr>
+        </tbody>
+      </table>
+EOT;
 
 		$html3 = <<<EOT
 		$str_htm3
@@ -274,7 +364,7 @@ $pdf->Image('assets/img/admiracion.png', 16,61,5, 5, '', '', '', false, 300, '',
 
 
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
   border: none;
@@ -282,16 +372,16 @@ table td{
 }
 </style>
 <table WIDTH="257">
-<tbody>
-<tr>
-<td HEIGHT="20" style="background-color:#C2001F; text-align:center;" color="white">ASISTENCIA</td>
-</tr>
-<tr>
-<td HEIGHT="570" style="background-color:#F7F7F6;"></td>
-</tr>
-</tbody>
+  <tbody>
+    <tr>
+      <td HEIGHT="20" style="background-color:#C2001F; text-align:center;" color="white">ASISTENCIA</td>
+    </tr>
+    <tr>
+      <td HEIGHT="570" style="background-color:#F7F7F6;"></td>
+    </tr>
+  </tbody>
 </table>
-';
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -299,7 +389,7 @@ EOT;
 
 // $pdf->writeHTMLCell($w=200,$h=55,$x=12,$y=70, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
   border: none;
@@ -307,16 +397,16 @@ table td{
 }
 </style>
 <table WIDTH="257">
-<tbody>
-<tr>
-<td HEIGHT="20" style="background-color:#C2001F; text-align:center;" color="white">PERMANENCIA</td>
-</tr>
-<tr>
-<td HEIGHT="400" style="background-color:#F7F7F6;"></td>
-</tr>
-</tbody>
+  <tbody>
+    <tr>
+      <td HEIGHT="20" style="background-color:#C2001F; text-align:center;" color="white">PERMANENCIA</td>
+    </tr>
+    <tr>
+      <td HEIGHT="400" style="background-color:#F7F7F6;"></td>
+    </tr>
+  </tbody>
 </table>
-';
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -351,62 +441,62 @@ $pdf->MultiCell(92, 150,'', 0, 'C', 1, 0, 107, 80, true);
 
 $pdf->SetTextColor(0, 0, 0);
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
-border: .3px solid #BFC0C3;
-padding: 2px !important;
-padding-top:1px;
-padding-left:1px;
-padding-right:1px;
-padding-bottom:1px;
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
-<tbody>
-<tr style="background-color:#ACADB1;">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#DCDDDF;">&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#DCDDDF;">&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#DCDDDF;">&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
+  <tbody>
+    <tr style="background-color:#ACADB1;">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
 </table>
-';
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -414,36 +504,37 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=90, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
-border: .3px solid #BFC0C3;
-padding: 2px !important;
-padding-top:1px;
-padding-left:1px;
-padding-right:1px;
-padding-bottom:1px;
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
-<tbody>
-<tr>
-<td style="background-color:#DCDDDF;">&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#DCDDDF;">&nbsp;</td>
-<td colspan="2"></td>
-<td colspan="2"></td>
-<td colspan="2"></td>
-</tr>
-</tbody>
-</table>';
+  <tbody>
+    <tr>
+      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+    </tr>
+  </tbody>
+</table>
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -452,47 +543,48 @@ EOT;
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=165, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
-border: .3px solid #BFC0C3;
-padding: 2px !important;
-padding-top:1px;
-padding-left:1px;
-padding-right:1px;
-padding-bottom:1px;
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
-<tbody>
-<tr>
-<td colspan="7">REZAGO EDUCATIVO</td>
-</tr>
-<tr style="background-color:#DCDDDF;">
-<td>&nbsp;</td>
-<td colspan="3"></td>
-<td colspan="3"></td>
-</tr>
-<tr style="background-color:#DCDDDF;">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#DCDDDF;">&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>';
+  <tbody>
+    <tr>
+      <td colspan="7">REZAGO EDUCATIVO</td>
+    </tr>
+    <tr style="background-color:#DCDDDF;">
+      <td>&nbsp;</td>
+      <td colspan="3"></td>
+      <td colspan="3"></td>
+    </tr>
+    <tr style="background-color:#DCDDDF;">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -500,36 +592,37 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=195, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
-border: .3px solid #BFC0C3;
-padding: 2px !important;
-padding-top:1px;
-padding-left:1px;
-padding-right:1px;
-padding-bottom:1px;
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
-<tbody>
-<tr>
-<td colspan="4">ANALFABETISMO</td>
-</tr>
-<tr style="background-color:#DCDDDF;">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#DCDDDF;">&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>';
+  <tbody>
+    <tr>
+      <td colspan="4">ANALFABETISMO</td>
+    </tr>
+    <tr style="background-color:#DCDDDF;">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -538,37 +631,38 @@ EOT;
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=230, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
-border: .3px solid #BFC0C3;
-padding: 2px !important;
-padding-top:1px;
-padding-left:1px;
-padding-right:1px;
-padding-bottom:1px;
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
-<tbody>
+  <tbody>
 
-<tr style="background-color:#DCDDDF;">
-<td>&nbsp;</td>
-<td colspan="2"></td>
-<td colspan="2"></td>
-<td colspan="2"></td>
-</tr>
-<tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>';
+    <tr style="background-color:#DCDDDF;">
+      <td>&nbsp;</td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -576,51 +670,52 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=120, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
-border: .3px solid #BFC0C3;
-padding: 2px !important;
-padding-top:1px;
-padding-left:1px;
-padding-right:1px;
-padding-bottom:1px;
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
-<tbody>
+  <tbody>
 
-<tr style="background-color:#E6E7E9;">
-<td colspan="3"></td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#F5842A;">&nbsp;</td>
-<td colspan="2" style="background-color:#DCDDDF;"></td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td style="background-color:#D1232A;">&nbsp;</td>
-<td colspan="2" style="background-color:#DCDDDF;"></td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>';
+    <tr style="background-color:#E6E7E9;">
+      <td colspan="3"></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#F5842A;">&nbsp;</td>
+      <td colspan="2" style="background-color:#DCDDDF;"></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="background-color:#D1232A;">&nbsp;</td>
+      <td colspan="2" style="background-color:#DCDDDF;"></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
@@ -628,54 +723,60 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=195, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$str_htm3 = '
+$str_htm3 = <<<EOT
 <style>
 table td{
-border: .3px solid #BFC0C3;
-padding: 2px !important;
-padding-top:1px;
-padding-left:1px;
-padding-right:1px;
-padding-bottom:1px;
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
 }
 </style>
 <table WIDTH="245">
-<tbody>
+  <tbody>
 
-<tr style="background-color:#B7BCC8;">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>';
+    <tr style="background-color:#B7BCC8;">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+EOT;
 
 $html5 = <<<EOT
 $str_htm3
 EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+///TERMINA PRIMERA PÁGINA
 
+/// INICIA SEGUNDA PÄGINA
+///Se agrega el header y footer
 $pdf->SetAutoPageBreak(TRUE, 0);
 $pdf->AddPage('P', 'A4');
 $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetAutoPageBreak(FALSE, 0);
 
-$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 $pdf->SetFillColor(194, 0, 31);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
 
 
 ///Empieza creación de grafica de barras
-$data1y=array(1,2,4,6);
-$data2y=array(6,3,8,5);
+
+$data1y=$planea_aprov[0];
+$data2y=$planea_aprov[1];
 // $data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
@@ -708,14 +809,14 @@ $pdf->SetAutoPageBreak(TRUE, 0);
 $pdf->AddPage('L', 'A4');
 $pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
-$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 $pdf->SetAutoPageBreak(FALSE, 0);
 
 $pdf->SetAutoPageBreak(TRUE, 0);
 $pdf->AddPage('L', 'A4');
 $pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
-$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 $pdf->SetAutoPageBreak(FALSE, 0);
 
 $pdf->Output('certificado.pdf', 'I');

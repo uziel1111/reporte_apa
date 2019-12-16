@@ -47,9 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |				'ssl_key'    - Path to the private key file
 |				'ssl_cert'   - Path to the public key certificate file
 |				'ssl_ca'     - Path to the certificate authority file
-|				'ssl_capath' - Path to a directory containing trusted CA certificates in PEM format
+|				'ssl_capath' - Path to a directory containing trusted CA certificats in PEM format
 |				'ssl_cipher' - List of *allowed* ciphers to be used for the encryption, separated by colons (':')
-|				'ssl_verify' - TRUE/FALSE; Whether verify the server certificate or not
+|				'ssl_verify' - TRUE/FALSE; Whether verify the server certificate or not ('mysqli' only)
 |
 |	['compress'] Whether or not to use client compression (MySQL only)
 |	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
@@ -75,14 +75,31 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
+
+	'hostname' => '208.91.198.53','username' => 'proye7nb_rep_apa','password' => 'rep_apa.123','database' => '','port' => '3306',
+	// 'hostname' => '52.43.246.127','username' => 'yorson_usr',	'password' => 'nuevoPa55','database' => 'yoremia_24JUN', 'port' => '5436',
+
+
+	/*
+	'hostname' => 'yolixtli.crfn1qzgmhdn.us-west-2.rds.amazonaws.com',
+	'username' => 'miguel_hdez',
+	'password' => 'KS83Ks83jd03k3l9',
+	'database' => 'yolixtli',
+	'port' => '5436',
+	*/
+
+	// 'hostname' => '35.161.79.57',
+	// //'hostname' => 'localhost',
+	// 'username' => 'yolixtli_usr',
+	// 'password' => 'T3sting',
+	// 'database' => 'yolixtli_dev',
+	// 'port' => '5321',
+
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
+	// 'db_debug' => FALSE,
+	'db_debug' => TRUE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
@@ -92,5 +109,7 @@ $db['default'] = array(
 	'compress' => FALSE,
 	'stricton' => FALSE,
 	'failover' => array(),
-	'save_queries' => TRUE
+	'save_queries' => FALSE,
+	'lc_time_names'=>'es_MX',
+	'date_default_timezone_set' => 'America/Mexico_City'
 );
