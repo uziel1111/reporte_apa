@@ -765,9 +765,39 @@ $pdf->AddPage('P', 'A4');
 $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetAutoPageBreak(FALSE, 0);
-
-
 $pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$a=15;
+$b=85;
+$str_htm3 = <<<EOT
+<style>
+table td{
+  border: none;
+}
+</style>
+<table>
+  <tbody>
+  <tr WIDTH="105" HEIGHT="15">
+    <td width="$a" style="text-align:center;" HEIGHT="15"><strong>I</strong></td>
+    <td width="5" HEIGHT="15"></td>
+    <td width="$b" style="text-align:center;" HEIGHT="15"><strong>II, III , IV</strong></td>
+  </tr>
+    <tr WIDTH="105" HEIGHT="15">
+      <td width="$a" style="background-color:#F47B2F; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
+      <td width="5" HEIGHT="15">&nbsp;</td>
+      <td width="$b" style="background-color:#EE1D23; text-align:center;" color="white" HEIGHT="15"><strong>$b%</strong></td>
+    </tr>
+  </tbody>
+</table>
+EOT;
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+$pdf->SetFont('', '', 7);
+$pdf->writeHTMLCell($w=60,$h=10,$x=30,$y=100, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+
+$pdf->SetFont('', '', 8);
 $pdf->SetFillColor(194, 0, 31);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
@@ -805,11 +835,13 @@ unlink('barras2.png');
 
 $pdf->SetTextColor(0, 0, 0);
 
+/// INICIA TERCERA PÄGINA
 $pdf->SetAutoPageBreak(TRUE, 0);
 $pdf->AddPage('L', 'A4');
 $pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
 $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
 $pdf->SetAutoPageBreak(FALSE, 0);
 
 $pdf->SetAutoPageBreak(TRUE, 0);
