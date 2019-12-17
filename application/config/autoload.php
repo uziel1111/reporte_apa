@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('session','form_validation','My_tcpdf','Graph');
+$autoload['libraries'] = array('session','My_tcpdf','Graph');
 
 /*
 | -------------------------------------------------------------------
