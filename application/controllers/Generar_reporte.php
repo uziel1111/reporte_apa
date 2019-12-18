@@ -45,15 +45,20 @@ class Generar_reporte extends CI_Controller {
     "modalidad" => $reporte_datos['encabezado_n_modalidad']
     );
 
-    $est_asis_alumnos= array(0 => $reporte_datos['asi_est_al_1'],1 => $reporte_datos['asi_est_al_2'],2 => $reporte_datos['asi_est_al_3'],3 => $reporte_datos['asi_est_al_4'],4 => $reporte_datos['asi_est_al_5'],5 => $reporte_datos['asi_est_al_6'] );
+    $est_asis_alumnos = array(0 => $reporte_datos['asi_est_al_1'],1 => $reporte_datos['asi_est_al_2'],2 => $reporte_datos['asi_est_al_3'],3 => $reporte_datos['asi_est_al_4'],4 => $reporte_datos['asi_est_al_5'],5 => $reporte_datos['asi_est_al_6'] );
+    $est_asis_alumnos_h1 = array(0 => $reporte_datos['asi_est_h1_al_1'],1 => $reporte_datos['asi_est_h1_al_2'],2 => $reporte_datos['asi_est_h1_al_3'],3 => $reporte_datos['asi_est_h1_al_4'],4 => $reporte_datos['asi_est_h1_al_5'],5 => $reporte_datos['asi_est_h1_al_6']);
+    // , 'ciclo' => $reporte_datos['asi_est_h1_ciclo'], 'total' => $reporte_datos['asi_est_h1_gr_t']
+    $est_asis_alumnos_h2 = array(0 => $reporte_datos['asi_est_h2_al_1'],1 => $reporte_datos['asi_est_h2_al_2'],2 => $reporte_datos['asi_est_h2_al_3'],3 => $reporte_datos['asi_est_h2_al_4'],4 => $reporte_datos['asi_est_h2_al_5'],5 => $reporte_datos['asi_est_h2_al_6']);
+    // , 'ciclo' => $reporte_datos['asi_est_h2_ciclo'], 'total' => $reporte_datos['asi_est_h1_gr_t']
+
     $est_asis_gr= array(0 => $reporte_datos['asi_est_gr_1'],1 => $reporte_datos['asi_est_gr_2'],2 => $reporte_datos['asi_est_gr_3'],3 => $reporte_datos['asi_est_gr_4'],4 => $reporte_datos['asi_est_gr_5'],5 => $reporte_datos['asi_est_gr_6'] );
 
     $riesgo=array(0 => $reporte_datos['per_riesgo_al_muy_alto'],1 => $reporte_datos['per_riesgo_al_alto'],2 => $reporte_datos['per_riesgo_al_medio'],3 => $reporte_datos['per_riesgo_al_bajo'] );
     // echo '<pre>';print_r($reporte_datos);die();
-    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$reporte_datos);
+    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$reporte_datos);
   }
 
-  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$reporte_datos){
+  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$reporte_datos){
     // echo "<pre>";print_r($array_datos_escuela);die();
 
     //// Parámetros iniciales para PDF///
@@ -101,9 +106,9 @@ class Generar_reporte extends CI_Controller {
     ///Termina creación de grafica de pastel
 
     ///Empieza creación de grafica de barras MATRICULA
-    $data1y=$historico[0];
-    $data2y=$historico[1];
-    $data3y=$historico[2];
+    $data1y=$est_asis_alumnos;
+    $data2y=$est_asis_alumnos_h1;
+    $data3y=$est_asis_alumnos_h2;
     $graph = new Graph(350,200,'auto');
     $graph->SetScale("textlin");
     $theme_class=new UniversalTheme;
@@ -474,6 +479,8 @@ $pdf->SetTextColor(0, 0, 0);
 
 $asi_est_al_t=$reporte_datos['asi_est_al_t'];
 $asi_est_gr_t=$reporte_datos['asi_est_gr_t'];
+$asi_est_doc=$reporte_datos['asi_est_do_t'];
+
 
 $str_htm3 = <<<EOT
 <style>
@@ -520,13 +527,9 @@ table td{
     </tr>
     <tr>
       <td style="background-color:#DCDDDF;"><font size="7">Docentes</font></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td style="text-align:center;">$asi_est_doc</td>
+      <td colspan="6"></td>
+
     </tr>
   </tbody>
 </table>
@@ -538,6 +541,15 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=90, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
+$ti_ciclo_ac=$reporte_datos['asi_est_ac_ciclo'];
+$ti_ciclo_h1=$reporte_datos['asi_est_h1_ciclo'];
+$ti_ciclo_h2=$reporte_datos['asi_est_h2_ciclo'];
+$tot_ciclo_h1=$reporte_datos['asi_est_h1_gr_t'];
+$tot_ciclo_h2=$reporte_datos['asi_est_h2_gr_t'];
+
+
+
+
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -552,19 +564,19 @@ table td{
 <table WIDTH="245">
   <tbody>
     <tr>
-      <td style="background-color:#DCDDDF;">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="background-color:#DCDDDF;">Alumnos</td>
+      <td style="background-color:#9E2E21;"></td>
+      <td style="text-align:center;">$ti_ciclo_ac</td>
+      <td style="background-color:#939598;"></td>
+      <td style="text-align:center;">$ti_ciclo_h1</td>
+      <td style="background-color:#399443;"></td>
+      <td style="text-align:center;">$ti_ciclo_h2</td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;">&nbsp;</td>
-      <td colspan="2"></td>
-      <td colspan="2"></td>
-      <td colspan="2"></td>
+      <td style="background-color:#DCDDDF;">Grupos</td>
+      <td style="text-align:center;" colspan="2">$asi_est_al_t</td>
+      <td style="text-align:center;" colspan="2">$tot_ciclo_h1</td>
+      <td style="text-align:center;" colspan="2">$tot_ciclo_h2</td>
     </tr>
   </tbody>
 </table>
@@ -576,6 +588,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=165, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
+$anios_asis=$reporte_datos['asi_rez_gedad_noasiste'];
 
 $str_htm3 = <<<EOT
 <style>
@@ -585,30 +598,30 @@ table td{
   padding-top:1px;
   padding-left:1px;
   padding-right:1px;
-  padding-bottom:1px;
+  padding-bottom:0px;
 }
 </style>
 <table WIDTH="245">
   <tbody>
-    <tr>
+    <tr WIDTH="245">
       <td colspan="7">REZAGO EDUCATIVO</td>
     </tr>
-    <tr style="background-color:#DCDDDF;">
-      <td>&nbsp;</td>
-      <td colspan="3"></td>
-      <td colspan="3"></td>
+    <tr WIDTH="245" style="background-color:#DCDDDF;">
+      <td WIDTH="95">Inasistencia escolar</td>
+      <td WIDTH="70" style="text-align:center;"colspan="3">Población total</td>
+      <td WIDTH="80" style="text-align:center;"colspan="3">No asiste a la escuela</td>
     </tr>
     <tr style="background-color:#DCDDDF;">
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>Grupo de edad que no asiste a la escuela</td>
+      <td style="text-align:center;"><img src="assets/img/male.png" border="0" height="16" width="8"  /></td>
+      <td style="text-align:center;"><img src="assets/img/female.png" border="0" height="16" width="8" align="middle" /></td>
+      <td style="text-align:center;"><img src="assets/img/male_female.png" border="0" height="16" width="16" align="middle" /></td>
+      <td style="text-align:center;"><img src="assets/img/male.png" border="0" height="16" width="8" align="middle" /></td>
+      <td style="text-align:center;"><img src="assets/img/female.png" border="0" height="16" width="8" align="middle" /></td>
+      <td style="text-align:center;"><img src="assets/img/male_female.png" border="0" height="16" width="16" align="middle" /></td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;">&nbsp;</td>
+      <td style="background-color:#DCDDDF; text-align:left;">$anios_asis</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
