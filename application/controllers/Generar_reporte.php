@@ -44,12 +44,16 @@ class Generar_reporte extends CI_Controller {
     "municipio" => $reporte_datos['encabezado_muni_escuela'],
     "modalidad" => $reporte_datos['encabezado_n_modalidad']
     );
+
+    $est_asis_alumnos= array(0 => $reporte_datos['asi_est_al_1'],1 => $reporte_datos['asi_est_al_2'],2 => $reporte_datos['asi_est_al_3'],3 => $reporte_datos['asi_est_al_4'],4 => $reporte_datos['asi_est_al_5'],5 => $reporte_datos['asi_est_al_6'] );
+    $est_asis_gr= array(0 => $reporte_datos['asi_est_gr_1'],1 => $reporte_datos['asi_est_gr_2'],2 => $reporte_datos['asi_est_gr_3'],3 => $reporte_datos['asi_est_gr_4'],4 => $reporte_datos['asi_est_gr_5'],5 => $reporte_datos['asi_est_gr_6'] );
+
     $riesgo=array(0 => $reporte_datos['per_riesgo_al_muy_alto'],1 => $reporte_datos['per_riesgo_al_alto'],2 => $reporte_datos['per_riesgo_al_medio'],3 => $reporte_datos['per_riesgo_al_bajo'] );
     // echo '<pre>';print_r($reporte_datos);die();
-    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$reporte_datos);
+    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$reporte_datos);
   }
 
-  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$reporte_datos){
+  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$reporte_datos){
     // echo "<pre>";print_r($array_datos_escuela);die();
 
     //// Parámetros iniciales para PDF///
@@ -468,6 +472,9 @@ $pdf->MultiCell(92, 150,'', 0, 'C', 1, 0, 107, 80, true);
 
 $pdf->SetTextColor(0, 0, 0);
 
+$asi_est_al_t=$reporte_datos['asi_est_al_t'];
+$asi_est_gr_t=$reporte_datos['asi_est_gr_t'];
+
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -481,45 +488,45 @@ table td{
 </style>
 <table WIDTH="245">
   <tbody>
-    <tr style="background-color:#ACADB1;">
+    <tr style="background-color:#ACADB1; text-align:center;">
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>Total</td>
+      <td>1<sup>o</sup></td>
+      <td>2<sup>o</sup></td>
+      <td>3<sup>o</sup></td>
+      <td>4<sup>o</sup></td>
+      <td>5<sup>o</sup></td>
+      <td>6<sup>o</sup></td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="background-color:#DCDDDF;"><font size="7">Alumnos</font></td>
+      <td style="text-align:center;">$asi_est_al_t</td>
+      <td style="text-align:center;">$est_asis_alumnos[0]</td>
+      <td style="text-align:center;">$est_asis_alumnos[1]</td>
+      <td style="text-align:center;">$est_asis_alumnos[2]</td>
+      <td style="text-align:center;">$est_asis_alumnos[3]</td>
+      <td style="text-align:center;">$est_asis_alumnos[4]</td>
+      <td style="text-align:center;">$est_asis_alumnos[5]</td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="background-color:#DCDDDF;"><font size="7">Grupos</font></td>
+      <td style="text-align:center;">$asi_est_gr_t</td>
+      <td style="text-align:center;">$est_asis_gr[0]</td>
+      <td style="text-align:center;">$est_asis_gr[1]</td>
+      <td style="text-align:center;">$est_asis_gr[2]</td>
+      <td style="text-align:center;">$est_asis_gr[3]</td>
+      <td style="text-align:center;">$est_asis_gr[4]</td>
+      <td style="text-align:center;">$est_asis_gr[5]</td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="background-color:#DCDDDF;"><font size="7">Docentes</font></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
