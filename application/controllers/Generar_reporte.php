@@ -12,22 +12,44 @@ class Generar_reporte extends CI_Controller {
 
 
   function index(){
-    // echo "Hola mundo";
-    $this->rep();
+    // function index($cct,$turno,$periodo,$ciclo){
+    // function index($cct=NULL,$turno=NULL,$periodo=NULL,$ciclo=NULL){
+    // echo '<pre>';print_r($this->input->get());
+    // echo "Hola mundo";die();
+    // echo $cct;die();
+
+    // $this->rep($cct,$turno,$periodo,$ciclo);
+    // $this->rep();
+
     // $this->graf();
   }
 
 
-  function rep(){
-    $riesgo=$this->Apa_model->get_riesgo_abandono();
+   // function rep(){
+     function rep($cct,$turno,$periodo,$ciclo){
+       // echo "Hola mundo";die();
+
+    // $riesgo=$this->Apa_model->get_riesgo_abandono();
     $historico=$this->Apa_model->get_historico_mat();
     $distribucion=$this->Apa_model->get_distribucionxgrado();
     $planea_aprov=$this->Apa_model->get_planea_aprov();
-    $array_datos_escuela=$this->Apa_model->get_datos_escuela();
-    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela);
+    // $array_datos_escuela=$this->Apa_model->get_datos_escuela();
+    $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
+
+    $array_datos_escuela= array(
+    "nombre" => $reporte_datos['encabezado_n_escuela'],
+    "cct" => $reporte_datos['cct'],
+    "director" => $reporte_datos['encabezado_n_direc_resp'],
+    "turno" => $reporte_datos['encabezado_n_turno'],
+    "municipio" => $reporte_datos['encabezado_muni_escuela'],
+    "modalidad" => $reporte_datos['encabezado_n_modalidad']
+    );
+    $riesgo=array(0 => $reporte_datos['per_riesgo_al_muy_alto'],1 => $reporte_datos['per_riesgo_al_alto'],2 => $reporte_datos['per_riesgo_al_medio'],3 => $reporte_datos['per_riesgo_al_bajo'] );
+    // echo '<pre>';print_r($reporte_datos);die();
+    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$reporte_datos);
   }
 
-  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela){
+  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$reporte_datos){
     // echo "<pre>";print_r($array_datos_escuela);die();
 
     //// Parámetros iniciales para PDF///
@@ -52,7 +74,12 @@ class Generar_reporte extends CI_Controller {
     $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
     $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
     $pdf->SetAutoPageBreak(FALSE, 0);
-
+    $pdf->SetFillColor(129, 113, 106);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 170, 18, 'M');
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 150, 28, 'M');
 
     ///Empieza creación de grafica de pastel PERMANENCIA
     $graph_p = new PieGraph(350,250);
@@ -172,7 +199,7 @@ class Generar_reporte extends CI_Controller {
           <td WIDTH="10">&nbsp;</td>
           <td WIDTH="45">&nbsp;</td>
           <td WIDTH="30">&nbsp;</td>
-          <td WIDTH="40">Muncipio:</td>
+          <td WIDTH="40">Municipio:</td>
           <td WIDTH="20">&nbsp;</td>
           <td WIDTH="50"><strong>$municipio</strong></td>
           <td WIDTH="85">&nbsp;</td>
@@ -630,7 +657,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=230, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-
+$rit=$reporte_datos['per_riesgo_al_t'];
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -646,19 +673,22 @@ table td{
   <tbody>
 
     <tr style="background-color:#DCDDDF;">
-      <td>&nbsp;</td>
-      <td colspan="2"></td>
-      <td colspan="2"></td>
-      <td colspan="2"></td>
+      <td style="text-align:center;">Total</td>
+      <td colspan="2" style="text-align:center;">Muy alto</td>
+      <td colspan="2" style="text-align:center;">Alto</td>
+      <td colspan="2" style="text-align:center;">Medio</td>
+      <td colspan="2" style="text-align:center;">Bajo</td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="text-align:center;">$rit</td>
+      <td style="background-color:#D1232A;"></td>
+      <td style="text-align:center;">$riesgo[0]</td>
+      <td style="background-color:#F47B2F;"></td>
+      <td style="text-align:center;">$riesgo[1]</td>
+      <td style="background-color:#FFF101;"></td>
+      <td style="text-align:center;">$riesgo[2]</td>
+      <td style="background-color:#D1D2D4;"></td>
+      <td style="text-align:center;">$riesgo[3]</td>
     </tr>
   </tbody>
 </table>

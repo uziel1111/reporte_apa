@@ -43,4 +43,20 @@ class Apa_model extends CI_Model
       return $array;
     }
 
+    function get_reporte_apa($cct,$turno,$periodo,$ciclo){
+      $q = "SELECT
+            *
+            FROM reporte_apa_xidcentrocfg
+            WHERE cct = ?
+            AND turno = ?
+            AND periodo = ?
+            AND ciclo = ?";
+            // echo $q;die();
+      return $this->db->query($q, array($cct,$turno,$periodo,$ciclo))->row_array();
+      // return $this->db->query($q)->result_array();
+
+    }
+
+
+
 }

@@ -76,7 +76,7 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 
-	'hostname' => '208.91.198.53','username' => 'proye7nb_rep_apa','password' => 'rep_apa.123','database' => '','port' => '3306',
+	'hostname' => '208.91.198.53','username' => 'proye7nb_rep_apa','password' => 'rep_apa.123','database' => 'proye7nb_reporte_apa','port' => '3306',
 	// 'hostname' => '52.43.246.127','username' => 'yorson_usr',	'password' => 'nuevoPa55','database' => 'yoremia_24JUN', 'port' => '5436',
 
 

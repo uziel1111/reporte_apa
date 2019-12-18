@@ -23,7 +23,7 @@ date_default_timezone_set('America/Mexico_City'); #Línea agregada
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '//'.$_SERVER['HTTP_HOST'].'/apa/';
+$config['base_url'] = '//'.$_SERVER['HTTP_HOST'].'/reporte_apa/';
 
 
 /*
@@ -79,7 +79,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'spanish';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
