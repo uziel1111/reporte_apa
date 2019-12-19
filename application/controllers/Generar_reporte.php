@@ -55,10 +55,19 @@ class Generar_reporte extends CI_Controller {
 
     $riesgo=array(0 => $reporte_datos['per_riesgo_al_muy_alto'],1 => $reporte_datos['per_riesgo_al_alto'],2 => $reporte_datos['per_riesgo_al_medio'],3 => $reporte_datos['per_riesgo_al_bajo'] );
     // echo '<pre>';print_r($reporte_datos);die();
-    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$reporte_datos);
+    $riesgo_alto=array(0 => $reporte_datos['per_riesgo_al_alto_2'],1 => $reporte_datos['per_riesgo_al_alto_2'],2 => $reporte_datos['per_riesgo_al_alto_3'],3 => $reporte_datos['per_riesgo_al_alto_4'],4 => $reporte_datos['per_riesgo_al_alto_5'],5 => $reporte_datos['per_riesgo_al_alto_6'] );
+    $riesgo_muy_alto=array(0 => $reporte_datos['per_riesgo_al_muy_alto_1'],1 => $reporte_datos['per_riesgo_al_muy_alto_2'],2 => $reporte_datos['per_riesgo_al_muy_alto_3'],3 => $reporte_datos['per_riesgo_al_muy_alto_4'],4 => $reporte_datos['per_riesgo_al_muy_alto_5'],5 => $reporte_datos['per_riesgo_al_muy_alto_6'] );
+
+
+    $rez_ed = array(0 => $reporte_datos['asi_rez_pob_t'],1 => $reporte_datos['asi_rez_pob_m'],2 => $reporte_datos['asi_rez_pob_h']);
+    $rez_na = array(0 => $reporte_datos['asi_rez_noasiste_t'],1 => $reporte_datos['asi_rez_noasiste_m'],2 => $reporte_datos['asi_rez_noasiste_h']);
+    $analfabeta = array(0 => $reporte_datos['asi_analfabeta_t'],1 => $reporte_datos['asi_analfabeta_m'],2 => $reporte_datos['asi_analfabeta_h']);
+
+
+    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
   }
 
-  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$reporte_datos){
+  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
     // echo "<pre>";print_r($array_datos_escuela);die();
 
     //// Parámetros iniciales para PDF///
@@ -137,12 +146,13 @@ class Generar_reporte extends CI_Controller {
     ///Termina creación de grafica de barras
 
     ///Empieza creación de grafica de barras DISTRIBUCION POR GRADO
-    $data1y=$distribucion[0];
-    $data2y=$distribucion[1];
+    $data1y=$riesgo_alto;
+    $data2y=$riesgo_muy_alto;
     $graph1 = new Graph(350,200,'auto');
     $graph1->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph1->SetTheme($theme_class);
+    $graph1->yaxis->title->Set("Alumnos");
     $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
@@ -622,12 +632,12 @@ table td{
     </tr>
     <tr>
       <td style="background-color:#DCDDDF; text-align:left;">$anios_asis</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="text-align:center;">$rez_ed[0]</td>
+      <td style="text-align:center;">$rez_ed[1]</td>
+      <td style="text-align:center;">$rez_ed[2]</td>
+      <td style="text-align:center;">$rez_na[0]</td>
+      <td style="text-align:center;">$rez_na[1]</td>
+      <td style="text-align:center;">$rez_na[2]</td>
     </tr>
   </tbody>
 </table>
@@ -655,17 +665,17 @@ table td{
     <tr>
       <td colspan="4">ANALFABETISMO</td>
     </tr>
-    <tr style="background-color:#DCDDDF;">
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+    <tr WIDTH="245" style="background-color:#DCDDDF;">
+      <td WIDTH="140"></td>
+      <td WIDTH="35" style="text-align:center;"><img src="assets/img/male.png" border="0" height="16" width="8"  /></td>
+      <td WIDTH="35" style="text-align:center;"><img src="assets/img/female.png" border="0" height="16" width="8" align="middle" /></td>
+      <td WIDTH="35" style="text-align:center;"><img src="assets/img/male_female.png" border="0" height="16" width="16" align="middle" /></td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="background-color:#DCDDDF;">Población mayor de 15 años que no sabe leer ni escribir</td>
+      <td style="text-align:center;">$analfabeta[0]</td>
+      <td style="text-align:center;">$analfabeta[1]</td>
+      <td style="text-align:center;">$analfabeta[2]</td>
     </tr>
   </tbody>
 </table>
@@ -735,33 +745,33 @@ table td{
   <tbody>
 
     <tr style="background-color:#E6E7E9;">
-      <td colspan="3"></td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="text-align:center;" colspan="3">Grados</td>
+      <td style="text-align:center;">1<sup>o</sup></td>
+      <td style="text-align:center;">2<sup>o</sup></td>
+      <td style="text-align:center;">3<sup>o</sup></td>
+      <td style="text-align:center;">4<sup>o</sup></td>
+      <td style="text-align:center;">5<sup>o</sup></td>
+      <td style="text-align:center;">6<sup>o</sup></td>
     </tr>
     <tr>
       <td style="background-color:#F5842A;">&nbsp;</td>
-      <td colspan="2" style="background-color:#DCDDDF;"></td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td colspan="2" style="background-color:#DCDDDF;">Alto</td>
+      <td style="text-align:center;">$riesgo_alto[0]</td>
+      <td style="text-align:center;">$riesgo_alto[1]</td>
+      <td style="text-align:center;">$riesgo_alto[2]</td>
+      <td style="text-align:center;">$riesgo_alto[3]</td>
+      <td style="text-align:center;">$riesgo_alto[4]</td>
+      <td style="text-align:center;">$riesgo_alto[5]</td>
     </tr>
     <tr>
       <td style="background-color:#D1232A;">&nbsp;</td>
-      <td colspan="2" style="background-color:#DCDDDF;"></td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td colspan="2" style="background-color:#DCDDDF;">Muy alto</td>
+      <td style="text-align:center;">$riesgo_muy_alto[0]</td>
+      <td style="text-align:center;">$riesgo_muy_alto[1]</td>
+      <td style="text-align:center;">$riesgo_muy_alto[2]</td>
+      <td style="text-align:center;">$riesgo_muy_alto[3]</td>
+      <td style="text-align:center;">$riesgo_muy_alto[4]</td>
+      <td style="text-align:center;">$riesgo_muy_alto[5]</td>
     </tr>
   </tbody>
 </table>
@@ -772,6 +782,12 @@ $str_htm3
 EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=195, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+
+$retencion=$reporte_datos['per_ind_retencion'];
+$aprobacion=$reporte_datos['per_ind_aprobacion'];
+$efic_ter=$reporte_datos['per_ind_et'];
+
 
 $str_htm3 = <<<EOT
 <style>
@@ -784,18 +800,18 @@ table td{
   padding-bottom:1px;
 }
 </style>
-<table WIDTH="245">
+<table WIDTH="245" style="text-align:center;">
   <tbody>
 
     <tr style="background-color:#B7BCC8;">
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>Retención</td>
+      <td>Aprobación</td>
+      <td>Eficiencia Terminal</td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>$retencion</td>
+      <td>$aprobacion</td>
+      <td>$efic_ter</td>
     </tr>
   </tbody>
 </table>
@@ -816,35 +832,28 @@ $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, ''
 $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetAutoPageBreak(FALSE, 0);
 $pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-$a=15;
-$b=85;
-$str_htm3 = <<<EOT
-<style>
-table td{
-  border: none;
-}
-</style>
-<table>
-  <tbody>
-  <tr WIDTH="105" HEIGHT="15">
-    <td width="$a" style="text-align:center;" HEIGHT="15"><strong>I</strong></td>
-    <td width="5" HEIGHT="15"></td>
-    <td width="$b" style="text-align:center;" HEIGHT="15"><strong>II, III , IV</strong></td>
-  </tr>
-    <tr WIDTH="105" HEIGHT="15">
-      <td width="$a" style="background-color:#F47B2F; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
-      <td width="5" HEIGHT="15">&nbsp;</td>
-      <td width="$b" style="background-color:#EE1D23; text-align:center;" color="white" HEIGHT="15"><strong>$b%</strong></td>
-    </tr>
-  </tbody>
-</table>
-EOT;
 
-$html5 = <<<EOT
-$str_htm3
-EOT;
-$pdf->SetFont('', '', 7);
-$pdf->writeHTMLCell($w=60,$h=10,$x=30,$y=100, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->SetTextColor(0, 0, 0);
+$pdf->SetFillColor(255, 255, 255);
+$pdf->MultiCell(120, 10,$reporte_datos['apr_ete'].'% Porcentaje de alumnos egresados con aprendizajes suficientes', 0, 'L', 1, 0, 17, 80, 'M');
+
+$pdf->MultiCell(50, 10,'Lenguaje y Comunicación', 0, 'L', 1, 0, 50, 95, 'M');
+$pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 95, 'M');
+
+
+$tipo='leng';
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_lyc_i'],$reporte_datos['apr_planea1_nlogro_esc_lyc_ii-iii-iv'],1,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_lyc_i'],$reporte_datos['apr_planea2_nlogro_esc_lyc_ii-iii-iv'],2,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_lyc_i'],$reporte_datos['apr_planea_nlogro_estado_lyc_ii-iii-iv'],3,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_lyc_i'],$reporte_datos['apr_planea_nlogro_pais_lyc_ii-iii-iv'],4,$tipo);
+
+$tipo='mat';
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_mat_i'],$reporte_datos['apr_planea1_nlogro_esc_mat_ii-iii-iv'],1,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_mat_i'],$reporte_datos['apr_planea2_nlogro_esc_mat_ii-iii-iv'],2,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_mat_i'],$reporte_datos['apr_planea_nlogro_estado_mat_ii-iii-iv'],3,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$reporte_datos['apr_planea_nlogro_pais_mat_ii-iii-iv'],4,$tipo);
+
+
 
 
 $pdf->SetFont('', '', 8);
@@ -855,7 +864,11 @@ $pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
 
 ///Empieza creación de grafica de barras
 
-$data1y=$planea_aprov[0];
+$prom_cal_esp=array(0 => $reporte_datos['apr_prom_al_esc_esp_5'],1 => $reporte_datos['apr_prom_al_esc_esp_6-7'],2 => $reporte_datos['apr_prom_al_esc_esp_8-9'],3 => $reporte_datos['apr_prom_al_esc_esp_10'] );
+$prom_cal_mat=array(0 => $reporte_datos['apr_prom_al_esc_mat_5'],1 => $reporte_datos['apr_prom_al_esc_mat_6-7'],2 => $reporte_datos['apr_prom_al_esc_mat_8-9'],3 => $reporte_datos['apr_prom_al_esc_mat_10'] );
+
+/////Inicia gráfica español
+$data1y=$prom_cal_esp;
 $data2y=$planea_aprov[1];
 // $data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
@@ -879,9 +892,41 @@ $b2plot->SetFillColor("#EE1D23");
 $graph->Stroke('barras2.png');
 
 $pdf->Image('barras2.png', 10,160,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
-$pdf->Image('barras2.png', 110,160,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
 
 unlink('barras2.png');
+
+/////Termina gráfica español
+
+/////Inicia gráfica mate
+$data1y=$prom_cal_mat;
+$data2y=$planea_aprov[1];
+// $data3y=array(0,0,0,0,0,0);
+$graph = new Graph(350,200,'auto');
+$graph->SetScale("textlin");
+$theme_class=new UniversalTheme;
+$graph->SetTheme($theme_class);
+// $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+$graph->SetBox(false);
+$graph->ygrid->SetFill(false);
+$graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
+$graph->yaxis->HideLine(false);
+$graph->yaxis->HideTicks(false,false);
+$b1plot = new BarPlot($data1y);
+$b2plot = new BarPlot($data2y);
+$gbplot = new GroupBarPlot(array($b1plot,$b2plot));
+$graph->Add($gbplot);
+$b1plot->SetColor("white");
+$b1plot->SetFillColor("#F47B2F");
+$b2plot->SetColor("white");
+$b2plot->SetFillColor("#EE1D23");
+$graph->Stroke('barras3.png');
+
+$pdf->Image('barras3.png', 110,160,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+
+unlink('barras3.png');
+
+/////Termina gráfica mate
+
 
 $pdf->SetTextColor(0, 0, 0);
 
@@ -902,10 +947,61 @@ $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $
 $pdf->SetAutoPageBreak(FALSE, 0);
 
 $pdf->Output('certificado.pdf', 'I');
+}
 
 
+private function planea_graf($pdf,$a,$b,$yg,$tipo){
 
+$str_htm3 = <<<EOT
+  <style>
+  table td{
+    border: none;
   }
+  </style>
+  <table>
+    <tbody>
+    <tr WIDTH="105" HEIGHT="15">
+      <td width="$a" style="text-align:center;" HEIGHT="15"><strong>I</strong></td>
+      <td width="5" HEIGHT="15"></td>
+      <td width="$b" style="text-align:center;" HEIGHT="15"><strong>II, III, IV</strong></td>
+    </tr>
+      <tr WIDTH="105" HEIGHT="15">
+        <td width="$a" style="background-color:#F47B2F; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
+        <td width="5" HEIGHT="15">&nbsp;</td>
+        <td width="$b" style="background-color:#EE1D23; text-align:center;" color="white" HEIGHT="15"><strong>$b%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+EOT;
 
+$html5 = <<<EOT
+$str_htm3
+EOT;
+$pdf->SetFont('', '', 7);
+if ($yg==1){
+$yg=100;
+}
+elseif ($yg==2){
+$yg=112;
+}
+elseif ($yg==3){
+$yg=124;
+}
+else {
+$yg=136;
+}
+
+if ($tipo=='leng'){
+  $xg=50;
+}
+else {
+  $xg=130;
+}
+
+$pdf->writeHTMLCell($w=60,$h=10,$x=$xg,$y=$yg, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+return $pdf;
+
+}
 
 }
