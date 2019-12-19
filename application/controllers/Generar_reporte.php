@@ -687,6 +687,8 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=230, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
+$pdf->MultiCell(80, 10,'Lenguas nativas: '.$reporte_datos['asi_lenguas_nativas'], 0, 'L', 1, 0, 23, 265, 'M');
+
 $rit=$reporte_datos['per_riesgo_al_t'];
 $str_htm3 = <<<EOT
 <style>
@@ -842,14 +844,14 @@ $pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 95, 'M');
 
 
 $tipo='leng';
-$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_lyc_i'],$reporte_datos['apr_planea1_nlogro_esc_lyc_ii-iii-iv'],1,$tipo);
-$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_lyc_i'],$reporte_datos['apr_planea2_nlogro_esc_lyc_ii-iii-iv'],2,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_lyc_i'],$reporte_datos['apr_planea2_nlogro_esc_lyc_ii-iii-iv'],1,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_lyc_i'],$reporte_datos['apr_planea1_nlogro_esc_lyc_ii-iii-iv'],2,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_lyc_i'],$reporte_datos['apr_planea_nlogro_estado_lyc_ii-iii-iv'],3,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_lyc_i'],$reporte_datos['apr_planea_nlogro_pais_lyc_ii-iii-iv'],4,$tipo);
 
 $tipo='mat';
-$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_mat_i'],$reporte_datos['apr_planea1_nlogro_esc_mat_ii-iii-iv'],1,$tipo);
-$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_mat_i'],$reporte_datos['apr_planea2_nlogro_esc_mat_ii-iii-iv'],2,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_mat_i'],$reporte_datos['apr_planea2_nlogro_esc_mat_ii-iii-iv'],1,$tipo);
+$pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_mat_i'],$reporte_datos['apr_planea1_nlogro_esc_mat_ii-iii-iv'],2,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_mat_i'],$reporte_datos['apr_planea_nlogro_estado_mat_ii-iii-iv'],3,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$reporte_datos['apr_planea_nlogro_pais_mat_ii-iii-iv'],4,$tipo);
 
@@ -952,6 +954,15 @@ $pdf->Output('certificado.pdf', 'I');
 
 private function planea_graf($pdf,$a,$b,$yg,$tipo){
 
+   if($b<25){
+     $a1=$a-20;
+     $b1=$b+20;
+   }
+   else {
+     $a1=$a;
+     $b1=$b;
+   }
+
 $str_htm3 = <<<EOT
   <style>
   table td{
@@ -961,9 +972,9 @@ $str_htm3 = <<<EOT
   <table>
     <tbody>
     <tr WIDTH="105" HEIGHT="15">
-      <td width="$a" style="text-align:center;" HEIGHT="15"><strong>I</strong></td>
+      <td width="$a1" style="text-align:center;" HEIGHT="15"><strong>I</strong></td>
       <td width="5" HEIGHT="15"></td>
-      <td width="$b" style="text-align:center;" HEIGHT="15"><strong>II, III, IV</strong></td>
+      <td width="$b1" style="text-align:right;" HEIGHT="15"><strong>II, III, IV</strong></td>
     </tr>
       <tr WIDTH="105" HEIGHT="15">
         <td width="$a" style="background-color:#F47B2F; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
