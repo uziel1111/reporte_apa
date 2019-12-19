@@ -929,8 +929,130 @@ unlink('barras3.png');
 
 /////Termina gráfica mate
 
+$planea_ciclo=$reporte_datos['apr_planea1_nlogro_esc_periodo'];
+$str_htm3 = <<<EOT
+<style>
+table td{
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
+}
+</style>
+<table WIDTH="210" style="text-align:left;">
+  <tbody>
+    <tr>
+      <td WIDTH="80">Calificaciones</td>
+      <td WIDTH="20" style="background-color:#D1232A;"></td>
+      <td WIDTH="90">Niveles PLANEA $planea_ciclo</td>
+      <td WIDTH="20" style="background-color:#F5842A;"></td>
+    </tr>
+  </tbody>
+</table>
+EOT;
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
 
 $pdf->SetTextColor(0, 0, 0);
+$pdf->writeHTMLCell($w=60,$h=30,$x=65,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+///Contenidos temáticos
+
+$cont_tem_lyc = array(0 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_1txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_1por']), 1 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_2txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_2por']), 2 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_3txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_3por']), 3 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_4txt'],'por' => $reporte_datos['apr_planea1_ct_esc_lyc_4por']));
+$cont_tem_mat= array(0 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_1txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_1por']), 1 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_2txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_2por']), 2 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_3txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_3por']), 3 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_4txt'],'por' => $reporte_datos['apr_planea1_ct_esc_mat_4por']));;
+
+
+//////lyc
+$str_htm3 = <<<EOT
+<style>
+table td{
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
+}
+</style>
+<table WIDTH="222">
+  <tbody>
+EOT;
+
+foreach ($cont_tem_lyc as $lyc) {
+if ($lyc['txt']!=''){
+// echo $lyc['txt'];
+$txt=$lyc['txt'];
+$por=$lyc['por'];
+
+$str_htm3 .= <<<EOT
+<tr>
+  <td WIDTH="22" style="text-align:center;"><font color="red">$por%</font></td>
+  <td WIDTH="200" style="text-align:left;">$txt</td>
+</tr>
+EOT;
+}
+}
+// die();
+
+$str_htm3 .= <<<EOT
+  </tbody>
+</table>
+EOT;
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+$pdf->writeHTMLCell($w=60,$h=30,$x=20,$y=240, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+/////mat
+
+$str_htm3 = <<<EOT
+<style>
+table td{
+  border: .3px solid #BFC0C3;
+  padding: 2px !important;
+  padding-top:1px;
+  padding-left:1px;
+  padding-right:1px;
+  padding-bottom:1px;
+}
+</style>
+<table WIDTH="222">
+  <tbody>
+EOT;
+
+foreach ($cont_tem_mat as $mat) {
+if ($mat['txt']!=''){
+// echo $mat['txt'];
+$txt=$mat['txt'];
+$por=$mat['por'];
+
+$str_htm3 .= <<<EOT
+<tr>
+  <td WIDTH="22" style="text-align:center;"><font color="red"><strong>$por%</strong></font></td>
+  <td WIDTH="200" style="text-align:left;">$txt</td>
+</tr>
+EOT;
+}
+}
+// die();
+
+$str_htm3 .= <<<EOT
+  </tbody>
+</table>
+EOT;
+
+$html5 = <<<EOT
+$str_htm3
+EOT;
+$pdf->writeHTMLCell($w=60,$h=30,$x=105,$y=240, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+
+///Termina contenidos temáticos
 
 /// INICIA TERCERA PÄGINA
 $pdf->SetAutoPageBreak(TRUE, 0);
@@ -947,6 +1069,9 @@ $pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, 
 $pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
 $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 $pdf->SetAutoPageBreak(FALSE, 0);
+
+
+
 
 $pdf->Output('certificado.pdf', 'I');
 }
