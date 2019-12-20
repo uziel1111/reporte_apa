@@ -47,9 +47,7 @@ class Generar_reporte extends CI_Controller {
 
     $est_asis_alumnos = array(0 => $reporte_datos['asi_est_al_1'],1 => $reporte_datos['asi_est_al_2'],2 => $reporte_datos['asi_est_al_3'],3 => $reporte_datos['asi_est_al_4'],4 => $reporte_datos['asi_est_al_5'],5 => $reporte_datos['asi_est_al_6'] );
     $est_asis_alumnos_h1 = array(0 => $reporte_datos['asi_est_h1_al_1'],1 => $reporte_datos['asi_est_h1_al_2'],2 => $reporte_datos['asi_est_h1_al_3'],3 => $reporte_datos['asi_est_h1_al_4'],4 => $reporte_datos['asi_est_h1_al_5'],5 => $reporte_datos['asi_est_h1_al_6']);
-    // , 'ciclo' => $reporte_datos['asi_est_h1_ciclo'], 'total' => $reporte_datos['asi_est_h1_gr_t']
     $est_asis_alumnos_h2 = array(0 => $reporte_datos['asi_est_h2_al_1'],1 => $reporte_datos['asi_est_h2_al_2'],2 => $reporte_datos['asi_est_h2_al_3'],3 => $reporte_datos['asi_est_h2_al_4'],4 => $reporte_datos['asi_est_h2_al_5'],5 => $reporte_datos['asi_est_h2_al_6']);
-    // , 'ciclo' => $reporte_datos['asi_est_h2_ciclo'], 'total' => $reporte_datos['asi_est_h1_gr_t']
 
     $est_asis_gr= array(0 => $reporte_datos['asi_est_gr_1'],1 => $reporte_datos['asi_est_gr_2'],2 => $reporte_datos['asi_est_gr_3'],3 => $reporte_datos['asi_est_gr_4'],4 => $reporte_datos['asi_est_gr_5'],5 => $reporte_datos['asi_est_gr_6'] );
 
@@ -71,13 +69,6 @@ class Generar_reporte extends CI_Controller {
     // echo "<pre>";print_r($array_datos_escuela);die();
 
     //// Parámetros iniciales para PDF///
-    $nombre=$array_datos_escuela['nombre'];
-    $cct=$array_datos_escuela['cct'];
-    $director=$array_datos_escuela['director'];
-    $turno=$array_datos_escuela['turno'];
-    $municipio=$array_datos_escuela['municipio'];
-    $modalidad=$array_datos_escuela['modalidad'];
-
 
     $pdf = new My_tcpdf('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
@@ -86,202 +77,115 @@ class Generar_reporte extends CI_Controller {
     $pdf->SetSubject('TCPDF Tutorial');
     $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
-    ///Se agrega el header y footer
-    $pdf->SetAutoPageBreak(TRUE, 0);
-    $pdf->AddPage('P', 'A4');
-    $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
-    $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
-    $pdf->SetAutoPageBreak(FALSE, 0);
-    $pdf->SetFillColor(129, 113, 106);
-    $pdf->SetTextColor(255, 255, 255);
-    $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 170, 18, 'M');
-    $pdf->SetTextColor(0, 0, 0);
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 150, 28, 'M');
+    $nombre=$array_datos_escuela['nombre'];
+    $cct=$array_datos_escuela['cct'];
+    $director=$array_datos_escuela['director'];
+    $turno=$array_datos_escuela['turno'];
+    $municipio=$array_datos_escuela['municipio'];
+    $modalidad=$array_datos_escuela['modalidad'];
 
-    ///Empieza creación de grafica de pastel PERMANENCIA
-    $graph_p = new PieGraph(350,250);
-    $graph_p->SetBox(false);
-    $p1 = new PiePlot($riesgo);
-    $graph_p->Add($p1);
-    $p1->ShowBorder();
-    $p1->SetColor('black');
-    $p1->SetSliceColors(array('#F9EC13','#F07622','#CD2027','#DBDAD8'));
-    $graph_p->SetColor('#F7F7F6');
-    $graph_p->img->SetImgFormat('png');
-    $graph_p->Stroke('pastel.png');
-    $pdf->Image('pastel.png', 125,80,55, 39, 'png', '', '', false, 300, '', false, false, 0);
-    unlink('pastel.png');
-    ///Termina creación de grafica de pastel
-
-    ///Empieza creación de grafica de barras MATRICULA
-    $data1y=$est_asis_alumnos;
-    $data2y=$est_asis_alumnos_h1;
-    $data3y=$est_asis_alumnos_h2;
-    $graph = new Graph(350,200,'auto');
-    $graph->SetScale("textlin");
-    $theme_class=new UniversalTheme;
-    $graph->SetTheme($theme_class);
-    $graph->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-    $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
-    $graph->SetBox(false);
-    $graph->ygrid->SetFill(false);
-    $graph->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
-    $graph->yaxis->HideLine(false);
-    $graph->yaxis->HideTicks(false,false);
-    $b1plot = new BarPlot($data1y);
-    $b2plot = new BarPlot($data2y);
-    $b3plot = new BarPlot($data3y);
-    $gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
-    $graph->Add($gbplot);
-    $b1plot->SetColor("white");
-    $b1plot->SetFillColor("#9E2E17");
-    $b2plot->SetColor("white");
-    $b2plot->SetFillColor("#939598");
-    $b3plot->SetColor("white");
-    $b3plot->SetFillColor("#399443");
-    $graph->Stroke('barras.png');
-    $pdf->Image('barras.png', 20,110,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
-    unlink('barras.png');
-    ///Termina creación de grafica de barras
-
-    ///Empieza creación de grafica de barras DISTRIBUCION POR GRADO
-    $data1y=$riesgo_alto;
-    $data2y=$riesgo_muy_alto;
-    $graph1 = new Graph(350,200,'auto');
-    $graph1->SetScale("textlin");
-    $theme_class=new UniversalTheme;
-    $graph1->SetTheme($theme_class);
-    $graph1->yaxis->title->Set("Alumnos");
-    $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-    $graph1->SetBox(false);
-    $graph1->ygrid->SetFill(false);
-    $graph1->xaxis->Hide();
-    $graph1->yaxis->HideLine(false);
-    $graph1->yaxis->HideTicks(false,false);
-    $b1plot = new BarPlot($data1y);
-    $b2plot = new BarPlot($data2y);
-    $gbplot = new GroupBarPlot(array($b1plot,$b2plot));
-    $graph1->Add($gbplot);
-    $b1plot->SetColor("white");
-    $b1plot->SetFillColor("#F47B2F");
-    $b2plot->SetColor("white");
-    $b2plot->SetFillColor("#EE1D23");
-    $graph1->Stroke('barras1.png');
-    $pdf->Image('barras1.png', 115,140,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
-    unlink('barras1.png');
-    ///Termina creación de grafica de barras
-
-
-    $pdf->SetFont('', '', 8);
-
-
-
-
-    $str_htm3 =<<<EOD
-    <style>
-    table td{
-      border: none;
-      padding: 5px !important;
-      background-color:#ECECEE;
-      padding-top:2px;
-      padding-left:2px;
-      padding-right:2px;
-      padding-bottom:2px;
-    }
-    </style>
-    <table WIDTH="524">
-      <tbody>
-        <tr>
-          <td WIDTH="2"></td>
-          <td WIDTH="85"></td>
-          <td WIDTH="10"></td>
-          <td WIDTH="130"></td>
-          <td WIDTH="5"></td>
-          <td WIDTH="25"></td>
-          <td WIDTH="10"></td>
-          <td WIDTH="45"></td>
-          <td WIDTH="30"></td>
-          <td WIDTH="40"></td>
-          <td WIDTH="20"></td>
-          <td WIDTH="50"></td>
-          <td WIDTH="85"></td>
-          <td WIDTH="2"></td>
-        </tr>
-        <tr>
-          <td WIDTH="2"></td>
-          <td WIDTH="85">Nombre:</td>
-          <td WIDTH="10">&nbsp;</td>
-          <td WIDTH="130"><strong>$nombre</strong></td>
-          <td WIDTH="5">&nbsp;</td>
-          <td WIDTH="25">&nbsp;</td>
-          <td WIDTH="10">&nbsp;</td>
-          <td WIDTH="45">&nbsp;</td>
-          <td WIDTH="30">&nbsp;</td>
-          <td WIDTH="40">Municipio:</td>
-          <td WIDTH="20">&nbsp;</td>
-          <td WIDTH="50"><strong>$municipio</strong></td>
-          <td WIDTH="85">&nbsp;</td>
-          <td WIDTH="2"></td>
-        </tr>
-        <tr>
-          <td WIDTH="2"></td>
-          <td WIDTH="85">CCT:</td>
-          <td WIDTH="10">&nbsp;</td>
-          <td WIDTH="130"><strong>$cct</strong></td>
-          <td WIDTH="5">&nbsp;</td>
-          <td WIDTH="25">Turno:</td>
-          <td WIDTH="10">&nbsp;</td>
-          <td WIDTH="45"><strong>$turno</strong></td>
-          <td WIDTH="30">&nbsp;</td>
-          <td WIDTH="40">Modalidad:</td>
-          <td WIDTH="20">&nbsp;</td>
-          <td WIDTH="50"><strong>$modalidad</strong></td>
-          <td WIDTH="85">&nbsp;</td>
-          <td WIDTH="2"></td>
-        </tr>
-        <tr>
-          <td WIDTH="2"></td>
-          <td WIDTH="85">Director / Responsable:</td>
-          <td WIDTH="10">&nbsp;</td>
-          <td WIDTH="130"><strong>$director</strong></td>
-          <td WIDTH="5">&nbsp;</td>
-          <td WIDTH="25">&nbsp;</td>
-          <td WIDTH="10">&nbsp;</td>
-          <td WIDTH="45">&nbsp;</td>
-          <td WIDTH="30">&nbsp;</td>
-          <td WIDTH="40">&nbsp;</td>
-          <td WIDTH="20">&nbsp;</td>
-          <td WIDTH="50">&nbsp;</td>
-          <td WIDTH="85">&nbsp;</td>
-          <td WIDTH="2"></td>
-        </tr>
-        <tr>
-          <td WIDTH="2"></td>
-          <td WIDTH="85"></td>
-          <td WIDTH="10"></td>
-          <td WIDTH="130"></td>
-          <td WIDTH="5"></td>
-          <td WIDTH="25"></td>
-          <td WIDTH="10"></td>
-          <td WIDTH="45"></td>
-          <td WIDTH="30"></td>
-          <td WIDTH="40"></td>
-          <td WIDTH="20"></td>
-          <td WIDTH="50"></td>
-          <td WIDTH="85"></td>
-          <td WIDTH="2"></td>
-        </tr>
-      </tbody>
-    </table>
+$str_htm3 =<<<EOD
+        <style>
+        table td{
+          border: none;
+          padding: 5px !important;
+          background-color:#ECECEE;
+          padding-top:2px;
+          padding-left:2px;
+          padding-right:2px;
+          padding-bottom:2px;
+        }
+        </style>
+        <table WIDTH="524">
+          <tbody>
+            <tr>
+              <td WIDTH="2"></td>
+              <td WIDTH="85"></td>
+              <td WIDTH="10"></td>
+              <td WIDTH="130"></td>
+              <td WIDTH="5"></td>
+              <td WIDTH="25"></td>
+              <td WIDTH="10"></td>
+              <td WIDTH="45"></td>
+              <td WIDTH="30"></td>
+              <td WIDTH="40"></td>
+              <td WIDTH="20"></td>
+              <td WIDTH="50"></td>
+              <td WIDTH="85"></td>
+              <td WIDTH="2"></td>
+            </tr>
+            <tr>
+              <td WIDTH="2"></td>
+              <td WIDTH="85">Nombre:</td>
+              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="130"><strong>$nombre</strong></td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="25">&nbsp;</td>
+              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="45">&nbsp;</td>
+              <td WIDTH="30">&nbsp;</td>
+              <td WIDTH="40">Municipio:</td>
+              <td WIDTH="20">&nbsp;</td>
+              <td WIDTH="50"><strong>$municipio</strong></td>
+              <td WIDTH="85">&nbsp;</td>
+              <td WIDTH="2"></td>
+            </tr>
+            <tr>
+              <td WIDTH="2"></td>
+              <td WIDTH="85">CCT:</td>
+              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="130"><strong>$cct</strong></td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="25">Turno:</td>
+              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="45"><strong>$turno</strong></td>
+              <td WIDTH="30">&nbsp;</td>
+              <td WIDTH="40">Modalidad:</td>
+              <td WIDTH="20">&nbsp;</td>
+              <td WIDTH="50"><strong>$modalidad</strong></td>
+              <td WIDTH="85">&nbsp;</td>
+              <td WIDTH="2"></td>
+            </tr>
+            <tr>
+              <td WIDTH="2"></td>
+              <td WIDTH="85">Director / Responsable:</td>
+              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="130"><strong>$director</strong></td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="25">&nbsp;</td>
+              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="45">&nbsp;</td>
+              <td WIDTH="30">&nbsp;</td>
+              <td WIDTH="40">&nbsp;</td>
+              <td WIDTH="20">&nbsp;</td>
+              <td WIDTH="50">&nbsp;</td>
+              <td WIDTH="85">&nbsp;</td>
+              <td WIDTH="2"></td>
+            </tr>
+            <tr>
+              <td WIDTH="2"></td>
+              <td WIDTH="85"></td>
+              <td WIDTH="10"></td>
+              <td WIDTH="130"></td>
+              <td WIDTH="5"></td>
+              <td WIDTH="25"></td>
+              <td WIDTH="10"></td>
+              <td WIDTH="45"></td>
+              <td WIDTH="30"></td>
+              <td WIDTH="40"></td>
+              <td WIDTH="20"></td>
+              <td WIDTH="50"></td>
+              <td WIDTH="85"></td>
+              <td WIDTH="2"></td>
+            </tr>
+          </tbody>
+        </table>
 EOD;
 
 $encabezado_v = <<<EOT
-		$str_htm3
+    		$str_htm3
 EOT;
 
-// border: none;
-// border: 1px solid black;
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -379,9 +283,87 @@ $encabezado_h = <<<EOT
 $str_htm3
 EOT;
 
-		$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-    $str_htm3 = <<<EOT
+$pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
+
+    ///Empieza creación de grafica de pastel PERMANENCIA
+    $graph_p = new PieGraph(350,250);
+    $graph_p->SetBox(false);
+    $p1 = new PiePlot($riesgo);
+    $graph_p->Add($p1);
+    $p1->ShowBorder();
+    $p1->SetColor('black');
+    $p1->SetSliceColors(array('#F9EC13','#F07622','#CD2027','#DBDAD8'));
+    $graph_p->SetColor('#F7F7F6');
+    $graph_p->img->SetImgFormat('png');
+    $graph_p->Stroke('pastel.png');
+    $pdf->Image('pastel.png', 125,80,55, 39, 'png', '', '', false, 300, '', false, false, 0);
+    unlink('pastel.png');
+    ///Termina creación de grafica de pastel
+
+    ///Empieza creación de grafica de barras MATRICULA
+    $data1y=$est_asis_alumnos;
+    $data2y=$est_asis_alumnos_h1;
+    $data3y=$est_asis_alumnos_h2;
+    $graph = new Graph(350,200,'auto');
+    $graph->SetScale("textlin");
+    $theme_class=new UniversalTheme;
+    $graph->SetTheme($theme_class);
+    $graph->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
+    $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+    $graph->SetBox(false);
+    $graph->ygrid->SetFill(false);
+    $graph->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
+    $graph->yaxis->HideLine(false);
+    $graph->yaxis->HideTicks(false,false);
+    $b1plot = new BarPlot($data1y);
+    $b2plot = new BarPlot($data2y);
+    $b3plot = new BarPlot($data3y);
+    $gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
+    $graph->Add($gbplot);
+    $b1plot->SetColor("white");
+    $b1plot->SetFillColor("#9E2E17");
+    $b2plot->SetColor("white");
+    $b2plot->SetFillColor("#939598");
+    $b3plot->SetColor("white");
+    $b3plot->SetFillColor("#399443");
+    $graph->Stroke('barras.png');
+    $pdf->Image('barras.png', 20,110,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+    unlink('barras.png');
+    ///Termina creación de grafica de barras
+
+    ///Empieza creación de grafica de barras DISTRIBUCION POR GRADO
+    $data1y=$riesgo_alto;
+    $data2y=$riesgo_muy_alto;
+    $graph1 = new Graph(350,200,'auto');
+    $graph1->SetScale("textlin");
+    $theme_class=new UniversalTheme;
+    $graph1->SetTheme($theme_class);
+    $graph1->yaxis->title->Set("Alumnos");
+    $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
+    $graph1->SetBox(false);
+    $graph1->ygrid->SetFill(false);
+    $graph1->xaxis->Hide();
+    $graph1->yaxis->HideLine(false);
+    $graph1->yaxis->HideTicks(false,false);
+    $b1plot = new BarPlot($data1y);
+    $b2plot = new BarPlot($data2y);
+    $gbplot = new GroupBarPlot(array($b1plot,$b2plot));
+    $graph1->Add($gbplot);
+    $b1plot->SetColor("white");
+    $b1plot->SetFillColor("#F47B2F");
+    $b2plot->SetColor("white");
+    $b2plot->SetFillColor("#EE1D23");
+    $graph1->Stroke('barras1.png');
+    $pdf->Image('barras1.png', 115,140,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+    unlink('barras1.png');
+    ///Termina creación de grafica de barras
+
+
+    $pdf->SetFont('', '', 8);
+
+
+$str_htm3 = <<<EOT
     <style>
     table td{
       border: none;
@@ -400,7 +382,7 @@ EOT;
       </table>
 EOT;
 
-		$html3 = <<<EOT
+$html3 = <<<EOT
 		$str_htm3
 EOT;
 
@@ -827,13 +809,8 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0
 ///TERMINA PRIMERA PÁGINA
 
 /// INICIA SEGUNDA PÄGINA
-///Se agrega el header y footer
-$pdf->SetAutoPageBreak(TRUE, 0);
-$pdf->AddPage('P', 'A4');
-$pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
-$pdf->SetAutoPageBreak(FALSE, 0);
-$pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
+
 
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFillColor(255, 255, 255);
@@ -1055,22 +1032,21 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=105,$y=240, $html5, $border=0, $ln=1, $fill=0
 ///Termina contenidos temáticos
 
 /// INICIA TERCERA PÄGINA
-$pdf->SetAutoPageBreak(TRUE, 0);
-$pdf->AddPage('L', 'A4');
-$pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
-$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+// $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+$idreporte=$reporte_datos['idreporteapa'];
+$alumnos_baja=$this->Apa_model->get_alumnos_baja($idreporte);
+// echo "<pre>";print_r($alumnos_baja);die();
+$array_items = array_chunk($alumnos_baja, 10);
+foreach ($array_items as $key => $item) {
+  $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_h);
+  $pdf = $array_return['pdf'];
+}
 
-$pdf->SetAutoPageBreak(FALSE, 0);
+/// Termina TERCERA PÄGINA
 
-$pdf->SetAutoPageBreak(TRUE, 0);
-$pdf->AddPage('L', 'A4');
-$pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
-$pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-$pdf->SetAutoPageBreak(FALSE, 0);
-
-
+/// INICIA Cuarta PÄGINA
+$pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+/// Termina Cuarta PÄGINA
 
 
 $pdf->Output('certificado.pdf', 'I');
@@ -1139,5 +1115,101 @@ $pdf->writeHTMLCell($w=60,$h=10,$x=$xg,$y=$yg, $html5, $border=0, $ln=1, $fill=0
 return $pdf;
 
 }
+
+private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
+  $pdf->SetFont('', '', 10);
+  $pdf->SetAutoPageBreak(TRUE, 0);
+  $pdf->AddPage('P', 'A4');
+  $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
+  $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
+  $pdf->SetAutoPageBreak(FALSE, 0);
+  $pdf->SetFillColor(129, 113, 106);
+  $pdf->SetTextColor(255, 255, 255);
+  $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 170, 18, 'M');
+  $pdf->SetTextColor(0, 0, 0);
+  $pdf->SetFillColor(255, 255, 255);
+  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 150, 28, 'M');
+
+  $pdf->SetFont('', '', 8);
+
+  $pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+  return $pdf;
+}
+
+ function header_footer_h($pdf,$reporte_datos,$encabezado_h){
+  $pdf->SetAutoPageBreak(TRUE, 0);
+  $pdf->AddPage('L', 'A4');
+  $pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
+  $pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
+  $pdf->SetAutoPageBreak(FALSE, 0);
+  $pdf->SetFillColor(129, 113, 106);
+  $pdf->SetFont('', '', 10);
+  $pdf->SetTextColor(255, 255, 255);
+  $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 250, 18, 'M');
+  $pdf->SetTextColor(0, 0, 0);
+  $pdf->SetFillColor(255, 255, 255);
+  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 230, 28, 'M');
+
+  $pdf->SetFont('', '', 8);
+  $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+  return $pdf;
+}
+
+ function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_h){
+  // add a page
+  // $pdf->SetAutoPageBreak(TRUE, 0);
+  $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+
+
+  $str_html='
+  <style>
+  table td{
+    border: 1px solid black;
+    padding: 2px !important;
+  }
+  table th{
+    border: 1px solid black;
+    padding: 2px !important;
+    text-align: center;
+  }
+  </style>
+  <table>
+<tr>
+<th>Nombre</th>
+<th>Grado / Grupo</th>
+<th>Domicilio</th>
+<th>Teléfono</th>
+<th>Motivo</th>
+</tr>';
+
+  // $contador = 1;
+  // echo "<pre>"; print_r($array_datos); die();
+  foreach ($array_datos as $key => $alumno) {
+
+      $str_html .= '<tr>
+      <td colspan="1"> '.$alumno['nombre_alu'].'</td>
+      <td colspan="1"> '.$alumno['grado'].' '.$alumno['grupo'].'</td>
+      <td colspan="1"> '.$alumno['domicilio_alu'].'</td>
+      <td colspan="1"> '.$alumno['telefono'].'</td>
+      <td colspan="1"> '.$alumno['motivo'].'</td>
+      </tr>';
+}
+
+  $str_html .= '</table>';
+
+// $str_html = "";
+$html= <<<EOT
+$str_html
+EOT;
+
+$pdf->writeHTMLCell($w=0,$h=55,$x=20,$y=70, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+  return [
+    'pdf' => $pdf
+    ];
+}// pinta_al_baja()
+
 
 }

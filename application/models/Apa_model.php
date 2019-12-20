@@ -54,7 +54,15 @@ class Apa_model extends CI_Model
             // echo $q;die();
       return $this->db->query($q, array($cct,$turno,$periodo,$ciclo))->row_array();
       // return $this->db->query($q)->result_array();
+    }
 
+    function get_alumnos_baja($idreporte){
+      $q = "SELECT
+            *
+            FROM bajas_apa
+            WHERE idreporteapa = ?";
+            // echo $q;die();
+      return $this->db->query($q, array($idreporte))->result_array();
     }
 
 
