@@ -1045,7 +1045,16 @@ foreach ($array_items as $key => $item) {
 /// Termina TERCERA PÄGINA
 
 /// INICIA Cuarta PÄGINA
-$pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+
+$alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
+// echo "<pre>";print_r($alumnos_mar);die();
+$array_items = array_chunk($alumnos_mar, 10);
+foreach ($array_items as $key => $item) {
+  $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_h);
+  $pdf = $array_return['pdf'];
+}
+
+// $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 /// Termina Cuarta PÄGINA
 
 
@@ -1166,22 +1175,24 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $str_html='
   <style>
   table td{
-    border: 1px solid black;
     padding: 2px !important;
+    border: .3px solid #BFC0C3;
+    font-weight: bold;
   }
   table th{
-    border: 1px solid black;
     padding: 2px !important;
     text-align: center;
+    border: .3px solid #BFC0C3;
+    background-color:#E6E7E9;
   }
   </style>
-  <table>
+  <table width= "100%">
 <tr>
-<th>Nombre</th>
-<th>Grado / Grupo</th>
-<th>Domicilio</th>
-<th>Teléfono</th>
-<th>Motivo</th>
+<th width= "30%" HEIGHT="20">Nombre</th>
+<th width= "15%" >Grado / Grupo</th>
+<th width= "30%">Domicilio</th>
+<th width= "10%">Teléfono</th>
+<th width= "15%">Motivo</th>
 </tr>';
 
   // $contador = 1;
@@ -1189,11 +1200,11 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   foreach ($array_datos as $key => $alumno) {
 
       $str_html .= '<tr>
-      <td colspan="1"> '.$alumno['nombre_alu'].'</td>
-      <td colspan="1"> '.$alumno['grado'].' '.$alumno['grupo'].'</td>
-      <td colspan="1"> '.$alumno['domicilio_alu'].'</td>
-      <td colspan="1"> '.$alumno['telefono'].'</td>
-      <td colspan="1"> '.$alumno['motivo'].'</td>
+      <td HEIGHT="20"> '.$alumno['nombre_alu'].'</td>
+      <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
+      <td> '.$alumno['domicilio_alu'].'</td>
+      <td> '.$alumno['telefono'].'</td>
+      <td> '.$alumno['motivo'].'</td>
       </tr>';
 }
 
@@ -1204,12 +1215,76 @@ $html= <<<EOT
 $str_html
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=20,$y=70, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=80, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return [
     'pdf' => $pdf
     ];
 }// pinta_al_baja()
+
+function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_h){
+ // add a page
+ // $pdf->SetAutoPageBreak(TRUE, 0);
+ $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+
+
+ $str_html='
+ <style>
+ table td{
+   padding: 2px !important;
+   border: .3px solid #BFC0C3;
+   font-weight: bold;
+ }
+ table th{
+   padding: 2px !important;
+   text-align: center;
+   border: .3px solid #BFC0C3;
+   background-color:#E6E7E9;
+ }
+ </style>
+ <table width= "100%">
+<tr>
+<th width= "25%" HEIGHT="20">Nombre</th>
+<th width= "8%" >Grado / Grupo</th>
+<th width= "8%">Inasistencias en periodo</th>
+<th width= "8%">Asignaturas Reprobadas</th>
+<th width= "5%">Extraedad</th>
+<th width= "20%">Madre, Padre o Tutor</th>
+<th width= "15%">Domicilio</th>
+<th width= "10%">Teléfono</th>
+</tr>';
+
+ // $contador = 1;
+ // echo "<pre>"; print_r($array_datos); die();
+ foreach ($array_datos as $key => $alumno) {
+     $cuadrito='   <img src="assets/img/cuadrito.png" border="1" height="5" width="5" align="middle"/>  ';
+     $str_html .= '<tr>
+     <td width= "25%" style="border-left-style: none;">'.$cuadrito.$alumno['nombre_alu'].'</td>
+     <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
+     <td style="text-align:center;"> '.$alumno['inasistencias'].'</td>
+     <td style="text-align:center;"> '.$alumno['asig_reprobadas'].'</td>
+     <td style="text-align:center;" > '.$alumno['extraedad'].'</td>
+     <td> '.$alumno['nombre_madre_padre_tutor'].'</td>
+     <td> '.$alumno['domicilio'].'</td>
+     <td> '.$alumno['telefono'].'</td>
+     </tr>';
+}
+
+ $str_html .= '</table>';
+
+ // echo $str_html;die();
+
+// $str_html = "";
+$html= <<<EOT
+$str_html
+EOT;
+
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=80, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+ return [
+   'pdf' => $pdf
+   ];
+}// pinta_muy_alto()
 
 
 }

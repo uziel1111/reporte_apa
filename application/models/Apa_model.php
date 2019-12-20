@@ -65,6 +65,16 @@ class Apa_model extends CI_Model
       return $this->db->query($q, array($idreporte))->result_array();
     }
 
+    function get_alumnos_mar($idreporte){
+      $q = "SELECT
+            *
+            FROM muy_alto_riesgo
+            WHERE idreporteapa = ?";
+            // echo $q;die();
+      return $this->db->query($q, array($idreporte))->result_array();
+    }
+
+
 
 
 }
