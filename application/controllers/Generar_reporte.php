@@ -1259,7 +1259,7 @@ function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_h){
  foreach ($array_datos as $key => $alumno) {
      $cuadrito='   <img src="assets/img/cuadrito.png" border="1" height="5" width="5" align="middle"/>  ';
      $str_html .= '<tr>
-     <td width= "25%" style="border-left-style: none;">'.$cuadrito.$alumno['nombre_alu'].'</td>
+     <td width= "25%" style="border-left-style: none;" HEIGHT="20">'.$cuadrito.$alumno['nombre_alu'].'</td>
      <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
      <td style="text-align:center;"> '.$alumno['inasistencias'].'</td>
      <td style="text-align:center;"> '.$alumno['asig_reprobadas'].'</td>
