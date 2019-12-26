@@ -66,7 +66,7 @@ class Generar_reporte extends CI_Controller {
   }
 
   function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
-    // echo "<pre>";print_r($array_datos_escuela);die();
+    // echo "<pre>";print_r($reporte_datos);die();
 
     //// Parámetros iniciales para PDF///
 
@@ -302,9 +302,18 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     ///Termina creación de grafica de pastel
 
     ///Empieza creación de grafica de barras MATRICULA
+    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
     $data1y=$est_asis_alumnos;
     $data2y=$est_asis_alumnos_h1;
     $data3y=$est_asis_alumnos_h2;
+    }
+    else {
+    $data1y= array_slice($est_asis_alumnos, 0, 3);
+    $data2y= array_slice($est_asis_alumnos_h1, 0, 3);
+    $data3y= array_slice($est_asis_alumnos_h2, 0, 3);
+    }
+
+
     $graph = new Graph(350,200,'auto');
     $graph->SetScale("textlin");
     $theme_class=new UniversalTheme;
@@ -313,7 +322,13 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
     $graph->SetBox(false);
     $graph->ygrid->SetFill(false);
+    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
     $graph->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
+    }
+    else {
+    $graph->xaxis->SetTickLabels(array('1','2','3'
+    ));
+    }
     $graph->yaxis->HideLine(false);
     $graph->yaxis->HideTicks(false,false);
     $b1plot = new BarPlot($data1y);
@@ -333,8 +348,20 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     ///Termina creación de grafica de barras
 
     ///Empieza creación de grafica de barras DISTRIBUCION POR GRADO
-    $data1y=$riesgo_alto;
-    $data2y=$riesgo_muy_alto;
+    // $data1y=$riesgo_alto;
+    // $data2y=$riesgo_muy_alto;
+
+    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
+      $data1y=$riesgo_alto;
+      $data2y=$riesgo_muy_alto;
+    }
+    else {
+    $data1y= array_slice($riesgo_alto, 0, 3);
+    $data2y= array_slice($riesgo_muy_alto, 0, 3);
+    }
+
+
+
     $graph1 = new Graph(350,200,'auto');
     $graph1->SetScale("textlin");
     $theme_class=new UniversalTheme;
@@ -344,6 +371,12 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
     $graph1->xaxis->Hide();
+    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
+      $graph1->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
+    }
+    else {
+      $graph1->xaxis->SetTickLabels(array('1','2','3'));
+    }
     $graph1->yaxis->HideLine(false);
     $graph1->yaxis->HideTicks(false,false);
     $b1plot = new BarPlot($data1y);
@@ -473,7 +506,7 @@ $asi_est_al_t=$reporte_datos['asi_est_al_t'];
 $asi_est_gr_t=$reporte_datos['asi_est_gr_t'];
 $asi_est_doc=$reporte_datos['asi_est_do_t'];
 
-
+if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -526,7 +559,53 @@ table td{
   </tbody>
 </table>
 EOT;
+}
 
+else {
+  $str_htm3 = <<<EOT
+  <style>
+  table td{
+    border: .3px solid #BFC0C3;
+    padding: 2px !important;
+    padding-top:1px;
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:1px;
+  }
+  </style>
+  <table WIDTH="245">
+    <tbody>
+      <tr style="background-color:#ACADB1; text-align:center;">
+        <td>&nbsp;</td>
+        <td>Total</td>
+        <td>1<sup>o</sup></td>
+        <td>2<sup>o</sup></td>
+        <td>3<sup>o</sup></td>
+      </tr>
+      <tr>
+        <td style="background-color:#DCDDDF;"><font size="7">Alumnos</font></td>
+        <td style="text-align:center;">$asi_est_al_t</td>
+        <td style="text-align:center;">$est_asis_alumnos[0]</td>
+        <td style="text-align:center;">$est_asis_alumnos[1]</td>
+        <td style="text-align:center;">$est_asis_alumnos[2]</td>
+      </tr>
+      <tr>
+        <td style="background-color:#DCDDDF;"><font size="7">Grupos</font></td>
+        <td style="text-align:center;">$asi_est_gr_t</td>
+        <td style="text-align:center;">$est_asis_gr[0]</td>
+        <td style="text-align:center;">$est_asis_gr[1]</td>
+        <td style="text-align:center;">$est_asis_gr[2]</td>
+      </tr>
+      <tr>
+        <td style="background-color:#DCDDDF;"><font size="7">Docentes</font></td>
+        <td style="text-align:center;">$asi_est_doc</td>
+        <td colspan="6"></td>
+
+      </tr>
+    </tbody>
+  </table>
+EOT;
+}
 $html5 = <<<EOT
 $str_htm3
 EOT;
@@ -714,6 +793,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=120, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
+if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -760,7 +840,46 @@ table td{
   </tbody>
 </table>
 EOT;
+}
+else {
+  $str_htm3 = <<<EOT
+  <style>
+  table td{
+    border: .3px solid #BFC0C3;
+    padding: 2px !important;
+    padding-top:1px;
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:1px;
+  }
+  </style>
+  <table WIDTH="245">
+    <tbody>
 
+      <tr style="background-color:#E6E7E9;">
+        <td style="text-align:center;" colspan="3">Grados</td>
+        <td style="text-align:center;">1<sup>o</sup></td>
+        <td style="text-align:center;">2<sup>o</sup></td>
+        <td style="text-align:center;">3<sup>o</sup></td>
+      </tr>
+      <tr>
+        <td style="background-color:#F5842A;">&nbsp;</td>
+        <td colspan="2" style="background-color:#DCDDDF;">Alto</td>
+        <td style="text-align:center;">$riesgo_alto[0]</td>
+        <td style="text-align:center;">$riesgo_alto[1]</td>
+        <td style="text-align:center;">$riesgo_alto[2]</td>
+      </tr>
+      <tr>
+        <td style="background-color:#D1232A;">&nbsp;</td>
+        <td colspan="2" style="background-color:#DCDDDF;">Muy alto</td>
+        <td style="text-align:center;">$riesgo_muy_alto[0]</td>
+        <td style="text-align:center;">$riesgo_muy_alto[1]</td>
+        <td style="text-align:center;">$riesgo_muy_alto[2]</td>
+      </tr>
+    </tbody>
+  </table>
+EOT;
+}
 $html5 = <<<EOT
 $str_htm3
 EOT;
