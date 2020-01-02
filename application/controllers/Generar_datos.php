@@ -27,6 +27,7 @@ class Generar_datos extends CI_Controller {
     $todos=array_merge($todos,$a);
     $ciclo=$this->Datos_model->get_ciclo($a['idnivel']);
     $todos=array_merge($todos,$ciclo);
+    $alumnos_baja=$this->Datos_model->get_alumnos_baja($a['idcentrocfg'],$a['idnivel']);
     echo '<pre>';print_r($todos);die();
   }
 

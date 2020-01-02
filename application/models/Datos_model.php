@@ -34,7 +34,7 @@ class Datos_model extends CI_Model
             est.grupos6 AS asi_est_gr_6,
             est.t_grupos AS asi_est_gr_t,
             est.t_docentes AS asi_est_do_t
-      
+
             FROM centrocfg cfg
             INNER JOIN cct ct ON ct.idct=cfg.idct
             INNER JOIN municipio m ON m.idmunicipio=ct.idmunicipio
@@ -56,5 +56,28 @@ class Datos_model extends CI_Model
     return $this->db->query($q, array($param))->row_array();
 
     // echo '<pre>';print_r($q);die();
+  }
+
+  function get_alumnos_baja($idcentrocfg,$idnivel){
+    $subfijo = ($idnivel == 2) ? "prim" : "sec";
+    $q= "SELECT
+          CONCAT_WS(' ',a.apell1,a.apell2,a.nombre) AS nombre_alu,
+          g.grado,
+          g.grupo,
+          CONCAT(a.calle,' #',a.numero,' ',a.colonia) AS domicilio_alu,
+          a.telefono,
+          cb.descripcion AS motivo
+          FROM centrocfg cfg
+          INNER JOIN grupo_{$subfijo} g ON g.idcentrocfg=cfg.idcentrocfg
+          INNER JOIN expediente_{$subfijo} e ON e.idgrupo=g.idgrupo
+          INNER JOIN alumno a ON a.idalumno=e.idalumno
+          INNER JOIN movimientos_{$subfijo} mov ON mov.idexpediente=e.idexpediente
+          INNER JOIN c_bajas_alumno cb ON cb.id_baja=mov.id_motivo_baja
+          WHERE e.status='B'
+          AND mov.id_tipomovimiento=4
+          AND mov.id_motivo_baja!=9
+          AND cfg.idcentrocfg=? ";
+          // echo "<pre>";print_r($q);die();
+          return $this->db->query($q, array($idcentrocfg))->row_array();
   }
 }

@@ -66,7 +66,7 @@ class Generar_reporte extends CI_Controller {
   }
 
   function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
-    // echo "<pre>";print_r($reporte_datos);die();
+    echo "<pre>";print_r($reporte_datos);die();
 
     //// Parámetros iniciales para PDF///
 
