@@ -925,6 +925,17 @@ $str_htm3
 EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+$pdf->Image('assets/img/escuela_icon.png', 16,82,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/porcen_asis.png', 16,180,5, 7, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/lenguas_icon.png', 16,264,5, 5, '', '', '', false, 300, '', false, false, 0);
+
+$pdf->Image('assets/img/alu_riesgo_icon.png', 110,82,5, 7, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/dist_grado_icon.png', 110,138,7, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/indic_icon.png', 110,210,7, 5, '', '', '', false, 300, '', false, false, 0);
+
+
+
 ///TERMINA PRIMERA PÁGINA
 
 /// INICIA SEGUNDA PÄGINA
