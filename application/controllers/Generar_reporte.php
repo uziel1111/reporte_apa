@@ -927,6 +927,7 @@ EOT;
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $pdf->Image('assets/img/escuela_icon.png', 16,82,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/mat_his.png', 16,110,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/porcen_asis.png', 16,180,5, 7, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/lenguas_icon.png', 16,264,5, 5, '', '', '', false, 300, '', false, false, 0);
 
@@ -1157,6 +1158,17 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 $pdf->writeHTMLCell($w=60,$h=30,$x=105,$y=240, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+
+$pdf->Image('assets/img/efic_ter_icon.png', 16,72,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
+
+$pdf->Image('assets/img/esc_ver_icon.png', 16,105,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/esc_ver_icon.png', 16,117,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/esta_icon.png', 16,129,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/pais_icon.png', 16,141,6, 6, '', '', '', false, 300, '', false, false, 0);
+
+// $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
+// $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
 
 
 ///Termina contenidos temáticos
