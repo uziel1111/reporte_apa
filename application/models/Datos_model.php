@@ -99,7 +99,7 @@ class Datos_model extends CI_Model
             pct.mct_mat3  AS apr_planea1_ct_esc_mat_3txt,
             pct.mct_mat_p4 AS apr_planea1_ct_esc_mat_4por,
             pct.`mct_mat4` AS apr_planea1_ct_esc_mat_4txt
-      
+
             FROM centrocfg cfg
             INNER JOIN cct ct ON ct.idct=cfg.idct
             INNER JOIN municipio m ON m.idmunicipio=ct.idmunicipio
@@ -109,7 +109,7 @@ class Datos_model extends CI_Model
             LEFT JOIN estadistica_x_idcentrocfg est ON  est.`idcentrocfg`=cfg.`idcentrocfg` AND est.idciclo=1
             LEFT JOIN estadistica_x_idcentrocfg e1 ON  e1.`idcentrocfg`=cfg.`idcentrocfg` AND e1.idciclo=2
             LEFT JOIN estadistica_x_idcentrocfg e2 ON  e2.`idcentrocfg`=cfg.`idcentrocfg` AND e2.idciclo=3
-            LEFT JOIN rezago_edu_xmuni re ON re.idmunicipio=ct.idmunicipio 
+            LEFT JOIN rezago_edu_xmuni re ON re.idmunicipio=ct.idmunicipio
             LEFT JOIN analfabetismo_xmuni an ON an.idmunicipio=ct.idmunicipio
             LEFT JOIN indicadores_x_idcentrocfg ind ON ind.idcentrocfg=cfg.idcentrocfg AND ind.idciclo=1
             LEFT JOIN planea_nlogro_x_idcentrocfg pcfg ON pcfg.`idcentrocfg`=cfg.`idcentrocfg` AND pcfg.`periodo_planea`='2019'
@@ -161,7 +161,7 @@ class Datos_model extends CI_Model
           SELECT COUNT(*) AS 'bajo',d.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
@@ -169,14 +169,14 @@ class Datos_model extends CI_Model
             WHERE cfg.idcentrocfg= {$idcentrocfg}
             GROUP BY e.`idexpediente`
           )AS d
-          WHERE (d.calificacion>8) AND (d.inasistencias<3 OR d.inasistencias IS NULL) AND (d.extraedad=0 OR d.extraedad IS NULL) 
-          
-         ) AS aa 
+          WHERE (d.calificacion>8) AND (d.inasistencias<3 OR d.inasistencias IS NULL) AND (d.extraedad=0 OR d.extraedad IS NULL)
+
+         ) AS aa
          LEFT JOIN (
           SELECT COUNT(*) AS 'medio',c.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
@@ -185,28 +185,28 @@ class Datos_model extends CI_Model
             GROUP BY e.`idexpediente`
           )AS c
           WHERE (c.calificacion>7 AND c.calificacion<=8) AND (c.inasistencias>3 AND c.inasistencias<5) AND (c.extraedad=0 OR c.extraedad IS NULL)
-          
+
         ) AS bb ON bb.idcentrocfg=aa.idcentrocfg
         LEFT JOIN(
            SELECT COUNT(*) AS 'alto',b.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
-            WHERE cfg.idcentrocfg= {$idcentrocfg} 
+            WHERE cfg.idcentrocfg= {$idcentrocfg}
             GROUP BY e.`idexpediente`
           )AS b
-          WHERE (b.calificacion>5 AND b.calificacion<=7 ) AND ( b.inasistencias>5 AND b.inasistencias<8) AND (b.extraedad=0 OR b.extraedad IS NULL) 
+          WHERE (b.calificacion>5 AND b.calificacion<=7 ) AND ( b.inasistencias>5 AND b.inasistencias<8) AND (b.extraedad=0 OR b.extraedad IS NULL)
 
         ) AS cc ON cc.idcentrocfg=aa.idcentrocfg
         LEFT JOIN(
           SELECT COUNT(*) AS 'muy_alto',a.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
@@ -214,76 +214,75 @@ class Datos_model extends CI_Model
             WHERE cfg.idcentrocfg= {$idcentrocfg}
             GROUP BY e.`idexpediente`
           )AS a
-          WHERE a.calificacion<5 AND a.inasistencias>8 AND a.extraedad=1 
-          
+          WHERE a.calificacion<5 AND a.inasistencias>8 AND a.extraedad=1
+
         ) AS dd ON  dd.idcentrocfg=aa.idcentrocfg";
       return $this->db->query($q)->row_array();
 
   }
 
   function get_calificaciones(){
-    $q="
-        SELECT aa.cal_10,bb.cal_89,cc.cal_67,dd.cal_5 
+    $q="SELECT aa.cal_10,bb.cal_89,cc.cal_67,dd.cal_5
         FROM centrocfg cfg
         LEFT JOIN (
           SELECT COUNT(*) AS 'cal_10',d.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
-            WHERE cfg.idcentrocfg= {$idcentrocfg} 
-            GROUP BY e.`idexpediente`
+            WHERE cfg.idcentrocfg= {$idcentrocfg}
+            GROUP BY e.idexpediente
           )AS d
           WHERE d.calificacion=10
-          
+
          ) AS aa  ON aa.idcentrocfg=cfg.idcentrocfg
          LEFT JOIN (
           SELECT COUNT(*) AS 'cal_89',c.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
-            WHERE cfg.idcentrocfg= {$idcentrocfg}  
-            GROUP BY e.`idexpediente`
+            WHERE cfg.idcentrocfg= {$idcentrocfg}
+            GROUP BY e.idexpediente
           )AS c
           WHERE c.calificacion>=8 AND c.calificacion<=9
-          
+
         ) AS bb ON bb.idcentrocfg=cfg.idcentrocfg
         LEFT JOIN(
            SELECT COUNT(*) AS 'cal_67',b.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
-            WHERE cfg.idcentrocfg= {$idcentrocfg}   
-            GROUP BY e.`idexpediente`
+            WHERE cfg.idcentrocfg= {$idcentrocfg}
+            GROUP BY e.idexpediente
           )AS b
-          WHERE b.calificacion>=6 AND b.calificacion<=7  
+          WHERE b.calificacion>=6 AND b.calificacion<=7
 
         ) AS cc ON cc.idcentrocfg=cfg.idcentrocfg
         LEFT JOIN(
           SELECT COUNT(*) AS 'cal_5',a.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
-            FROM centrocfg cfg 
+            FROM centrocfg cfg
             INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
             INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
-            WHERE cfg.idcentrocfg= {$idcentrocfg}   
-            GROUP BY e.`idexpediente`
+            WHERE cfg.idcentrocfg= {$idcentrocfg}
+            GROUP BY e.idexpediente
           )AS a
-          WHERE a.calificacion=5 
-          
+          WHERE a.calificacion=5
+
         ) AS dd ON  dd.idcentrocfg=cfg.idcentrocfg
         WHERE cfg.`idcentrocfg`= {$idcentrocfg} ";
         return $this->db->query($q)->row_array();
