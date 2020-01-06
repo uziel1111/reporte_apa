@@ -58,7 +58,7 @@ class Datos_model extends CI_Model
             an.analfabetismo_mayor15_h AS asi_analfabeta_h,
             ind.aprobacion AS per_ind_aprobacion,
             ind.retencion AS per_ind_retencion,
-            ind.`eficiencia_terminal` AS per_ind_et,
+            ind.eficiencia_terminal AS per_ind_et,
             pcfg.ni_lyc AS apr_planea1_nlogro_esc_lyc_i,
             pcfg.nii_lyc AS apr_planea1_nlogro_esc_lyc_ii,
             pcfg.niii_lyc AS apr_planea1_nlogro_esc_lyc_iii,
@@ -69,36 +69,36 @@ class Datos_model extends CI_Model
             pcfg.niii_mat AS apr_planea1_nlogro_esc_mat_iii,
             pcfg.niv_mat AS apr_planea1_nlogro_esc_mat_iv,
             (pcfg.nii_mat+pcfg.niii_mat+pcfg.niv_mat) AS 'apr_planea1_nlogro_esc_mat_ii-iii-iv',
-            pcfg1.`ni_lyc` AS apr_planea2_nlogro_esc_lyc_i,
-            (pcfg1.`nii_lyc`+pcfg1.`niii_lyc`+pcfg1.`niv_lyc`) AS 'apr_planea2_nlogro_esc_lyc_ii-iii-iv',
-            pcfg1.`ni_mat` AS apr_planea2_nlogro_esc_mat_i,
+            pcfg1.ni_lyc AS apr_planea2_nlogro_esc_lyc_i,
+            (pcfg1.nii_lyc+pcfg1.niii_lyc+pcfg1.niv_lyc) AS 'apr_planea2_nlogro_esc_lyc_ii-iii-iv',
+            pcfg1.ni_mat AS apr_planea2_nlogro_esc_mat_i,
             (pcfg1.nii_mat+pcfg1.niii_mat+pcfg1.niv_mat) AS 'apr_planea2_nlogro_esc_mat_ii-iii-iv',
-            ent.`periodo_planea` AS apr_planea_nlogro_estado_periodo,
-            ent.`ni_lyc` AS apr_planea_nlogro_estado_lyc_i,
+            ent.periodo_planea AS apr_planea_nlogro_estado_periodo,
+            ent.ni_lyc AS apr_planea_nlogro_estado_lyc_i,
             (ent.nii_lyc+ent.niii_lyc+ent.niv_lyc) AS 'apr_planea_nlogro_estado_lyc_ii-iii-iv',
             ent.ni_mat AS apr_planea_nlogro_estado_mat_i,
-            (ent.`nii_mat`+ent.niii_mat+ent.niv_mat) AS 'apr_planea_nlogro_estado_mat_ii-iii-iv',
-            nac.`periodo_planea` AS apr_planea_nlogro_pais_periodo,
-            nac.`ni_lyc` AS apr_planea_nlogro_pais_lyc_i,
+            (ent.nii_mat+ent.niii_mat+ent.niv_mat) AS 'apr_planea_nlogro_estado_mat_ii-iii-iv',
+            nac.periodo_planea AS apr_planea_nlogro_pais_periodo,
+            nac.ni_lyc AS apr_planea_nlogro_pais_lyc_i,
             (nac.nii_lyc+nac.niii_lyc+nac.niv_lyc) AS 'apr_planea_nlogro_pais_lyc_ii-iii-iv',
-            nac.`ni_mat` AS apr_planea_nlogro_pais_mat_i,
-            (nac.`nii_mat`+nac.`niii_mat`+nac.`niv_mat`) AS 'apr_planea_nlogro_pais_mat_ii-iii-iv',
-            pct.`mct_lyc1` AS apr_planea1_ct_esc_lyc_1por,
-            pct.`mct_lyc1` AS apr_planea1_ct_esc_lyc_1txt,
-            pct.`mct_lyc_p2` AS apr_planea1_ct_esc_lyc_2por,
-            pct.`mct_lyc2` AS apr_planea1_ct_esc_lyc_2txt,
-            pct.`mct_lyc_p3` AS apr_planea1_ct_esc_lyc_3por,
-            pct.`mct_lyc3` AS apr_planea1_ct_esc_lyc_3txt,
-            pct.`mct_lyc_p4` AS apr_planea1_ct_esc_lyc_4por,
-            pct.`mct_lyc4` AS apr_planea1_ct_esc_lyc_4txt,
-            pct.`mct_mat_p1` AS apr_planea1_ct_esc_mat_1por,
-            pct.`mct_mat1` AS apr_planea1_ct_esc_mat_1txt,
-            pct.`mct_mat_p2` AS apr_planea1_ct_esc_mat_2por,
+            nac.ni_mat AS apr_planea_nlogro_pais_mat_i,
+            (nac.nii_mat+nac.niii_mat+nac.niv_mat) AS 'apr_planea_nlogro_pais_mat_ii-iii-iv',
+            pct.mct_lyc1 AS apr_planea1_ct_esc_lyc_1por,
+            pct.mct_lyc1 AS apr_planea1_ct_esc_lyc_1txt,
+            pct.mct_lyc_p2 AS apr_planea1_ct_esc_lyc_2por,
+            pct.mct_lyc2 AS apr_planea1_ct_esc_lyc_2txt,
+            pct.mct_lyc_p3 AS apr_planea1_ct_esc_lyc_3por,
+            pct.mct_lyc3 AS apr_planea1_ct_esc_lyc_3txt,
+            pct.mct_lyc_p4 AS apr_planea1_ct_esc_lyc_4por,
+            pct.mct_lyc4 AS apr_planea1_ct_esc_lyc_4txt,
+            pct.mct_mat_p1 AS apr_planea1_ct_esc_mat_1por,
+            pct.mct_mat1 AS apr_planea1_ct_esc_mat_1txt,
+            pct.mct_mat_p2 AS apr_planea1_ct_esc_mat_2por,
             pct.mct_mat2 AS pr_planea1_ct_esc_mat_2txt,
-            pct.`mct_mat_p3` AS apr_planea1_ct_esc_mat_3por,
+            pct.mct_mat_p3 AS apr_planea1_ct_esc_mat_3por,
             pct.mct_mat3  AS apr_planea1_ct_esc_mat_3txt,
             pct.mct_mat_p4 AS apr_planea1_ct_esc_mat_4por,
-            pct.`mct_mat4` AS apr_planea1_ct_esc_mat_4txt
+            pct.mct_mat4 AS apr_planea1_ct_esc_mat_4txt
 
             FROM centrocfg cfg
             INNER JOIN cct ct ON ct.idct=cfg.idct
@@ -106,17 +106,17 @@ class Datos_model extends CI_Model
             INNER JOIN niveleducativo n ON n.idnivel=cfg.nivel
             INNER JOIN turno t ON t.idturno=cfg.turno
             INNER JOIN personal p ON p.idcentrocfg=cfg.idcentrocfg AND idfuncion=1
-            LEFT JOIN estadistica_x_idcentrocfg est ON  est.`idcentrocfg`=cfg.`idcentrocfg` AND est.idciclo=1
-            LEFT JOIN estadistica_x_idcentrocfg e1 ON  e1.`idcentrocfg`=cfg.`idcentrocfg` AND e1.idciclo=2
-            LEFT JOIN estadistica_x_idcentrocfg e2 ON  e2.`idcentrocfg`=cfg.`idcentrocfg` AND e2.idciclo=3
+            LEFT JOIN estadistica_x_idcentrocfg est ON  est.idcentrocfg=cfg.idcentrocfg AND est.idciclo=1
+            LEFT JOIN estadistica_x_idcentrocfg e1 ON  e1.idcentrocfg=cfg.idcentrocfg AND e1.idciclo=2
+            LEFT JOIN estadistica_x_idcentrocfg e2 ON  e2.idcentrocfg=cfg.idcentrocfg AND e2.idciclo=3
             LEFT JOIN rezago_edu_xmuni re ON re.idmunicipio=ct.idmunicipio
             LEFT JOIN analfabetismo_xmuni an ON an.idmunicipio=ct.idmunicipio
             LEFT JOIN indicadores_x_idcentrocfg ind ON ind.idcentrocfg=cfg.idcentrocfg AND ind.idciclo=1
-            LEFT JOIN planea_nlogro_x_idcentrocfg pcfg ON pcfg.`idcentrocfg`=cfg.`idcentrocfg` AND pcfg.`periodo_planea`='2019'
-            LEFT JOIN planea_nlogro_x_idcentrocfg pcfg1 ON pcfg1.`idcentrocfg`=cfg.`idcentrocfg` AND pcfg1.`periodo_planea`='2017'
-            LEFT JOIN planea_nlogro_x_entidad ent ON ent.idnivel=n.idnivel AND ent.`periodo_planea`='2019'
+            LEFT JOIN planea_nlogro_x_idcentrocfg pcfg ON pcfg.idcentrocfg=cfg.idcentrocfg AND pcfg.periodo_planea='2019'
+            LEFT JOIN planea_nlogro_x_idcentrocfg pcfg1 ON pcfg1.idcentrocfg=cfg.idcentrocfg AND pcfg1.periodo_planea='2017'
+            LEFT JOIN planea_nlogro_x_entidad ent ON ent.idnivel=n.idnivel AND ent.periodo_planea='2019'
             LEFT JOIN planea_nlogro_x_nacional nac ON nac.idnivel=n.idnivel
-            LEFT JOIN planea_ctematicos_x_idcentrocfg pct ON pct.`idcentrocfg`=cfg.`idcentrocfg` AND pct.periodo_planea='2019'
+            LEFT JOIN planea_ctematicos_x_idcentrocfg pct ON pct.idcentrocfg=cfg.idcentrocfg AND pct.periodo_planea='2019'
             WHERE cfg.idcentrocfg= ? ";
             // echo $q;die();
       return $this->db->query($q, array($periodo,$idcentrocfg))->row_array();
@@ -167,7 +167,7 @@ class Datos_model extends CI_Model
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
             WHERE cfg.idcentrocfg= {$idcentrocfg}
-            GROUP BY e.`idexpediente`
+            GROUP BY e.idexpediente
           )AS d
           WHERE (d.calificacion>8) AND (d.inasistencias<3 OR d.inasistencias IS NULL) AND (d.extraedad=0 OR d.extraedad IS NULL)
 
@@ -182,7 +182,7 @@ class Datos_model extends CI_Model
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
             WHERE cfg.idcentrocfg= {$idcentrocfg}
-            GROUP BY e.`idexpediente`
+            GROUP BY e.idexpediente
           )AS c
           WHERE (c.calificacion>7 AND c.calificacion<=8) AND (c.inasistencias>3 AND c.inasistencias<5) AND (c.extraedad=0 OR c.extraedad IS NULL)
 
@@ -197,7 +197,7 @@ class Datos_model extends CI_Model
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
             WHERE cfg.idcentrocfg= {$idcentrocfg}
-            GROUP BY e.`idexpediente`
+            GROUP BY e.idexpediente
           )AS b
           WHERE (b.calificacion>5 AND b.calificacion<=7 ) AND ( b.inasistencias>5 AND b.inasistencias<8) AND (b.extraedad=0 OR b.extraedad IS NULL)
 
@@ -212,7 +212,7 @@ class Datos_model extends CI_Model
             INNER JOIN alumno a ON a.idalumno=e.idalumno
             INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
             WHERE cfg.idcentrocfg= {$idcentrocfg}
-            GROUP BY e.`idexpediente`
+            GROUP BY e.idexpediente
           )AS a
           WHERE a.calificacion<5 AND a.inasistencias>8 AND a.extraedad=1
 
