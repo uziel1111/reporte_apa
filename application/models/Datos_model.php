@@ -284,7 +284,7 @@ class Datos_model extends CI_Model
           WHERE a.calificacion=5
 
         ) AS dd ON  dd.idcentrocfg=cfg.idcentrocfg
-        WHERE cfg.`idcentrocfg`= {$idcentrocfg} ";
+        WHERE cfg.idcentrocfg= {$idcentrocfg} ";
         return $this->db->query($q)->row_array();
   }
 }
