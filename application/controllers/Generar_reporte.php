@@ -72,9 +72,9 @@ class Generar_reporte extends CI_Controller {
 
     $pdf = new My_tcpdf('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('Nicola Asuni');
-    $pdf->SetTitle('TCPDF Example 031');
-    $pdf->SetSubject('TCPDF Tutorial');
+    $pdf->SetAuthor('Carlos Sanchez');
+    $pdf->SetTitle('Reporte APA');
+    $pdf->SetSubject('Reporte APA');
     $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
     $nombre=$array_datos_escuela['nombre'];
@@ -928,11 +928,11 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0
 
 $pdf->Image('assets/img/escuela_icon.png', 16,82,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/mat_his.png', 16,110,5, 5, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/porcen_asis.png', 16,180,5, 7, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/lenguas_icon.png', 16,264,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/porcen_asis.png', 16,180,4, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/lenguas_icon.png', 16,264,6, 5, '', '', '', false, 300, '', false, false, 0);
 
-$pdf->Image('assets/img/alu_riesgo_icon.png', 110,82,5, 7, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/dist_grado_icon.png', 110,138,7, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/alu_riesgo_icon.png', 110,82,3, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/dist_grado_icon.png', 110,138,6, 4, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/indic_icon.png', 110,210,7, 5, '', '', '', false, 300, '', false, false, 0);
 
 
@@ -1166,6 +1166,9 @@ $pdf->Image('assets/img/esc_ver_icon.png', 16,105,6, 6, '', '', '', false, 300, 
 $pdf->Image('assets/img/esc_ver_icon.png', 16,117,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/esta_icon.png', 16,129,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/pais_icon.png', 16,141,6, 6, '', '', '', false, 300, '', false, false, 0);
+
+$pdf->Image('assets/img/cont_tem_icon.png', 22,230,6, 6, '', '', '', false, 300, '', false, false, 0);
+
 
 // $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
 // $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
