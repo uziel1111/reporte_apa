@@ -297,7 +297,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $graph_p->SetColor('#F7F7F6');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
-    $pdf->Image('pastel.png', 125,80,55, 39, 'png', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('pastel.png', 125,85,55, 39, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
     ///Termina creación de grafica de pastel
 
@@ -791,7 +791,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=120, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=125, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
 $str_htm3 = <<<EOT
@@ -1160,7 +1160,7 @@ EOT;
 $pdf->writeHTMLCell($w=60,$h=30,$x=105,$y=240, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $pdf->Image('assets/img/efic_ter_icon.png', 16,72,5, 5, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/planea_icon.png', 16,87,5, 6, '', '', '', false, 300, '', false, false, 0);
 
 $pdf->Image('assets/img/esc_ver_icon.png', 16,105,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/esc_ver_icon.png', 16,117,6, 6, '', '', '', false, 300, '', false, false, 0);
