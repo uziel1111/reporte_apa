@@ -157,7 +157,9 @@ class Datos_model extends CI_Model
   }
 
   function get_alumnos_riesgo_abandono($idcentrocfg,$idnivel,$periodo){
-    $q="SELECT dd.muy_alto,cc.alto,bb.medio,aa.bajo FROM (
+    $q="SELECT dd.muy_alto,cc.alto,bb.medio,aa.bajo  
+        FROM centrocfg cfg
+        LEFT JOIN (
           SELECT COUNT(*) AS 'bajo',d.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
@@ -171,8 +173,8 @@ class Datos_model extends CI_Model
           )AS d
           WHERE (d.calificacion>8) AND (d.inasistencias<3 OR d.inasistencias IS NULL) AND (d.extraedad=0 OR d.extraedad IS NULL)
 
-         ) AS aa
-         LEFT JOIN (
+        ) AS aa ON aa.idcentrocfg=cfg.idcentrocfg
+        LEFT JOIN (
           SELECT COUNT(*) AS 'medio',c.idcentrocfg FROM(
             SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
             g.grado,g.grupo,COUNT(e.inasis1) AS inasistencias,SUM(eval.p1)/COUNT(idasig)  AS calificacion,e.extraedad
@@ -215,13 +217,13 @@ class Datos_model extends CI_Model
             GROUP BY e.idexpediente
           )AS a
           WHERE a.calificacion<5 AND a.inasistencias>8 AND a.extraedad=1
-
-        ) AS dd ON  dd.idcentrocfg=aa.idcentrocfg";
+        ) AS dd ON  dd.idcentrocfg=aa.idcentrocfg
+        WHERE cfg.idcentrocfg= {$idcentrocfg} ";
       return $this->db->query($q)->row_array();
 
   }
 
-  function get_calificaciones(){
+  function get_calificaciones($idcentrocfg,$idnivel,$periodo){
     $q="SELECT aa.cal_10,bb.cal_89,cc.cal_67,dd.cal_5
         FROM centrocfg cfg
         LEFT JOIN (
