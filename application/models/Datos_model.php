@@ -289,4 +289,27 @@ class Datos_model extends CI_Model
         WHERE cfg.idcentrocfg= {$idcentrocfg} ";
         return $this->db->query($q)->row_array();
   }
+
+  function muy_alto_riesgo(){
+    $query=" SELECT d.* FROM(
+            SELECT CONCAT(a.apell1,' ',a.apell2,' ',a.nombre)AS nombre,cfg.idcentrocfg,
+            g.grado,g.grupo,IF(e.inasis1=4 AND e.inasis1<=7,1,IF(e.inasis1>7,2,0))  AS puntos_inasistencias,
+            SUM(IF(eval.p1<6,1,0))  AS puntos_calificacion,IF(e.extraedad>=2,1,0) AS puntos_extraedad
+            FROM centrocfg cfg
+            INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+            INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+            INNER JOIN alumno a ON a.idalumno=e.idalumno AND e.`inasis1` IS NOT NULL
+            INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente AND eval.p1 IS NOT NULL  AND eval.`p1`!=0 
+           /* WHERE cfg.idcentrocfg= 24*/
+            GROUP BY cfg.`idcentrocfg`,e.idexpediente
+          )AS d
+          WHERE (d.puntos_inasistencias>0 AND d.puntos_extraedad>0 AND d.puntos_calificacion>0)
+          OR ((d.puntos_inasistencias>1  AND d.puntos_calificacion>1))
+          OR((d.puntos_inasistencias>1  AND d.puntos_extraedad>1))
+          OR ((d.puntos_extraedad>1  AND d.puntos_calificacion>1))
+          OR (d.puntos_inasistencias>1 AND d.puntos_extraedad>1 AND d.puntos_calificacion>1)
+          OR ((d.puntos_inasistencias>0  AND d.puntos_calificacion>0))
+          OR((d.puntos_inasistencias>0  AND d.puntos_extraedad>0))
+          OR ((d.puntos_extraedad>0  AND d.puntos_calificacion>0))";
+  }
 }
