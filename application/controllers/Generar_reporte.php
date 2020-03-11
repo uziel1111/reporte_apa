@@ -97,11 +97,11 @@ $str_htm3 =<<<EOD
           padding-bottom:4px;
         }
         </style>
-        <table WIDTH="524">
+        <table WIDTH="255">
           <tbody>
             <tr>
               <td WIDTH="2"></td>
-              <td WIDTH="85"></td>
+              <td WIDTH="73.88"></td>
               <td WIDTH="10"></td>
               <td WIDTH="130"></td>
               <td WIDTH="5"></td>
@@ -116,40 +116,40 @@ $str_htm3 =<<<EOD
               <td WIDTH="2"></td>
             </tr>
             <tr>
-              <td WIDTH="2"></td>
+              <td WIDTH="10"></td>
               <td WIDTH="40"><font face="Montserrat-Regular">Nombre:</font></td>
-              <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Montserrat-Bold">$nombre</font></td>
+              <td WIDTH="55">&nbsp;</td>
+              <td WIDTH="170"><font face="Montserrat-Bold">$nombre</font></td>
               <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="25">&nbsp;</td>
-              <td WIDTH="50">&nbsp;</td>
-              <td WIDTH="45">&nbsp;</td>
-              <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="45"><font face="Montserrat-Regular">Municipio:</font></td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="44"><font face="Montserrat-Regular">Municipio:</font></td>
               <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="50"><font face="Montserrat-Bold">$municipio</font></td>
-              <td WIDTH="85">&nbsp;</td>
+              <td WIDTH="156.88"><font face="Montserrat-Bold">$municipio</font></td>
+              <td WIDTH="5">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
             <tr>
-              <td WIDTH="2"></td>
+              <td WIDTH="10"></td>
               <td WIDTH="85"><font face="Montserrat-Regular">CCT:</font></td>
               <td WIDTH="10">&nbsp;</td>
               <td WIDTH="130"><font face="Montserrat-Bold">$cct</font></td>
-              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="65">&nbsp;</td>
               <td WIDTH="30"><font face="Montserrat-Regular">Turno:</font></td>
-              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="35">&nbsp;</td>
               <td WIDTH="55"><font face="Montserrat-Bold">$turno</font></td>
               <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="85">&nbsp;</td>
-              <td WIDTH="75">&nbsp;</td>
-              <td WIDTH="20">&nbsp;</td>
+              <td WIDTH="4">&nbsp;</td>
+              <td WIDTH="48">&nbsp;</td>
+              <td WIDTH="23.88">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
             <tr>
-              <td WIDTH="2"></td>
-              <td WIDTH="100"><font face="Montserrat-Regular">Director / Responsable:</font></td>
-              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="10"></td>
+              <td WIDTH="95"><font face="Montserrat-Regular">Director / Responsable:</font></td>
+              <td WIDTH="1">&nbsp;</td>
               <td WIDTH="130"><font face="Montserrat-Bold">$director</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="25">&nbsp;</td>
@@ -157,13 +157,13 @@ $str_htm3 =<<<EOD
               <td WIDTH="45">&nbsp;</td>
               <td WIDTH="30">&nbsp;</td>
               <td WIDTH="40">&nbsp;</td>
-              <td WIDTH="55">&nbsp;</td>
-              <td WIDTH="85">&nbsp;</td>
+              <td WIDTH="51">&nbsp;</td>
+              <td WIDTH="83.88">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
             <tr>
               <td WIDTH="2"></td>
-              <td WIDTH="85"></td>
+              <td WIDTH="73.88"></td>
               <td WIDTH="10"></td>
               <td WIDTH="130"></td>
               <td WIDTH="5"></td>
@@ -1276,18 +1276,23 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
   $pdf->SetAutoPageBreak(FALSE, 0);
   $pdf->SetFillColor(129, 113, 106);
-  $pdf->SetFont('montserratb', 'B', 12);
+  $pdf->SetFont('montserratb', '', 12);
   $pdf->SetTextColor(255, 255, 255);
   $pdf->MultiCell(35, 10,$reporte_datos['encabezado_n_nivel'], 0, 'C', false, 0, 165, 24, 'M');
-  $pdf->SetFont('montserratb', 'B', 10);
-  $pdf->SetTextColor(80, 76, 75);
+  $pdf->SetFont('montserratb', '', 10);
+  // $pdf->SetTextColor(80, 76, 75);
+  $pdf->SetTextColor(150, 146, 143);
   $pdf->SetFillColor(255, 255, 255);
   $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', false, 0, 143, 30, 'M');
 
   $pdf->SetFont('', '', 8);
 
-  $pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=38, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+  $pdf->writeHTMLCell($w=120,$h=55,$x=11.59,$y=36.78, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=false);
+// $pdf->SetFillColor(0, 0, 0);
+// $pdf->MultiCell(12.6, 10,'', 0, 'C', true, 0, 0, 36, 'M');
 
+$pdf->SetFillColor(0, 0, 0);
+$pdf->MultiCell(11.22, 10,'', 0, 'C', true, 0, 198.88, 30, 'M');
   return $pdf;
 }
 
