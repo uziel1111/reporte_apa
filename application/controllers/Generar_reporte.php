@@ -90,6 +90,8 @@ $str_htm3 =<<<EOD
           border: none;
           padding: 5px !important;
           background-color:#ECECEE;
+          font-family: Monserrat-Regular;
+          font-size: 8px;
           padding-top:2px;
           padding-left:2px;
           padding-right:2px;
@@ -118,7 +120,7 @@ $str_htm3 =<<<EOD
               <td WIDTH="2"></td>
               <td WIDTH="85">Nombre:</td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><strong>$nombre</strong></td>
+              <td WIDTH="130"><font face="Monserrat-Bolt">$nombre</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="25">&nbsp;</td>
               <td WIDTH="10">&nbsp;</td>
@@ -126,7 +128,7 @@ $str_htm3 =<<<EOD
               <td WIDTH="30">&nbsp;</td>
               <td WIDTH="40">Municipio:</td>
               <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="50"><strong>$municipio</strong></td>
+              <td WIDTH="50"><font face="Monserrat-Bolt">$municipio</font></td>
               <td WIDTH="85">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
@@ -134,15 +136,15 @@ $str_htm3 =<<<EOD
               <td WIDTH="2"></td>
               <td WIDTH="85">CCT:</td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><strong>$cct</strong></td>
+              <td WIDTH="130"><font face="Monserrat-Bolt">$cct</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="25">Turno:</td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="45"><strong>$turno</strong></td>
+              <td WIDTH="45"><font face="Monserrat-Bolt">$turno</font></td>
               <td WIDTH="30">&nbsp;</td>
               <td WIDTH="40">Modalidad:</td>
               <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="50"><strong>$modalidad</strong></td>
+              <td WIDTH="50"><font face="Monserrat-Bolt">$modalidad</font></td>
               <td WIDTH="85">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
@@ -306,28 +308,36 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $data1y=$est_asis_alumnos;
     $data2y=$est_asis_alumnos_h1;
     $data3y=$est_asis_alumnos_h2;
+    // print_r($data1y);
+    // print_r($data2y);
+    // print_r($data3y);
+    // die();
     }
     else {
     $data1y= array_slice($est_asis_alumnos, 0, 3);
     $data2y= array_slice($est_asis_alumnos_h1, 0, 3);
     $data3y= array_slice($est_asis_alumnos_h2, 0, 3);
     }
-
-
+// echo "<pre>";
+//  print_r($est_asis_alumnos);
+//     print_r($est_asis_alumnos_h1);
+//     print_r($est_asis_alumnos_h2);
+//     die();
     $graph = new Graph(350,200,'auto');
     $graph->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph->SetTheme($theme_class);
     $graph->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-    $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+    // $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+    // $graph->yaxis->SetTickPositions(array(0,50,100,150,200,250,300,350), array(25,75,125,175,275,325));
+// $graph->y2axis->SetTickPositions(array(30,40,50,60,70,80,90));
     $graph->SetBox(false);
     $graph->ygrid->SetFill(false);
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-    $graph->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
+      $graph->xaxis->SetTickLabels(array('1','2','3','4','5','6'));
     }
     else {
-    $graph->xaxis->SetTickLabels(array('1','2','3'
-    ));
+      $graph->xaxis->SetTickLabels(array('1','2','3'));
     }
     $graph->yaxis->HideLine(false);
     $graph->yaxis->HideTicks(false,false);
@@ -337,27 +347,27 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
     $graph->Add($gbplot);
     $b1plot->SetColor("white");
-    $b1plot->SetFillColor("#9E2E17");
+    $b1plot->SetFillColor("#e68dab");
     $b2plot->SetColor("white");
-    $b2plot->SetFillColor("#939598");
+    $b2plot->SetFillColor("#00adea");
     $b3plot->SetColor("white");
-    $b3plot->SetFillColor("#399443");
+    $b3plot->SetFillColor("#f1a73e");
     $graph->Stroke('barras.png');
     $pdf->Image('barras.png', 20,110,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras.png');
-    ///Termina creación de grafica de barras
+    // /Termina creación de grafica de barras
 
-    ///Empieza creación de grafica de barras DISTRIBUCION POR GRADO
-    // $data1y=$riesgo_alto;
-    // $data2y=$riesgo_muy_alto;
+    // /Empieza creación de grafica de barras DISTRIBUCION POR GRADO
+    $data1y=$riesgo_alto;
+    $data2y=$riesgo_muy_alto;
 
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
       $data1y=$riesgo_alto;
       $data2y=$riesgo_muy_alto;
     }
     else {
-    $data1y= array_slice($riesgo_alto, 0, 3);
-    $data2y= array_slice($riesgo_muy_alto, 0, 3);
+      $data1y= array_slice($riesgo_alto, 0, 3);
+      $data2y= array_slice($riesgo_muy_alto, 0, 3);
     }
 
 
@@ -488,7 +498,7 @@ $txt2 = 'APRENDIZAJE';
 
 
 // Multicell test
-$pdf->SetFillColor(194, 0, 31);
+$pdf->SetFillColor(0, 173, 234);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->MultiCell(92, 10,$txt, 0, 'C', 1, 0, 13, 70, 'M');
 $pdf->MultiCell(92, 10,$txt1, 0, 'C', 1, 0, 107, 70, 'M');
@@ -978,14 +988,16 @@ $prom_cal_esp=array(0 => $reporte_datos['apr_prom_al_esc_esp_5'],1 => $reporte_d
 $prom_cal_mat=array(0 => $reporte_datos['apr_prom_al_esc_mat_5'],1 => $reporte_datos['apr_prom_al_esc_mat_6-7'],2 => $reporte_datos['apr_prom_al_esc_mat_8-9'],3 => $reporte_datos['apr_prom_al_esc_mat_10'] );
 
 /////Inicia gráfica español
+// print_r($prom_cal_esp);
+// print_r($planea_aprov); die();
 $data1y=$prom_cal_esp;
 $data2y=$planea_aprov[1];
-// $data3y=array(0,0,0,0,0,0);
+$data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-// $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+$graph->yaxis->SetTickPositions(array(0,10,20,30,40), array(5,15,25,35));
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
@@ -1010,12 +1022,12 @@ unlink('barras2.png');
 /////Inicia gráfica mate
 $data1y=$prom_cal_mat;
 $data2y=$planea_aprov[1];
-// $data3y=array(0,0,0,0,0,0);
+$data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-// $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+$graph->yaxis->SetTickPositions(array(0,10,20,30,40), array(5,15,25,35));
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
