@@ -71,7 +71,7 @@ class Generar_reporte extends CI_Controller {
 
     $pdf = new My_tcpdf('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('Carlos Sanchez');
+    $pdf->SetAuthor('Proyecto Educativo');
     $pdf->SetTitle('Reporte APA');
     $pdf->SetSubject('Reporte APA');
     $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
@@ -932,6 +932,10 @@ $pdf->Image('assets/img/indic_icon.png', 110,210,7, 5, '', '', '', false, 300, '
 /// INICIA SEGUNDA PÄGINA
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
+$pdf->SetFont('', '', 8);
+$pdf->SetFillColor(194, 0, 31);
+$pdf->SetTextColor(255, 255, 255);
+$pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
 
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFillColor(255, 255, 255);
@@ -953,13 +957,6 @@ $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_mat_i'],$r
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_mat_i'],$reporte_datos['apr_planea_nlogro_estado_mat_ii-iii-iv'],3,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$reporte_datos['apr_planea_nlogro_pais_mat_ii-iii-iv'],4,$tipo);
 
-
-
-
-$pdf->SetFont('', '', 8);
-$pdf->SetFillColor(194, 0, 31);
-$pdf->SetTextColor(255, 255, 255);
-$pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
 
 
 ///Empieza creación de grafica de barras
@@ -1270,13 +1267,13 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
   $pdf->SetAutoPageBreak(FALSE, 0);
   $pdf->SetFillColor(129, 113, 106);
-  $pdf->SetFont('montserratb', '', 12);
+  $pdf->SetFont('montserratb', 'B', 12);
   $pdf->SetTextColor(255, 255, 255);
-  $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 155, 23, 'M');
-  $pdf->SetFont('montserratb', '', 10);
+  $pdf->MultiCell(35, 10,$reporte_datos['encabezado_n_nivel'], 0, 'C', false, 0, 165, 24, 'M');
+  $pdf->SetFont('montserratb', 'B', 10);
   $pdf->SetTextColor(80, 76, 75);
   $pdf->SetFillColor(255, 255, 255);
-  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 142, 30, 'M');
+  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', false, 0, 143, 30, 'M');
 
   $pdf->SetFont('', '', 8);
 
@@ -1299,7 +1296,7 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->SetFillColor(255, 255, 255);
   $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 230, 28, 'M');
 
-  
+
   $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return $pdf;
