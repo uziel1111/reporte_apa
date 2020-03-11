@@ -1318,6 +1318,8 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
 
 
   $str_html='
+<p>Alumnos que muy posiblemente han abandonado sus estudios<sup>2</sup></p>
+
   <style>
   table td{
     padding: 2px !important;
@@ -1363,10 +1365,10 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=80, $html, $border=0, $ln=1, $fill=0, $r
     ];
 }// pinta_al_baja()
 
-function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_h){
+function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
  // add a page
  // $pdf->SetAutoPageBreak(TRUE, 0);
- $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+ $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_v);
 
 
  $str_html='
