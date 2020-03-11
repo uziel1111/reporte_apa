@@ -48,7 +48,7 @@ class Apa_model extends CI_Model
     function get_reporte_apa($cct,$turno,$periodo,$ciclo){
       $q = "SELECT
             *
-            FROM reporte_apa_xidcentrocfg
+            FROM complemento_apa
             WHERE cct = ?
             AND turno = ?
             AND periodo = ?
