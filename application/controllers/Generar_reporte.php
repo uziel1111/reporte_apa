@@ -71,7 +71,7 @@ class Generar_reporte extends CI_Controller {
 
     $pdf = new My_tcpdf('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('Carlos Sanchez');
+    $pdf->SetAuthor('Proyecto Educativo');
     $pdf->SetTitle('Reporte APA');
     $pdf->SetSubject('Reporte APA');
     $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
@@ -941,6 +941,10 @@ $pdf->Image('assets/img/indic_icon.png', 110,210,7, 5, '', '', '', false, 300, '
 /// INICIA SEGUNDA PÄGINA
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
+$pdf->SetFont('', '', 8);
+$pdf->SetFillColor(194, 0, 31);
+$pdf->SetTextColor(255, 255, 255);
+$pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
 
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFillColor(255, 255, 255);
@@ -962,13 +966,6 @@ $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_mat_i'],$r
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_mat_i'],$reporte_datos['apr_planea_nlogro_estado_mat_ii-iii-iv'],3,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$reporte_datos['apr_planea_nlogro_pais_mat_ii-iii-iv'],4,$tipo);
 
-
-
-
-$pdf->SetFont('', '', 8);
-$pdf->SetFillColor(194, 0, 31);
-$pdf->SetTextColor(255, 255, 255);
-$pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
 
 
 ///Empieza creación de grafica de barras
@@ -1184,7 +1181,7 @@ $alumnos_baja=$this->Apa_model->get_alumnos_baja($idreporte);
 // echo "<pre>";print_r($alumnos_baja);die();
 $array_items = array_chunk($alumnos_baja, 10);
 foreach ($array_items as $key => $item) {
-  $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_h);
+  $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
 }
 
@@ -1196,7 +1193,7 @@ $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
 // echo "<pre>";print_r($alumnos_mar);die();
 $array_items = array_chunk($alumnos_mar, 10);
 foreach ($array_items as $key => $item) {
-  $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_h);
+  $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
 }
 
@@ -1279,13 +1276,13 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
   $pdf->SetAutoPageBreak(FALSE, 0);
   $pdf->SetFillColor(129, 113, 106);
-  $pdf->SetFont('montserratb', '', 12);
+  $pdf->SetFont('montserratb', 'B', 12);
   $pdf->SetTextColor(255, 255, 255);
-  $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 155, 23, 'M');
-  $pdf->SetFont('montserratb', '', 10);
+  $pdf->MultiCell(35, 10,$reporte_datos['encabezado_n_nivel'], 0, 'C', false, 0, 165, 24, 'M');
+  $pdf->SetFont('montserratb', 'B', 10);
   $pdf->SetTextColor(80, 76, 75);
   $pdf->SetFillColor(255, 255, 255);
-  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 142, 30, 'M');
+  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', false, 0, 143, 30, 'M');
 
   $pdf->SetFont('', '', 8);
 
@@ -1308,16 +1305,16 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->SetFillColor(255, 255, 255);
   $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 230, 28, 'M');
 
-  
+
   $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return $pdf;
 }
 
- function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_h){
+ function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_v){
   // add a page
   // $pdf->SetAutoPageBreak(TRUE, 0);
-  $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+  $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 
   $str_html='
@@ -1336,11 +1333,9 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   </style>
   <table width= "100%">
 <tr>
-<th width= "30%" HEIGHT="20">Nombre</th>
-<th width= "15%" >Grado / Grupo</th>
-<th width= "30%">Domicilio</th>
-<th width= "10%">Teléfono</th>
-<th width= "15%">Motivo</th>
+<th width= "40%" HEIGHT="20">Nombre</th>
+<th width= "21%" >Grado / Grupo</th>
+<th width= "40%">Motivo</th>
 </tr>';
 
   // $contador = 1;
@@ -1350,8 +1345,6 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
       $str_html .= '<tr>
       <td HEIGHT="20"> '.$alumno['nombre_alu'].'</td>
       <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
-      <td> '.$alumno['domicilio_alu'].'</td>
-      <td> '.$alumno['telefono'].'</td>
       <td> '.$alumno['motivo'].'</td>
       </tr>';
 }
