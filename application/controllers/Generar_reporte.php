@@ -1175,7 +1175,7 @@ $alumnos_baja=$this->Apa_model->get_alumnos_baja($idreporte);
 // echo "<pre>";print_r($alumnos_baja);die();
 $array_items = array_chunk($alumnos_baja, 10);
 foreach ($array_items as $key => $item) {
-  $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_h);
+  $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
 }
 
@@ -1187,7 +1187,7 @@ $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
 // echo "<pre>";print_r($alumnos_mar);die();
 $array_items = array_chunk($alumnos_mar, 10);
 foreach ($array_items as $key => $item) {
-  $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_h);
+  $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
 }
 
@@ -1305,10 +1305,10 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   return $pdf;
 }
 
- function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_h){
+ function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_v){
   // add a page
   // $pdf->SetAutoPageBreak(TRUE, 0);
-  $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+  $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 
   $str_html='
@@ -1327,11 +1327,9 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   </style>
   <table width= "100%">
 <tr>
-<th width= "30%" HEIGHT="20">Nombre</th>
-<th width= "15%" >Grado / Grupo</th>
-<th width= "30%">Domicilio</th>
-<th width= "10%">Teléfono</th>
-<th width= "15%">Motivo</th>
+<th width= "40%" HEIGHT="20">Nombre</th>
+<th width= "21%" >Grado / Grupo</th>
+<th width= "40%">Motivo</th>
 </tr>';
 
   // $contador = 1;
@@ -1341,8 +1339,6 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
       $str_html .= '<tr>
       <td HEIGHT="20"> '.$alumno['nombre_alu'].'</td>
       <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
-      <td> '.$alumno['domicilio_alu'].'</td>
-      <td> '.$alumno['telefono'].'</td>
       <td> '.$alumno['motivo'].'</td>
       </tr>';
 }
