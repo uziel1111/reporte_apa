@@ -140,26 +140,13 @@ $str_htm3 =<<<EOD
               <td WIDTH="30"><font face="Montserrat-Regular">Turno:</font></td>
               <td WIDTH="35">&nbsp;</td>
               <td WIDTH="55"><font face="Montserrat-Bold">$turno</font></td>
-              <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="4">&nbsp;</td>
-              <td WIDTH="48">&nbsp;</td>
-              <td WIDTH="23.88">&nbsp;</td>
-              <td WIDTH="2"></td>
+              <td WIDTH="107.88">&nbsp;</td>
             </tr>
             <tr>
               <td WIDTH="10"></td>
               <td WIDTH="95"><font face="Montserrat-Regular">Director / Responsable:</font></td>
-              <td WIDTH="1">&nbsp;</td>
-              <td WIDTH="130"><font face="Montserrat-Bold">$director</font></td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="25">&nbsp;</td>
-              <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="45">&nbsp;</td>
-              <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="40">&nbsp;</td>
-              <td WIDTH="51">&nbsp;</td>
-              <td WIDTH="83.88">&nbsp;</td>
-              <td WIDTH="2"></td>
+              <td WIDTH="200"><font face="Montserrat-Bold">$director</font></td>
+              <td WIDTH="222.88">&nbsp;</td>
             </tr>
             <tr>
               <td WIDTH="2"></td>
@@ -1291,8 +1278,8 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
 // $pdf->SetFillColor(0, 0, 0);
 // $pdf->MultiCell(12.6, 10,'', 0, 'C', true, 0, 0, 36, 'M');
 
-$pdf->SetFillColor(0, 0, 0);
-$pdf->MultiCell(11.22, 10,'', 0, 'C', true, 0, 198.88, 30, 'M');
+// $pdf->SetFillColor(0, 0, 0);
+// $pdf->MultiCell(11.22, 10,'', 0, 'C', true, 0, 198.88, 30, 'M');
   return $pdf;
 }
 
