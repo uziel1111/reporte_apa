@@ -1321,7 +1321,23 @@ $pdf->MultiCell(11.22, 10,'', 0, 'C', true, 0, 198.88, 30, 'M');
   // $pdf->SetAutoPageBreak(TRUE, 0);
   $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
+$pdf->Image('assets/img/admiracion.png', 16,71,5, 5, '', '', '', false, 300, '', false, false, 0);
+$msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos que muy posiblemente han abandonado sus estudios<sup>2</sup></h2>
+<table WIDTH="104mm">
+      <tbody>
+        <tr>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm"></td>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="178mm"><font face="Montserrat-Regular">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
+Contacte inmediatamente a su padre, madre o tutor para procurar que se reintegre a la escuela con los apoyos académicos necesarios.</font></td>
+          </tr>
+        </tbody>
+      </table>
+  ';
+  $html= <<<EOT
+$msj
+EOT;
 
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
   $str_html='
   <style>
   table td{
@@ -1361,18 +1377,36 @@ $html= <<<EOT
 $str_html
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=80, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=85, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return [
     'pdf' => $pdf
     ];
 }// pinta_al_baja()
 
-function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_h){
+function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
  // add a page
  // $pdf->SetAutoPageBreak(TRUE, 0);
- $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
+
+$pdf->Image('assets/img/admiracion.png', 16,70,5, 5, '', '', '', false, 300, '', false, false, 0);
+$msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos con alto y muy alto riesgo de abandono<sup>2</sup></h2>
+<table WIDTH="104mm" HEIGHT="12mm">
+      <tbody>
+        <tr>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm" HEIGHT="9.7mm"><font face="Montserrat-Regular">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
+Cite a los padres de familia en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
+          </tr>
+        </tbody>
+      </table>
+  ';
+  $html= <<<EOT
+$msj
+EOT;
+
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
  $str_html='
  <style>
@@ -1390,29 +1424,33 @@ function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_h){
  </style>
  <table width= "100%">
 <tr>
-<th width= "25%" HEIGHT="20">Nombre</th>
-<th width= "8%" >Grado / Grupo</th>
-<th width= "8%">Inasistencias en periodo</th>
-<th width= "8%">Asignaturas Reprobadas</th>
-<th width= "5%">Extraedad</th>
-<th width= "20%">Madre, Padre o Tutor</th>
-<th width= "15%">Domicilio</th>
-<th width= "10%">Teléfono</th>
+<th width= "55mm" HEIGHT="20">Nombre</th>
+<th width= "23.4mm" >Grado / Grupo</th>
+<th width= "22.18mm">Inasistencias en periodo</th>
+<th width= "21.10mm">Asignaturas Reprobadas</th>
+<th width= "20.11mm">Extraedad</th>
+<th width= "44.15mm">Madre, Padre o Tutor</th>
 </tr>';
 
  // $contador = 1;
  // echo "<pre>"; print_r($array_datos); die();
  foreach ($array_datos as $key => $alumno) {
-     $cuadrito='   <img src="assets/img/cuadrito.png" border="1" height="5" width="5" align="middle"/>  ';
+  if (isset($alumno['bandera'])) {
+      if ($alumno['bandera'] == 1) {
+       $cuadrito='   <img src="assets/img/cuadrito-rojo.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+     }else if ($alumno['bandera'] == 2) {
+      $cuadrito='   <img src="assets/img/cuadrito-naranja.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+    }
+  }else{
+    $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+  }
      $str_html .= '<tr>
-     <td width= "25%" style="border-left-style: none;" HEIGHT="20">'.$cuadrito.$alumno['nombre_alu'].'</td>
-     <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
-     <td style="text-align:center;"> '.$alumno['inasistencias'].'</td>
-     <td style="text-align:center;"> '.$alumno['asig_reprobadas'].'</td>
-     <td style="text-align:center;" > '.$alumno['extraedad'].'</td>
-     <td> '.$alumno['nombre_madre_padre_tutor'].'</td>
-     <td> '.$alumno['domicilio'].'</td>
-     <td> '.$alumno['telefono'].'</td>
+     <td width= "55mm" style="border-left-style: none;" HEIGHT="20">'.$cuadrito.$alumno['nombre_alu'].'</td>
+     <td width= "23.4mm" style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
+     <td width= "22.18mm" style="text-align:center;"> '.$alumno['inasistencias'].'</td>
+     <td width= "21.10mm" style="text-align:center;"> '.$alumno['asig_reprobadas'].'</td>
+     <td width= "20.11mm" style="text-align:center;" > '.$alumno['extraedad'].'</td>
+     <td width= "44.15mm"> '.$alumno['nombre_madre_padre_tutor'].'</td>
      </tr>';
 }
 
