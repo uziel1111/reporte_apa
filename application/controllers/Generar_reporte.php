@@ -26,9 +26,8 @@ class Generar_reporte extends CI_Controller {
 
 
    // function rep(){
-     function rep($cct,$turno,$periodo,$ciclo){
+  function rep($cct,$turno,$periodo,$ciclo){
        // echo "Hola mundo";die();
-
     // $riesgo=$this->Apa_model->get_riesgo_abandono();
     $historico=$this->Apa_model->get_historico_mat();
     $distribucion=$this->Apa_model->get_distribucionxgrado();
@@ -90,12 +89,11 @@ $str_htm3 =<<<EOD
           border: none;
           padding: 5px !important;
           background-color:#ECECEE;
-          font-family: Monserrat-Regular;
           font-size: 8px;
-          padding-top:2px;
+          padding-top:4px;
           padding-left:2px;
           padding-right:2px;
-          padding-bottom:2px;
+          padding-bottom:4px;
         }
         </style>
         <table WIDTH="524">
@@ -118,49 +116,47 @@ $str_htm3 =<<<EOD
             </tr>
             <tr>
               <td WIDTH="2"></td>
-              <td WIDTH="85">Nombre:</td>
+              <td WIDTH="40"><font face="Montserrat-Regular">Nombre:</font></td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Monserrat-Bolt">$nombre</font></td>
+              <td WIDTH="130"><font face="Montserrat-Bold">$nombre</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="25">&nbsp;</td>
-              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="50">&nbsp;</td>
               <td WIDTH="45">&nbsp;</td>
               <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="40">Municipio:</td>
+              <td WIDTH="45"><font face="Montserrat-Regular">Municipio:</font></td>
               <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="50"><font face="Monserrat-Bolt">$municipio</font></td>
+              <td WIDTH="50"><font face="Montserrat-Bold">$municipio</font></td>
               <td WIDTH="85">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
             <tr>
               <td WIDTH="2"></td>
-              <td WIDTH="85">CCT:</td>
+              <td WIDTH="85"><font face="Montserrat-Regular">CCT:</font></td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Monserrat-Bolt">$cct</font></td>
+              <td WIDTH="130"><font face="Montserrat-Bold">$cct</font></td>
               <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="25">Turno:</td>
+              <td WIDTH="30"><font face="Montserrat-Regular">Turno:</font></td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="45"><font face="Monserrat-Bolt">$turno</font></td>
+              <td WIDTH="55"><font face="Montserrat-Bold">$turno</font></td>
               <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="40">Modalidad:</td>
-              <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="50"><font face="Monserrat-Bolt">$modalidad</font></td>
               <td WIDTH="85">&nbsp;</td>
+              <td WIDTH="75">&nbsp;</td>
+              <td WIDTH="20">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
             <tr>
               <td WIDTH="2"></td>
-              <td WIDTH="85">Director / Responsable:</td>
+              <td WIDTH="100"><font face="Montserrat-Regular">Director / Responsable:</font></td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><strong>$director</strong></td>
+              <td WIDTH="130"><font face="Montserrat-Bold">$director</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="25">&nbsp;</td>
               <td WIDTH="10">&nbsp;</td>
               <td WIDTH="45">&nbsp;</td>
               <td WIDTH="30">&nbsp;</td>
               <td WIDTH="40">&nbsp;</td>
-              <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="50">&nbsp;</td>
+              <td WIDTH="55">&nbsp;</td>
               <td WIDTH="85">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
@@ -403,7 +399,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     ///Termina creación de grafica de barras
 
 
-    $pdf->SetFont('', '', 8);
+    $pdf->SetFont('montserrat', '', 7);
 
 
 $str_htm3 = <<<EOT
@@ -411,7 +407,7 @@ $str_htm3 = <<<EOT
     table td{
       border: none;
       padding: 5px !important;
-      background-color:#DAD7D6;
+      background-color:#e4e0df;
     }
     </style>
     <table WIDTH="527">
@@ -431,8 +427,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=120,$h=55,$x=12,$y=60, $html3, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$pdf->Image('assets/img/admiracion.png', 16,61,5, 5, '', '', '', false, 300, '', false, false, 0);
-
+$pdf->Image('assets/img/admiracion.png', 15,61,5, 5, '', '', '', false, 300, '', false, false, 0);
 
 
 $str_htm3 = <<<EOT
@@ -460,62 +455,47 @@ EOT;
 
 // $pdf->writeHTMLCell($w=200,$h=55,$x=12,$y=70, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$str_htm3 = <<<EOT
-<style>
-table td{
-  border: none;
-  padding: 5px !important;
-}
-</style>
-<table WIDTH="257">
-  <tbody>
-    <tr>
-      <td HEIGHT="20" style="background-color:#C2001F; text-align:center;" color="white">PERMANENCIA</td>
-    </tr>
-    <tr>
-      <td HEIGHT="400" style="background-color:#F7F7F6;"></td>
-    </tr>
-  </tbody>
-</table>
-EOT;
-
-$html5 = <<<EOT
-$str_htm3
-EOT;
 
 // $pdf->writeHTMLCell($w=200,$h=55,$x=107,$y=70, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $pdf->SetFillColor(0, 0, 127);
 
 // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0)
-
+$pdf->SetFont('montserratb', '', 13);
 // set some text for example
 $txt = 'ASISTENCIA';
 $txt1 = 'PERMANENCIA';
 $txt2 = 'APRENDIZAJE';
 
 
-
-
 // Multicell test
 $pdf->SetFillColor(0, 173, 234);
 $pdf->SetTextColor(255, 255, 255);
-$pdf->MultiCell(92, 10,$txt, 0, 'C', 1, 0, 13, 70, 'M');
-$pdf->MultiCell(92, 10,$txt1, 0, 'C', 1, 0, 107, 70, 'M');
+$pdf->MultiCell(92, 7,$txt, 0, 'C', 1, 0, 13, 70, 'M');
+$pdf->MultiCell(92, 7,$txt1, 0, 'C', 1, 0, 107, 70, 'M');
 
-$pdf->SetFillColor(247, 247, 246);
+$pdf->SetFont('montserratb', '', 11);
+$pdf->SetTextColor(145, 145, 145);
+$pdf->MultiCell(65, 8,"Estadística de escuela", 0, 'L', 0, 0, 20, 77, 'M');
+$pdf->SetFont('montserrat', '', 10);
+$pdf->MultiCell(65, 8,"1", 0, 'L', 0, 0, 65, 77, 'M');
+
+$pdf->SetFont('montserratb', '', 11);
+$pdf->MultiCell(85, 10,"Inicio de ciclo escolar 2019-2020", 0, 'L', 0, 0, 20, 82, 'M');
+$pdf->MultiCell(65, 10,"1", 0, 'L', 0, 0, 65, 77, 'M');
 // $pdf->MultiCell(80, 0, $left_column, 0, 'J', 1, 0, '', '', true, 0, false, true, 0);
 
-
-$pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 13, 80, true);
-$pdf->MultiCell(92, 150,'', 0, 'C', 1, 0, 107, 80, true);
+//pinta el fondo de color de las 2 columnas de la 1ra y segunda hoja
+$pdf->SetFillColor(239, 239, 239);
+$pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 13, 78, true);
+$pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 107, 78, true);
 
 $pdf->SetTextColor(0, 0, 0);
 
 $asi_est_al_t=$reporte_datos['asi_est_al_t'];
 $asi_est_gr_t=$reporte_datos['asi_est_gr_t'];
 $asi_est_doc=$reporte_datos['asi_est_do_t'];
-
+$pdf->SetFont('montserrat', '', 8);
 if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
 $str_htm3 = <<<EOT
 <style>
@@ -528,9 +508,9 @@ table td{
   padding-bottom:1px;
 }
 </style>
-<table WIDTH="245">
+<table WIDTH="250">
   <tbody>
-    <tr style="background-color:#ACADB1; text-align:center;">
+    <tr style="background-color:#b6b6b6; text-align:center;">
       <td>&nbsp;</td>
       <td>Total</td>
       <td>1<sup>o</sup></td>
@@ -583,31 +563,31 @@ else {
     padding-bottom:1px;
   }
   </style>
-  <table WIDTH="245">
+  <table WIDTH="250">
     <tbody>
-      <tr style="background-color:#ACADB1; text-align:center;">
+      <tr style="background-color:#e4e4e2; text-align:center;">
         <td>&nbsp;</td>
-        <td>Total</td>
-        <td>1<sup>o</sup></td>
-        <td>2<sup>o</sup></td>
-        <td>3<sup>o</sup></td>
+        <td><font face='Montserrat-Bold' size="7">Total</font></td>
+        <td><font face='Montserrat-Bold' size="7">1<sup>o</sup></font></td>
+        <td><font face='Montserrat-Bold' size="7">2<sup>o</sup></font></td>
+        <td><font face='Montserrat-Bold' size="7">3<sup>o</sup></font></td>
       </tr>
       <tr>
-        <td style="background-color:#DCDDDF;"><font size="7">Alumnos</font></td>
+        <td style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Alumnos</font></td>
         <td style="text-align:center;">$asi_est_al_t</td>
         <td style="text-align:center;">$est_asis_alumnos[0]</td>
         <td style="text-align:center;">$est_asis_alumnos[1]</td>
         <td style="text-align:center;">$est_asis_alumnos[2]</td>
       </tr>
       <tr>
-        <td style="background-color:#DCDDDF;"><font size="7">Grupos</font></td>
+        <td style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Grupos</font></td>
         <td style="text-align:center;">$asi_est_gr_t</td>
         <td style="text-align:center;">$est_asis_gr[0]</td>
         <td style="text-align:center;">$est_asis_gr[1]</td>
         <td style="text-align:center;">$est_asis_gr[2]</td>
       </tr>
       <tr>
-        <td style="background-color:#DCDDDF;"><font size="7">Docentes</font></td>
+        <td style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Docentes</font></td>
         <td style="text-align:center;">$asi_est_doc</td>
         <td colspan="6"></td>
 
@@ -620,7 +600,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=90, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=87, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $ti_ciclo_ac=$reporte_datos['asi_est_ac_ciclo'];
 $ti_ciclo_h1=$reporte_datos['asi_est_h1_ciclo'];
@@ -936,7 +916,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$pdf->Image('assets/img/escuela_icon.png', 16,82,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/escuela_icon.png', 16,78,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/mat_his.png', 16,110,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/porcen_asis.png', 16,180,4, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/lenguas_icon.png', 16,264,6, 5, '', '', '', false, 300, '', false, false, 0);
@@ -1290,15 +1270,17 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
   $pdf->SetAutoPageBreak(FALSE, 0);
   $pdf->SetFillColor(129, 113, 106);
+  $pdf->SetFont('montserratb', '', 12);
   $pdf->SetTextColor(255, 255, 255);
-  $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 170, 18, 'M');
-  $pdf->SetTextColor(0, 0, 0);
+  $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 155, 23, 'M');
+  $pdf->SetFont('montserratb', '', 10);
+  $pdf->SetTextColor(80, 76, 75);
   $pdf->SetFillColor(255, 255, 255);
-  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 150, 28, 'M');
+  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 142, 30, 'M');
 
   $pdf->SetFont('', '', 8);
 
-  $pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=40, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+  $pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=38, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return $pdf;
 }
@@ -1317,7 +1299,7 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->SetFillColor(255, 255, 255);
   $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 230, 28, 'M');
 
-  $pdf->SetFont('', '', 8);
+  
   $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return $pdf;
