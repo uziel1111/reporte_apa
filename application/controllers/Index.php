@@ -20,6 +20,10 @@ class Index extends CI_Controller
 		//para los contenidos tematicos
 		// $resultado=$this->Apa_model->llenarcontenidos();
 		// $resultado=$this->Apa_model->llena_contenidosxidcentrocfg();
+		// $resultado=$this->Apa_model->inserta_calificaciones_primaria();
+		// $resultado=$this->Apa_model->inserta_calificaciones_secundaria();
+		
+		
 
 	}
 }
