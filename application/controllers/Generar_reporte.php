@@ -83,6 +83,7 @@ class Generar_reporte extends CI_Controller {
     $municipio=$array_datos_escuela['municipio'];
     $modalidad=$array_datos_escuela['modalidad'];
 
+
 $str_htm3 =<<<EOD
         <style>
         table td{
@@ -487,8 +488,8 @@ $pdf->MultiCell(65, 10,"1", 0, 'L', 0, 0, 65, 77, 'M');
 
 //pinta el fondo de color de las 2 columnas de la 1ra y segunda hoja
 $pdf->SetFillColor(239, 239, 239);
-$pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 13, 78, true);
-$pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 107, 78, true);
+$pdf->MultiCell(95.75, 200,'', 0, 'C', 1, 0, 10.5, 84.57, true);
+// $pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 107, 78, true);
 
 $pdf->SetTextColor(0, 0, 0);
 
@@ -508,43 +509,51 @@ table td{
   padding-bottom:1px;
 }
 </style>
-<table WIDTH="250">
+<table width="90mm">
   <tbody>
-    <tr style="background-color:#b6b6b6; text-align:center;">
-      <td>&nbsp;</td>
-      <td>Total</td>
-      <td>1<sup>o</sup></td>
-      <td>2<sup>o</sup></td>
-      <td>3<sup>o</sup></td>
-      <td>4<sup>o</sup></td>
-      <td>5<sup>o</sup></td>
-      <td>6<sup>o</sup></td>
+    <tr style="background-color:#e4e4e2; text-align:center;">
+      <td width="15mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">&nbsp;</td>
+      <td width="9.40mm"style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">Total</td>
+      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">1<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">2<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">3<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">4<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">5<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">6<sup>o</sup></td>
+      <td width="11.40mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">Multigrado</td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;"><font size="7">Alumnos</font></td>
-      <td style="text-align:center;">$asi_est_al_t</td>
-      <td style="text-align:center;">$est_asis_alumnos[0]</td>
-      <td style="text-align:center;">$est_asis_alumnos[1]</td>
-      <td style="text-align:center;">$est_asis_alumnos[2]</td>
-      <td style="text-align:center;">$est_asis_alumnos[3]</td>
-      <td style="text-align:center;">$est_asis_alumnos[4]</td>
-      <td style="text-align:center;">$est_asis_alumnos[5]</td>
+      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Alumnos</td>
+      <td width="9.40mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$asi_est_al_t</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_alumnos[0]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_alumnos[1]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_alumnos[2]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_alumnos[3]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_alumnos[4]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_alumnos[5]</td>
+      <td width="11.40mm"></td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;"><font size="7">Grupos</font></td>
-      <td style="text-align:center;">$asi_est_gr_t</td>
-      <td style="text-align:center;">$est_asis_gr[0]</td>
-      <td style="text-align:center;">$est_asis_gr[1]</td>
-      <td style="text-align:center;">$est_asis_gr[2]</td>
-      <td style="text-align:center;">$est_asis_gr[3]</td>
-      <td style="text-align:center;">$est_asis_gr[4]</td>
-      <td style="text-align:center;">$est_asis_gr[5]</td>
+      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Grupos</td>
+      <td width="9.40mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$asi_est_gr_t</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[0]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[1]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[2]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[3]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[4]</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[5]</td>
+      <td width="11.40mm"></td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;"><font size="7">Docentes</font></td>
-      <td style="text-align:center;">$asi_est_doc</td>
-      <td colspan="6"></td>
-
+      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Docentes</td>
+      <td  width="9.40mm"style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$asi_est_doc</td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+      <td width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+      <td width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+      <td width="11.40mm"></td>
     </tr>
   </tbody>
 </table>
@@ -563,31 +572,31 @@ else {
     padding-bottom:1px;
   }
   </style>
-  <table WIDTH="250">
+  <table width="90mm">
     <tbody>
       <tr style="background-color:#e4e4e2; text-align:center;">
-        <td>&nbsp;</td>
-        <td><font face='Montserrat-Bold' size="7">Total</font></td>
-        <td><font face='Montserrat-Bold' size="7">1<sup>o</sup></font></td>
-        <td><font face='Montserrat-Bold' size="7">2<sup>o</sup></font></td>
-        <td><font face='Montserrat-Bold' size="7">3<sup>o</sup></font></td>
+        <td width="15mm">&nbsp;</td>
+        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">Total</td>
+        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">1<sup>o</sup></td>
+        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">2<sup>o</sup></td>
+        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">3<sup>o</sup></td>
       </tr>
       <tr>
-        <td style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Alumnos</font></td>
+        <td width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Alumnos</td>
         <td style="text-align:center;">$asi_est_al_t</td>
         <td style="text-align:center;">$est_asis_alumnos[0]</td>
         <td style="text-align:center;">$est_asis_alumnos[1]</td>
         <td style="text-align:center;">$est_asis_alumnos[2]</td>
       </tr>
       <tr>
-        <td style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Grupos</font></td>
+        <td width="15mm" style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Grupos</font></td>
         <td style="text-align:center;">$asi_est_gr_t</td>
         <td style="text-align:center;">$est_asis_gr[0]</td>
         <td style="text-align:center;">$est_asis_gr[1]</td>
         <td style="text-align:center;">$est_asis_gr[2]</td>
       </tr>
       <tr>
-        <td style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Docentes</font></td>
+        <td width="15mm" style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Docentes</font></td>
         <td style="text-align:center;">$asi_est_doc</td>
         <td colspan="6"></td>
 
@@ -600,7 +609,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=87, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=90,$h=23.12,$x=12,$y=87, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $ti_ciclo_ac=$reporte_datos['asi_est_ac_ciclo'];
 $ti_ciclo_h1=$reporte_datos['asi_est_h1_ciclo'];
