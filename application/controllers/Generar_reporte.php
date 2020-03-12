@@ -34,7 +34,9 @@ class Generar_reporte extends CI_Controller {
     $planea_aprov=$this->Apa_model->get_planea_aprov();
     // $array_datos_escuela=$this->Apa_model->get_datos_escuela();
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
-
+    if (!isset($reporte_datos)) {
+    echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
+    }
     $array_datos_escuela= array(
     "nombre" => $reporte_datos['encabezado_n_escuela'],
     "cct" => $reporte_datos['cct'],
@@ -1474,10 +1476,10 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
  // $contador = 1;
  // echo "<pre>"; print_r($array_datos); die();
  foreach ($array_datos as $key => $alumno) {
-  if (isset($alumno['bandera'])) {
-      if ($alumno['bandera'] == 1) {
+  if (isset($alumno['muyalto_alto'])) {
+      if ($alumno['muyalto_alto'] == 'M') {
        $cuadrito='   <img src="assets/img/cuadrito-rojo.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
-     }else if ($alumno['bandera'] == 2) {
+     }else if ($alumno['muyalto_alto'] == 'A') {
       $cuadrito='   <img src="assets/img/cuadrito-naranja.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
     }
   }else{
