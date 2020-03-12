@@ -1288,7 +1288,7 @@ $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=235, $html5, $border=0, $ln=1, $fill=0
 $idreporte=$reporte_datos['idreporteapa'];
 $alumnos_baja=$this->Apa_model->get_alumnos_baja($idreporte);
 // echo "<pre>";print_r($alumnos_baja);die();
-$array_items = array_chunk($alumnos_baja, 10);
+$array_items = array_chunk($alumnos_baja, 25);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
@@ -1300,7 +1300,7 @@ foreach ($array_items as $key => $item) {
 
 $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
 // echo "<pre>";print_r($alumnos_mar);die();
-$array_items = array_chunk($alumnos_mar, 10);
+$array_items = array_chunk($alumnos_mar, 25);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
@@ -1432,11 +1432,11 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
 
 $pdf->Image('assets/img/admiracion.png', 16,71,5, 5, '', '', '', false, 300, '', false, false, 0);
 $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos que muy posiblemente han abandonado sus estudios<sup>2</sup></h2>
-<table WIDTH="104mm">
+<table WIDTH="100mm">
       <tbody>
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm"></td>
-          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="178mm"><font face="Montserrat-Regular">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm"><font face="Montserrat-Regular">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
 Contacte inmediatamente a su padre, madre o tutor para procurar que se reintegre a la escuela con los apoyos académicos necesarios.</font></td>
           </tr>
         </tbody>
@@ -1465,7 +1465,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
 <tr>
 <th width= "40%" HEIGHT="20">Nombre</th>
 <th width= "21%" >Grado / Grupo</th>
-<th width= "40%">Motivo</th>
+<th width= "39%">Motivo</th>
 </tr>';
 
   // $contador = 1;
@@ -1505,7 +1505,7 @@ $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumno
       <tbody>
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
-          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm" HEIGHT="9.7mm"><font face="Montserrat-Regular">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
 Cite a los padres de familia en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
           </tr>
         </tbody>
