@@ -1487,6 +1487,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
     font-weight: bold;
     color:#000000 !important;
     font-family: montserrat;
+       text-align: center;
   }
   table th{
     padding: 2px !important;
@@ -1506,16 +1507,16 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
   //
   if($array_datos[0] == 'No hay datos para mostrar'){
     $str_html .= '<tr>
-    <td HEIGHT="20" colspan="3" style="color:#000000 !important;font-family: montserrat; "> '.$array_datos[0].'</td>
+    <td HEIGHT="20" colspan="3" style="color:#000000 !important;font-family: montserrat; "><font face="Montserrat-Bold" color="black"> '.$array_datos[0].'</font></td>
     </tr>';
 
   }else{
       foreach ($array_datos as $key => $alumno) {
 
       $str_html .= '<tr>
-      <td HEIGHT="20" style="color:#000000 !important; font-family: montserrat;"> '.$alumno['nombre_alu'].'</td>
-      <td style="text-align:center;" style="color:#000000 !important; font-family: montserrat;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
-      <td style="color:#000000 !important; font-family: montserrat; "> '.$alumno['motivo'].'</td>
+      <td HEIGHT="20" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat-Bold" color="black"> '.$alumno['nombre_alu'].'</font></td>
+      <td style="text-align:center;" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat-Bold" color="black"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
+      <td style="color:#000000 !important; font-family: montserrat; "><font face="Montserrat-Bold" color="black"> '.$alumno['motivo'].'</font></td>
       </tr>';
       }
 }
@@ -1588,7 +1589,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
  // echo "<pre>"; print_r($array_datos); die();
  if($array_datos[0] == 'No hay datos para mostrar'){
   $str_html .= '<tr>
-  <td HEIGHT="20" colspan="3"> '.$array_datos[0].'</td>
+  <td HEIGHT="20" colspan="3"> <font face="Montserrat-Bold" color="black">'.$array_datos[0].'</font></td>
   </tr>';
 
 }else{
@@ -1603,12 +1604,12 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
     $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
   }
      $str_html .= '<tr>
-     <td width= "55mm" style="border-left-style: none;" HEIGHT="20">'.$cuadrito.$alumno['nombre_alu'].'</td>
-     <td width= "23.4mm" style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
-     <td width= "22.18mm" style="text-align:center;"> '.$alumno['inasistencias'].'</td>
-     <td width= "21.10mm" style="text-align:center;"> '.$alumno['asig_reprobadas'].'</td>
-     <td width= "20.11mm" style="text-align:center;" > '.$alumno['extraedad'].'</td>
-     <td width= "44.15mm"> '.$alumno['nombre_madre_padre_tutor'].'</td>
+     <td width= "55mm" style="border-left-style: none;" HEIGHT="20"><font face="Montserrat-Bold" color="black">'.$cuadrito.$alumno['nombre_alu'].'</font></td>
+     <td width= "23.4mm" style="text-align:center;"> <font face="Montserrat-Bold" color="black">'.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
+     <td width= "22.18mm" style="text-align:center;"><font face="Montserrat-Bold" color="black"> '.$alumno['inasistencias'].'</font></td>
+     <td width= "21.10mm" style="text-align:center;"><font face="Montserrat-Bold" color="black"> '.$alumno['asig_reprobadas'].'</font></td>
+     <td width= "20.11mm" style="text-align:center;" ><font face="Montserrat-Bold" color="black"> '.$alumno['extraedad'].'</font></td>
+     <td width= "44.15mm"><font face="Montserrat-Bold" color="black"> '.$alumno['nombre_madre_padre_tutor'].'</font></td>
      </tr>';
   }
 }
