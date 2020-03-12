@@ -31,7 +31,7 @@ class Generar_reporte extends CI_Controller {
     // $riesgo=$this->Apa_model->get_riesgo_abandono();
     $historico=$this->Apa_model->get_historico_mat();
     $distribucion=$this->Apa_model->get_distribucionxgrado();
-    $planea_aprov=$this->Apa_model->get_planea_aprov();
+    // $planea_aprov=$this->Apa_model->get_planea_aprov();
     // $array_datos_escuela=$this->Apa_model->get_datos_escuela();
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
     if (!isset($reporte_datos)) {
@@ -63,10 +63,10 @@ class Generar_reporte extends CI_Controller {
     $analfabeta = array(0 => $reporte_datos['asi_analfabeta_t'],1 => $reporte_datos['asi_analfabeta_m'],2 => $reporte_datos['asi_analfabeta_h']);
 
 
-    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
+    $this->graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
   }
 
-  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
+  function graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
     // echo "<pre>";print_r($reporte_datos);die();
 
     //// Parámetros iniciales para PDF///
@@ -273,7 +273,7 @@ EOT;
 
 
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
-    
+
 
     ///Empieza creación de grafica de pastel PERMANENCIA
     $graph_p = new PieGraph(350,250);
@@ -291,7 +291,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     unlink('pastel.png');
     ///Termina creación de grafica de pastel
 
-    
+
     $pdf->SetFont('montserratb', '', 11);
     $pdf->SetTextColor(145, 145, 145);
     $pdf->MultiCell(100, 8,"Alumnos en riesgo de abandono escolar", 0, 'L', 0, 0, 115, 87, 'M');
@@ -1028,7 +1028,7 @@ $pdf->Line(18, 89, 193, 89, $style);
 $pdf->Image('assets/img/planea_icon.png', 16,92,5, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Resultados PLANEA 2018", 0, 'L', 0, 0, 22, 92, 'M');
+$pdf->MultiCell(65, 8,"Resultados PLANEA ".$reporte_datos['apr_planea1_nlogro_esc_periodo'], 0, 'L', 0, 0, 22, 92, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(108.89, 98, 108.89, 156, $style);
 
@@ -1040,13 +1040,14 @@ $pdf->MultiCell(70, 10,'Lenguaje y Comunicación', 0, 'L', 1, 0, 37, 98, 'M');
 $pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 98, 'M');
 
 $pdf->Image('assets/img/escuela_icon.png', 26,109,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'Escuela 2016', 0, 'L', 1, 0, 32, 111, 'M');
+$pdf->MultiCell(50, 10,'Escuela '.$reporte_datos['apr_planea2_nlogro_esc_periodo'], 0, 'L', 1, 0, 32, 111, 'M');
 $pdf->Image('assets/img/escuela_icon.png', 26,121,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'Escuela 2018', 0, 'L', 1, 0, 32, 123, 'M');
+$pdf->MultiCell(50, 10,'Escuela '.$reporte_datos['apr_planea1_nlogro_esc_periodo'], 0, 'L', 1, 0, 32, 123, 'M');
 $pdf->Image('assets/img/esta_icon.png', 26,133,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'Estado 2018', 0, 'L', 1, 0, 32, 135, 'M');
+$pdf->MultiCell(50, 10,'Estado '.$reporte_datos['apr_planea_nlogro_estado_periodo'], 0, 'L', 1, 0, 32, 135, 'M');
 $pdf->Image('assets/img/pais_icon.png', 26,145,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'País 2018', 0, 'L', 1, 0, 32, 147, 'M');
+$pdf->MultiCell(50, 10,'País '.$reporte_datos['apr_planea_nlogro_pais_periodo'], 0, 'L', 1, 0, 32, 147, 'M');
+
 
 
 $tipo='leng';
@@ -1068,11 +1069,14 @@ $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$r
 $prom_cal_esp=array(0 => $reporte_datos['apr_prom_al_esc_esp_5'],1 => $reporte_datos['apr_prom_al_esc_esp_6-7'],2 => $reporte_datos['apr_prom_al_esc_esp_8-9'],3 => $reporte_datos['apr_prom_al_esc_esp_10'] );
 $prom_cal_mat=array(0 => $reporte_datos['apr_prom_al_esc_mat_5'],1 => $reporte_datos['apr_prom_al_esc_mat_6-7'],2 => $reporte_datos['apr_prom_al_esc_mat_8-9'],3 => $reporte_datos['apr_prom_al_esc_mat_10'] );
 
+$planea_aprov_esp=array(0 => $reporte_datos['apr_planea1_nlogro_esc_lyc_i'],1 => $reporte_datos['apr_planea1_nlogro_esc_lyc_ii'],2 => $reporte_datos['apr_planea1_nlogro_esc_lyc_iii'],3 => $reporte_datos['apr_planea1_nlogro_esc_lyc_iv'] );
+$planea_aprov_mat=array(0 => $reporte_datos['apr_planea1_nlogro_esc_mat_i'],1 => $reporte_datos['apr_planea1_nlogro_esc_mat_ii'],2 => $reporte_datos['apr_planea1_nlogro_esc_mat_iii'],3 => $reporte_datos['apr_planea1_nlogro_esc_mat_iv'] );
+
 /////Inicia gráfica español
 // print_r($prom_cal_esp);
-// print_r($planea_aprov); die();
+// print_r($planea_aprov[1]); die();
 $data1y=$prom_cal_esp;
-$data2y=$planea_aprov[1];
+$data2y=$planea_aprov_esp;
 $data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
@@ -1102,7 +1106,7 @@ unlink('barras2.png');
 
 /////Inicia gráfica mate
 $data1y=$prom_cal_mat;
-$data2y=$planea_aprov[1];
+$data2y=$planea_aprov_mat;
 $data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
