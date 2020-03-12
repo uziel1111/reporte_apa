@@ -1330,7 +1330,7 @@ foreach ($array_items as $key => $item) {
 /// Termina Cuarta PÄGINA
 
 
-$pdf->Output('Reporte_APA_Sinaloa_.pdf'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'], 'I');
+$pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
 }
 
 
