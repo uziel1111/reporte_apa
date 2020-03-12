@@ -31,7 +31,7 @@ class Generar_reporte extends CI_Controller {
     // $riesgo=$this->Apa_model->get_riesgo_abandono();
     $historico=$this->Apa_model->get_historico_mat();
     $distribucion=$this->Apa_model->get_distribucionxgrado();
-    $planea_aprov=$this->Apa_model->get_planea_aprov();
+    // $planea_aprov=$this->Apa_model->get_planea_aprov();
     // $array_datos_escuela=$this->Apa_model->get_datos_escuela();
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
     if (!isset($reporte_datos)) {
@@ -63,10 +63,10 @@ class Generar_reporte extends CI_Controller {
     $analfabeta = array(0 => $reporte_datos['asi_analfabeta_t'],1 => $reporte_datos['asi_analfabeta_m'],2 => $reporte_datos['asi_analfabeta_h']);
 
 
-    $this->graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
+    $this->graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
   }
 
-  function graf($riesgo,$historico,$distribucion,$planea_aprov,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
+  function graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
     // echo "<pre>";print_r($reporte_datos);die();
 
     //// Parámetros iniciales para PDF///
@@ -273,7 +273,7 @@ EOT;
 
 
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
-    
+
 
     ///Empieza creación de grafica de pastel PERMANENCIA
 // echo "<pre>";
@@ -293,7 +293,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     unlink('pastel.png');
     ///Termina creación de grafica de pastel
 
-    
+
     $pdf->SetFont('montserratb', '', 11);
     $pdf->SetTextColor(145, 145, 145);
     $pdf->MultiCell(100, 8,"Alumnos en riesgo de abandono escolar", 0, 'L', 0, 0, 113, 87, 'M');
@@ -1037,7 +1037,7 @@ $pdf->Line(18, 89, 193, 89, $style);
 $pdf->Image('assets/img/planea_icon.png', 16,92,5, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Resultados PLANEA 2018", 0, 'L', 0, 0, 22, 92, 'M');
+$pdf->MultiCell(65, 8,"Resultados PLANEA ".$reporte_datos['apr_planea1_nlogro_esc_periodo'], 0, 'L', 0, 0, 22, 92, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(108.89, 98, 108.89, 156, $style);
 
@@ -1049,13 +1049,14 @@ $pdf->MultiCell(70, 10,'Lenguaje y Comunicación', 0, 'L', 1, 0, 37, 98, 'M');
 $pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 98, 'M');
 
 $pdf->Image('assets/img/escuela_icon.png', 26,109,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'Escuela 2016', 0, 'L', 1, 0, 32, 111, 'M');
+$pdf->MultiCell(50, 10,'Escuela '.$reporte_datos['apr_planea2_nlogro_esc_periodo'], 0, 'L', 1, 0, 32, 111, 'M');
 $pdf->Image('assets/img/escuela_icon.png', 26,121,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'Escuela 2018', 0, 'L', 1, 0, 32, 123, 'M');
+$pdf->MultiCell(50, 10,'Escuela '.$reporte_datos['apr_planea1_nlogro_esc_periodo'], 0, 'L', 1, 0, 32, 123, 'M');
 $pdf->Image('assets/img/esta_icon.png', 26,133,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'Estado 2018', 0, 'L', 1, 0, 32, 135, 'M');
+$pdf->MultiCell(50, 10,'Estado '.$reporte_datos['apr_planea_nlogro_estado_periodo'], 0, 'L', 1, 0, 32, 135, 'M');
 $pdf->Image('assets/img/pais_icon.png', 26,145,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->MultiCell(50, 10,'País 2018', 0, 'L', 1, 0, 32, 147, 'M');
+$pdf->MultiCell(50, 10,'País '.$reporte_datos['apr_planea_nlogro_pais_periodo'], 0, 'L', 1, 0, 32, 147, 'M');
+
 
 
 $tipo='leng';
@@ -1077,17 +1078,20 @@ $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$r
 $prom_cal_esp=array(0 => $reporte_datos['apr_prom_al_esc_esp_5'],1 => $reporte_datos['apr_prom_al_esc_esp_6-7'],2 => $reporte_datos['apr_prom_al_esc_esp_8-9'],3 => $reporte_datos['apr_prom_al_esc_esp_10'] );
 $prom_cal_mat=array(0 => $reporte_datos['apr_prom_al_esc_mat_5'],1 => $reporte_datos['apr_prom_al_esc_mat_6-7'],2 => $reporte_datos['apr_prom_al_esc_mat_8-9'],3 => $reporte_datos['apr_prom_al_esc_mat_10'] );
 
+$planea_aprov_esp=array(0 => $reporte_datos['apr_planea1_nlogro_esc_lyc_i'],1 => $reporte_datos['apr_planea1_nlogro_esc_lyc_ii'],2 => $reporte_datos['apr_planea1_nlogro_esc_lyc_iii'],3 => $reporte_datos['apr_planea1_nlogro_esc_lyc_iv'] );
+$planea_aprov_mat=array(0 => $reporte_datos['apr_planea1_nlogro_esc_mat_i'],1 => $reporte_datos['apr_planea1_nlogro_esc_mat_ii'],2 => $reporte_datos['apr_planea1_nlogro_esc_mat_iii'],3 => $reporte_datos['apr_planea1_nlogro_esc_mat_iv'] );
+
 /////Inicia gráfica español
-// print_r($prom_cal_esp);
-// print_r($planea_aprov); die();
+// print_r($prom_cal_esp);die();
+// print_r($planea_aprov_esp); die();
 $data1y=$prom_cal_esp;
-$data2y=$planea_aprov[1];
+$data2y=$planea_aprov_esp;
 $data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-$graph->yaxis->SetTickPositions(array(0,10,20,30,40), array(5,15,25,35));
+$graph->yaxis->SetTickPositions(array(0,10,20,30,40,50,60,70,80,100), array(0,10,20,30,40,50,60,70,80,100));
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
@@ -1111,13 +1115,13 @@ unlink('barras2.png');
 
 /////Inicia gráfica mate
 $data1y=$prom_cal_mat;
-$data2y=$planea_aprov[1];
+$data2y=$planea_aprov_mat;
 $data3y=array(0,0,0,0,0,0);
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-$graph->yaxis->SetTickPositions(array(0,10,20,30,40), array(5,15,25,35));
+$graph->yaxis->SetTickPositions(array(0,10,20,30,40,50,60,70,80,100), array(0,10,20,30,40,50,60,70,80,100));
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
@@ -1293,7 +1297,7 @@ $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=235, $html5, $border=0, $ln=1, $fill=0
 $idreporte=$reporte_datos['idreporteapa'];
 $alumnos_baja=$this->Apa_model->get_alumnos_baja($idreporte);
 // echo "<pre>";print_r($alumnos_baja);die();
-$array_items = array_chunk($alumnos_baja, 10);
+$array_items = array_chunk($alumnos_baja, 25);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
@@ -1305,7 +1309,7 @@ foreach ($array_items as $key => $item) {
 
 $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
 // echo "<pre>";print_r($alumnos_mar);die();
-$array_items = array_chunk($alumnos_mar, 10);
+$array_items = array_chunk($alumnos_mar, 25);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
@@ -1329,7 +1333,18 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
      $a1=$a;
      $b1=$b;
    }
-
+   if ($a<27) {
+     $a_fotnt_size=5;
+   }
+   else {
+     $a_fotnt_size=12;
+   }
+   if ($b<27) {
+     $b_fotnt_size=5;
+   }
+   else {
+     $b_fotnt_size=12;
+   }
 $str_htm3 = <<<EOT
   <style>
   table td{
@@ -1344,9 +1359,9 @@ $str_htm3 = <<<EOT
       <td width="$b1" style="text-align:right;" HEIGHT="15"><strong>II, III, IV</strong></td>
     </tr>
       <tr WIDTH="105" HEIGHT="15">
-        <td width="$a" style="background-color:#ff9c3e; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
+        <td width="$a" style="background-color:#ff9c3e; text-align:center;" color="white" HEIGHT="15"><font size="$a_fotnt_size" face="Montserrat-Regular"><strong>$a%</strong></font></td>
         <td width="5" HEIGHT="15">&nbsp;</td>
-        <td width="$b" style="background-color:#9ac27c; text-align:center;" color="white" HEIGHT="15"><strong>$b%</strong></td>
+        <td width="$b" style="background-color:#9ac27c; text-align:center;" color="white" HEIGHT="15"><font size="$b_fotnt_size" face="Montserrat-Regular"><strong>$b%</strong></font></td>
       </tr>
     </tbody>
   </table>
@@ -1437,11 +1452,11 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
 
 $pdf->Image('assets/img/admiracion.png', 16,71,5, 5, '', '', '', false, 300, '', false, false, 0);
 $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos que muy posiblemente han abandonado sus estudios<sup>2</sup></h2>
-<table WIDTH="104mm">
+<table WIDTH="100mm">
       <tbody>
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm"></td>
-          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="178mm"><font face="Montserrat-Regular">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm"><font face="Montserrat-Regular">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
 Contacte inmediatamente a su padre, madre o tutor para procurar que se reintegre a la escuela con los apoyos académicos necesarios.</font></td>
           </tr>
         </tbody>
@@ -1470,7 +1485,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
 <tr>
 <th width= "40%" HEIGHT="20">Nombre</th>
 <th width= "21%" >Grado / Grupo</th>
-<th width= "40%">Motivo</th>
+<th width= "39%">Motivo</th>
 </tr>';
 
   // $contador = 1;
@@ -1510,7 +1525,7 @@ $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumno
       <tbody>
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
-          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm" HEIGHT="9.7mm"><font face="Montserrat-Regular">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
 Cite a los padres de familia en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
           </tr>
         </tbody>

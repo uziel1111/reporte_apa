@@ -79,14 +79,14 @@ class Apa_model extends CI_Model
     function llenar_planeaxreactivoxcentrocfg(){
       //para secundaria,español
       $x=0;
-      for ($i=1; $i<47; $i++) { 
+      for ($i=1; $i<47; $i++) {
         //para español omitir reactivos 24,28,35,42,43
         if($i==24 || $i==28 || $i==35 || $i==42 || $i==43){
           $x=$i+1;
         }else{
           $x=$i;
         }
-        
+
         $query=" INSERT INTO `apa_ok`.`planeaxidcentrocfg_reactivo` (
                   `idcentrocfg`,
                   `id_reactivo`,
@@ -108,7 +108,7 @@ class Apa_model extends CI_Model
 
       //para matematicas,secundaria
       $x=0;
-      for ($i=47; $i<93 ; $i++) { 
+      for ($i=47; $i<93 ; $i++) {
 
         $x=$x+1;
           if($x==6 || $x==22 || $x==26 || $x==28){
@@ -135,14 +135,14 @@ class Apa_model extends CI_Model
 
             //para primaria,español
       $x=0;
-      for ($i=128; $i<173; $i++) { 
-        //para español omitir reactivos 
+      for ($i=128; $i<173; $i++) {
+        //para español omitir reactivos
          $x=$x+1;
         //para español omitir los siguientes reactivos
           if($x==2 || $x==21 || $x==30 || $x==32 || $x==48){
             $x=$x+1;
           }
-        
+
         $query=" INSERT INTO `apa_ok`.`planeaxidcentrocfg_reactivo` (
                   `idcentrocfg`,
                   `id_reactivo`,
@@ -163,7 +163,7 @@ class Apa_model extends CI_Model
 
       //para matematicas,primaria
       $x=0;
-      for ($i=173; $i<221 ; $i++) { 
+      for ($i=173; $i<221 ; $i++) {
 
         $x=$x+1;
         //para matematicas omitir los siguientes reactivos
@@ -210,20 +210,20 @@ class Apa_model extends CI_Model
                 INNER JOIN   planea_reactivo r ON r.`id_reactivo`=p.`id_reactivo`
                 INNER JOIN  planea_contenido pc ON pc.`id_contenido`=r.`id_contenido`
                 INNER   JOIN (
-                  SELECT b.* FROM ( 
-                    SELECT t1.`idcentrocfg`,t4.`id_periodo`,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`, 
-                    GROUP_CONCAT(t2.n_reactivo) AS reactivos, COUNT(t3.id_contenido) AS total_reac_xua, 
-                    SUM(t1.n_aciertos) AS total, `t1`.`n_almn_eval` AS `alumnos_evaluados`, 
+                  SELECT b.* FROM (
+                    SELECT t1.`idcentrocfg`,t4.`id_periodo`,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`,
+                    GROUP_CONCAT(t2.n_reactivo) AS reactivos, COUNT(t3.id_contenido) AS total_reac_xua,
+                    SUM(t1.n_aciertos) AS total, `t1`.`n_almn_eval` AS `alumnos_evaluados`,
                     ROUND((((SUM(t1.n_aciertos))*100)/((COUNT(t3.id_contenido))*t1.n_almn_eval)), 1)AS porcen_alum_respok
                     FROM `planeaxidcentrocfg_reactivo` `t1`
-                    INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`  
+                    INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`
                     INNER JOIN `planea_contenido` `t3` ON `t2`.`id_contenido`= `t3`.`id_contenido`
                     INNER JOIN `planea_unidad_analisis` `t4` ON `t3`.`id_unidad_analisis`=`t4`.`id_unidad_analisis`
                     INNER JOIN `planea_camposdisciplinares` `t5` ON `t4`.`id_campodisiplinario`=`t5`.`id_campodisiplinario`
                     WHERE  t5.id_campodisiplinario=1 AND t1.`idcentrocfg`={$datos[$i]['idcentrocfg']}
                     GROUP BY `t3`.`id_contenido`
                     ) AS b ORDER BY b.porcen_alum_respok ASC LIMIT 5
-                        ) AS a ON p.`idcentrocfg`=a.idcentrocfg  AND a.id_contenido=pc.`id_contenido`  
+                        ) AS a ON p.`idcentrocfg`=a.idcentrocfg  AND a.id_contenido=pc.`id_contenido`
                     WHERE p.`idcentrocfg`={$datos[$i]['idcentrocfg']}
                     GROUP BY r.`id_contenido` ORDER BY a.porcen_alum_respok ";
                     $this->db->query($query2);
@@ -237,18 +237,18 @@ class Apa_model extends CI_Model
                 `contenido`,
                 `porcentaje`
               )
-              SELECT b.idcentrocfg,b.id_periodo,b.id_contenido,b.contenidos AS contenidomat,b.porcen_alum_respok AS porcentaje_mat  
+              SELECT b.idcentrocfg,b.id_periodo,b.id_contenido,b.contenidos AS contenidomat,b.porcen_alum_respok AS porcentaje_mat
                   FROM planeaxidcentrocfg_reactivo p
                   INNER JOIN   planea_reactivo r ON r.`id_reactivo`=p.`id_reactivo`
                   INNER JOIN  planea_contenido pc ON pc.`id_contenido`=r.`id_contenido`
                   INNER JOIN (
-                      SELECT b.* FROM ( 
-                      SELECT t1.`idcentrocfg`,t4.id_periodo,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`, 
-                      GROUP_CONCAT(t2.n_reactivo) AS reactivos, COUNT(t3.id_contenido) AS total_reac_xua, 
-                      SUM(t1.n_aciertos) AS total, `t1`.`n_almn_eval` AS `alumnos_evaluados`, 
+                      SELECT b.* FROM (
+                      SELECT t1.`idcentrocfg`,t4.id_periodo,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`,
+                      GROUP_CONCAT(t2.n_reactivo) AS reactivos, COUNT(t3.id_contenido) AS total_reac_xua,
+                      SUM(t1.n_aciertos) AS total, `t1`.`n_almn_eval` AS `alumnos_evaluados`,
                       ROUND((((SUM(t1.n_aciertos))*100)/((COUNT(t3.id_contenido))*t1.n_almn_eval)), 1)AS porcen_alum_respok
                       FROM `planeaxidcentrocfg_reactivo` `t1`
-                      INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`  
+                      INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`
                       INNER JOIN `planea_contenido` `t3` ON `t2`.`id_contenido`= `t3`.`id_contenido`
                       INNER JOIN `planea_unidad_analisis` `t4` ON `t3`.`id_unidad_analisis`=`t4`.`id_unidad_analisis`
                       INNER JOIN `planea_camposdisciplinares` `t5` ON `t4`.`id_campodisiplinario`=`t5`.`id_campodisiplinario`
@@ -256,7 +256,7 @@ class Apa_model extends CI_Model
                       GROUP BY `t3`.`id_contenido`
                       ) AS b ORDER BY b.porcen_alum_respok  ASC LIMIT 5
                       ) AS b ON b.idcentrocfg=p.`idcentrocfg`   AND b.id_contenido=pc.`id_contenido`
-                      WHERE p.`idcentrocfg`={$datos[$i]['idcentrocfg']} 
+                      WHERE p.`idcentrocfg`={$datos[$i]['idcentrocfg']}
                       GROUP BY r.`id_contenido` ORDER BY b.porcen_alum_respok ";
                       $this->db->query($query2);
       }
@@ -302,7 +302,7 @@ class Apa_model extends CI_Model
             t4.porcentaje AS p4,
             t4.contenido AS c4,
             t5.porcentaje AS p5,
-            t5.contenido AS c5, 
+            t5.contenido AS c5,
             t6.porcentaje AS p6,
             t6.contenido AS c6,
             t7.porcentaje AS p7,
@@ -312,49 +312,49 @@ class Apa_model extends CI_Model
             t9.porcentaje AS p9,
             t9.contenido AS c9,
             t10.porcentaje AS p10,
-            t10.contenido AS c10 
+            t10.contenido AS c10
           FROM centrocfg c
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 1
             ) AS t1 ON t1.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 1,1
             )AS t2 ON t2.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 2,1
             ) AS t3 ON t3.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 3,1
             ) AS t4 ON t4.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 4,1
             ) AS t5 ON t5.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 5,1
             ) AS t6 ON t6.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 6,1
             ) AS t7 ON t7.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 7,1
             ) AS t8 ON t8.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 8,1
             ) AS t9 ON t9.`idcentrocfg`=c.`idcentrocfg`
-          INNER JOIN ( 
-            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg 
+          INNER JOIN (
+            SELECT idcentrocfg,periodo,contenido,porcentaje FROM temporal_contenidosxcfg
             WHERE idcentrocfg={$datos[$i]['idcentrocfg']} LIMIT 9,1
             ) AS t10 ON t10.`idcentrocfg`=c.`idcentrocfg`";
-        $this->db->query($query2); 
+        $this->db->query($query2);
       }
     }
 
@@ -507,7 +507,7 @@ class Apa_model extends CI_Model
                       '2019-2020' AS periodo,
                       '2019-2020' AS ciclo,
                       cfg.nivel AS idnivel,
-                      n.descr AS  encabezado_n_nivel, 
+                      n.descr AS  encabezado_n_nivel,
                 'Periodo 1' AS`encabezado_n_periodo`,
                       ct.nombre AS encabezado_n_escuela,
                       m.nombre AS encabezado_muni_escuela,
@@ -654,7 +654,7 @@ class Apa_model extends CI_Model
                             LEFT JOIN planea_nlogro_x_idcentrocfg pcfg1 ON pcfg1.idcentrocfg=cfg.idcentrocfg AND pcfg1.periodo_planea='2015'
                             LEFT JOIN planea_nlogro_x_entidad ent ON ent.idnivel=n.idnivel AND ent.periodo_planea='2018'
                             LEFT JOIN planea_nlogro_x_nacional nac ON nac.idnivel=n.idnivel AND nac.periodo_planea='2018'
-                            LEFT JOIN planea_ctematicos_x_idcentrocfg pct ON pct.idcentrocfg=cfg.idcentrocfg 
+                            LEFT JOIN planea_ctematicos_x_idcentrocfg pct ON pct.idcentrocfg=cfg.idcentrocfg
                             WHERE cfg.nivel=2";
         $this->db->query($query);
 
@@ -805,7 +805,7 @@ class Apa_model extends CI_Model
                       '2019-2020' AS periodo,
                       '2019-2020' AS ciclo,
                       cfg.nivel AS idnivel,
-                      n.descr AS  encabezado_n_nivel, 
+                      n.descr AS  encabezado_n_nivel,
                 'Periodo 1' AS`encabezado_n_periodo`,
                       ct.nombre AS encabezado_n_escuela,
                       m.nombre AS encabezado_muni_escuela,
@@ -961,7 +961,7 @@ class Apa_model extends CI_Model
     function inserta_calificaciones_primaria(){
       $query="SELECT idcentrocfg FROM centrocfg where nivel=2";
       $datos=$this->db->query($query)->result_array();
-      for ($i=0; $i<count($datos); $i++) { 
+      for ($i=0; $i<count($datos); $i++) {
           $query2="INSERT INTO complemento_apa (
                   `idcentrocfg`,
                   `cct`,
@@ -1002,7 +1002,7 @@ class Apa_model extends CI_Model
                   d.total_89_mat,
                   b.total_10_mat
                 FROM centrocfg cfg
-                INNER JOIN cct ct ON ct.idct=cfg.idct 
+                INNER JOIN cct ct ON ct.idct=cfg.idct
                 INNER JOIN municipio m ON m.idmunicipio=ct.`idmunicipio`
                 INNER  JOIN personal p ON p.idcentrocfg=cfg.idcentrocfg AND p.idfuncion=1
                 LEFT JOIN (
@@ -1144,7 +1144,7 @@ class Apa_model extends CI_Model
                 d.total_89_mat,
                 b.total_10_mat
               FROM centrocfg cfg
-              INNER JOIN cct ct ON ct.idct=cfg.idct 
+              INNER JOIN cct ct ON ct.idct=cfg.idct
               INNER JOIN municipio m ON m.idmunicipio=ct.`idmunicipio`
               INNER  JOIN personal p ON p.idcentrocfg=cfg.idcentrocfg AND p.idfuncion=1
               LEFT JOIN (
@@ -1155,7 +1155,7 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
 
               ) AS a ON a.idcentrocfg=cfg.idcentrocfg
 
@@ -1167,7 +1167,7 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
 
               ) AS b ON b.idcentrocfg=cfg.idcentrocfg
               LEFT JOIN (
@@ -1178,7 +1178,7 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
 
               ) AS c ON c.idcentrocfg=cfg.idcentrocfg
 
@@ -1190,7 +1190,7 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
 
               ) AS d ON d.idcentrocfg=cfg.idcentrocfg
 
@@ -1202,7 +1202,7 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
 
               ) AS e ON e.idcentrocfg=cfg.idcentrocfg
 
@@ -1214,7 +1214,7 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
               ) AS f ON f.idcentrocfg=cfg.idcentrocfg
 
               LEFT JOIN (
@@ -1225,7 +1225,7 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
               ) AS g ON g.idcentrocfg=cfg.idcentrocfg
               LEFT JOIN (
                      SELECT cfg.idcentrocfg,COUNT(*) AS total_5_mat
@@ -1235,9 +1235,9 @@ class Apa_model extends CI_Model
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                           INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
               ) AS h ON h.idcentrocfg=cfg.idcentrocfg
-              WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']} 
+              WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
         ";
         $this->db->query($query2);
 
