@@ -121,7 +121,7 @@ $str_htm3 =<<<EOD
               <td WIDTH="10"></td>
               <td WIDTH="40"><font face="Montserrat-Regular">Nombre:</font></td>
               <td WIDTH="55">&nbsp;</td>
-              <td WIDTH="170"><font face="Montserrat-Bold">$nombre</font></td>
+              <td WIDTH="170"><font face="Montserrat-Bold" color="black">$nombre</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="5">&nbsp;</td>
@@ -129,7 +129,7 @@ $str_htm3 =<<<EOD
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="44"><font face="Montserrat-Regular">Municipio:</font></td>
               <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="156.88"><font face="Montserrat-Bold">$municipio</font></td>
+              <td WIDTH="156.88"><font face="Montserrat-Bold" color="black">$municipio</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
@@ -137,17 +137,17 @@ $str_htm3 =<<<EOD
               <td WIDTH="10"></td>
               <td WIDTH="85"><font face="Montserrat-Regular">CCT:</font></td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Montserrat-Bold">$cct</font></td>
+              <td WIDTH="130"><font face="Montserrat-Bold" color="black">$cct</font></td>
               <td WIDTH="65">&nbsp;</td>
               <td WIDTH="30"><font face="Montserrat-Regular">Turno:</font></td>
               <td WIDTH="35">&nbsp;</td>
-              <td WIDTH="55"><font face="Montserrat-Bold">$turno</font></td>
+              <td WIDTH="55"><font face="Montserrat-Bold" color="black">$turno</font></td>
               <td WIDTH="107.88">&nbsp;</td>
             </tr>
             <tr>
               <td WIDTH="10"></td>
               <td WIDTH="95"><font face="Montserrat-Regular">Director / Responsable:</font></td>
-              <td WIDTH="200"><font face="Montserrat-Bold">$director</font></td>
+              <td WIDTH="200"><font face="Montserrat-Bold" color="black">$director</font></td>
               <td WIDTH="222.88">&nbsp;</td>
             </tr>
             <tr>
@@ -1043,10 +1043,15 @@ $pdf->Line(108.89, 98, 108.89, 156, $style);
 
 // $pdf->SetFillColor(0, 0, 0);
 // $pdf->MultiCell(68.89, 10,'', 0, 'C', true, 0, 130, 100, 'M');
+
+$pdf->SetFont('montserratextraboldi', '', 11);
 $pdf->SetTextColor(75, 74, 72);
 $pdf->SetFillColor(255, 255, 255);
 $pdf->MultiCell(70, 10,'Lenguaje y Comunicación', 0, 'L', 1, 0, 37, 98, 'M');
 $pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 98, 'M');
+
+$pdf->SetTextColor(85, 85, 85);
+$pdf->SetFillColor(255, 255, 255);
 
 $pdf->Image('assets/img/escuela_icon.png', 26,109,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->MultiCell(50, 10,'Escuela '.$reporte_datos['apr_planea2_nlogro_esc_periodo'], 0, 'L', 1, 0, 32, 111, 'M');
@@ -1515,15 +1520,15 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
 </tr>';
 
   // $contador = 1;
-  // 
+  //
   if($array_datos[0] == 'No hay datos para mostrar'){
     $str_html .= '<tr>
     <td HEIGHT="20" colspan="3" style="color:#000000 !important;font-family: montserrat; "> '.$array_datos[0].'</td>
     </tr>';
 
-  }else{ 
+  }else{
       foreach ($array_datos as $key => $alumno) {
-     
+
       $str_html .= '<tr>
       <td HEIGHT="20" style="color:#000000 !important; font-family: montserrat;"> '.$alumno['nombre_alu'].'</td>
       <td style="text-align:center;" style="color:#000000 !important; font-family: montserrat;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
@@ -1531,7 +1536,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
       </tr>';
       }
 }
-  
+
   $str_html .= '</table>';
 
 // $str_html = "";
@@ -1602,8 +1607,8 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
   $str_html .= '<tr>
   <td HEIGHT="20" colspan="3"> '.$array_datos[0].'</td>
   </tr>';
-    
-}else{ 
+
+}else{
  foreach ($array_datos as $key => $alumno) {
   if (isset($alumno['muyalto_alto'])) {
       if ($alumno['muyalto_alto'] == 'M') {
