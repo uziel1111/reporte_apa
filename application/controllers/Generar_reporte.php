@@ -276,27 +276,29 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 
     ///Empieza creación de grafica de pastel PERMANENCIA
+// echo "<pre>";
+//     print_r($riesgo); die();
     $graph_p = new PieGraph(350,250);
     $graph_p->SetBox(false);
     $p1 = new PiePlot($riesgo);
     $graph_p->Add($p1);
     $p1->ShowBorder();
     $p1->SetColor('black');
-    $p1->SetSliceColors(array('#F9EC13','#F07622','#CD2027','#DBDAD8'));
+    $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
     // $graph_p->SetColor('#F7F7F6');
     $graph_p->SetColor('#EFEFEF');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
-    $pdf->Image('pastel.png', 110,95,80, 50, 'png', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('pastel.png', 110,95,70, 50, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
     ///Termina creación de grafica de pastel
 
 
     $pdf->SetFont('montserratb', '', 11);
     $pdf->SetTextColor(145, 145, 145);
-    $pdf->MultiCell(100, 8,"Alumnos en riesgo de abandono escolar", 0, 'L', 0, 0, 115, 87, 'M');
+    $pdf->MultiCell(100, 8,"Alumnos en riesgo de abandono escolar", 0, 'L', 0, 0, 113, 87, 'M');
     $pdf->SetFont('montserrat', '', 9);
-    $pdf->MultiCell(5, 7,"2", 0, 'L', 0, 0, 195, 87, 'M');
+    $pdf->MultiCell(5, 7,"2", 0, 'L', 0, 0, 192.5, 87, 'M');
 
     ///Empieza creación de grafica de barras MATRICULA
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
@@ -406,7 +408,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $b2plot->SetColor("white");
     $b2plot->SetFillColor("#EE1D23");
     $graph1->Stroke('barras1.png');
-    $pdf->Image('barras1.png', 115,165,90,49, 'PNG', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('barras1.png', 107,165,75,49, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras1.png');
     ///Termina creación de grafica de barras
 
@@ -483,24 +485,30 @@ $txt2 = 'APRENDIZAJE';
 // Multicell test
 $pdf->SetFillColor(0, 173, 234);
 $pdf->SetTextColor(255, 255, 255);
-$pdf->MultiCell(95.75, 10.2,$txt, 0, 'C', 1, 0, 10.5, 74.6, 'M');
-$pdf->MultiCell(95.75, 10.2,$txt1, 0, 'C', 1, 0, 108.64, 74.6, 'M');
+
+$pdf->MultiCell(92.75, 3.4,'', 0, 'C', 1, 0, 11.59, 71, true);
+$pdf->MultiCell(92.75, 3.4,$txt, 0, 'C', 1, 0, 11.59, 74.4, true);
+$pdf->MultiCell(92.75, 3.4,'', 0, 'C', 1, 0, 11.59, 77.8, true);
+
+$pdf->MultiCell(90.65, 3.4,'', 0, 'C', 1, 0, 106.64, 71, true); 
+$pdf->MultiCell(90.65, 3.4,$txt1, 0, 'C', 1, 0, 106.64, 74.4, true);
+$pdf->MultiCell(90.65, 3.4,'', 0, 'C', 1, 0, 106.64, 77.8, true);
 
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Estadística de escuela", 0, 'L', 0, 0, 20, 85, 'M');
+$pdf->MultiCell(65, 8,"Estadística de escuela", 0, 'L', 0, 0, 20, 85, true);
 $pdf->SetFont('montserrat', '', 9);
-$pdf->MultiCell(5, 7,"1", 0, 'L', 0, 0, 65, 85, 'M');
+$pdf->MultiCell(5, 7,"1", 0, 'L', 0, 0, 65, 85, true);
 
 $pdf->SetFont('montserratb', '', 11);
-$pdf->MultiCell(85, 10,"Inicio de ciclo escolar 2019-2020", 0, 'L', 0, 0, 20, 90, 'M');
+$pdf->MultiCell(85, 10,"Inicio de ciclo escolar 2019-2020", 0, 'L', 0, 0, 20, 90, true);
 
 // $pdf->MultiCell(80, 0, $left_column, 0, 'J', 1, 0, '', '', true, 0, false, true, 0);
 
 //pinta el fondo de color de las 2 columnas de la 1ra y segunda hoja
 $pdf->SetFillColor(239, 239, 239);
-$pdf->MultiCell(95.75, 200,'', 0, 'C', 1, 0, 10.5, 84.57, true);
-$pdf->MultiCell(95.75, 200,'', 0, 'C', 1, 0, 108.64, 84.57, true);
+$pdf->MultiCell(92.80, 194,'', 0, 'C', 1, 0, 11.59, 84.57, true);
+$pdf->MultiCell(90.75, 194,'', 0, 'C', 1, 0, 106.63, 84.57, true);
 
 $pdf->SetTextColor(0, 0, 0);
 
@@ -693,14 +701,14 @@ table td{
 <table width="90mm">
   <tbody>
     <tr>
-      <td width="90mm" height="6.29" style="background-color:#ffffff; font-family:Montserrat-Medium; font-size:9;">Inasistencia</td>
+      <td width="90mm" height="6.29" style="background-color:#ffffff; font-family:Montserrat-Medium; font-size:9; border:none;">Inasistencia</td>
     </tr>
-    <tr  style="background-color:#e7e7e7;">
-      <td width="22.78mm" height="8.16" style="font-family:Montserrat-Bold; font-size:7;" >Inasistencia escolar</td>
-      <td width="33.61mm" height="8.16" style="text-align:center; font-family:Montserrat-Bold; font-size:7;"colspan="3">Población total</td>
-      <td width="33.61mm" height="8.16" style="text-align:center; font-family:Montserrat-Bold; font-size:7;"colspan="3">No asiste a la escuela</td>
+    <tr  style="background-color:#E7E7E7;">
+      <td width="22.78mm" height="8.16" style="font-family:Montserrat-Bold; font-size:7" >Inasistencia escolar</td>
+      <td width="33.61mm" height="8.16" style="text-align:center; font-family:Montserrat-Bold; font-size:7;">Población total</td>
+      <td width="33.61mm" height="8.16" style="text-align:center; font-family:Montserrat-Bold; font-size:7;">No asiste a la escuela</td>
     </tr>
-    <tr style="background-color:#e4e4e2;">
+    <tr style="background-color:#E7E7E7;">
       <td width="22.78mm" height="11.05" style="font-family:Montserrat-Bold; font-size:7;">Grupo de edad que no asiste a la escuela</td>
       <td width="11.203mm"style="text-align:center;"><img src="assets/img/male.png" border="0" height="16" width="8"/></td>
       <td width="11.203mm" style="text-align:center;"><img src="assets/img/female.png" border="0" height="16" width="8" align="middle" /></td>
@@ -710,7 +718,7 @@ table td{
       <td width="11.203mm" style="text-align:center;"><img src="assets/img/male_female.png" border="0" height="16" width="16" align="middle" /></td>
     </tr>
     <tr>
-      <td width="22.78mm" style="background-color:#DCDDDF; font-family:Montserrat-Bold; font-size:7;">$anios_asis</td>
+      <td width="22.78mm" style="background-color:#E7E7E7; font-family:Montserrat-Bold; font-size:7;">$anios_asis</td>
       <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$rez_ed[0]</td>
       <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$rez_ed[1]</td>
       <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$rez_ed[2]</td>
@@ -781,18 +789,18 @@ table td{
   padding-bottom:1px;
 }
 </style>
-<table WIDTH="90mm">
+<table WIDTH="81mm">
   <tbody>
 
     <tr style="background-color:#D8D8D8;">
-      <td width="18.53mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8;">Total</td>
+      <td width="13.53mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8;">Total</td>
       <td width="18.53mm" colspan="2" style="text-align:center; font-family:Montserrat-Regular; font-size:8;">Muy alto</td>
       <td width="18.53mm" colspan="2" style="text-align:center; font-family:Montserrat-Regular; font-size:8;">Alto</td>
       <td width="18.53mm" colspan="2" style="text-align:center; font-family:Montserrat-Regular; font-size:8;">Medio</td>
       <td width="18.53mm" colspan="2" style="text-align:center; font-family:Montserrat-Regular; font-size:8;">Bajo</td>
     </tr>
     <tr>
-      <td width="18.53mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7;">$rit</td>
+      <td width="13.53mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7;">$rit</td>
       <td width="3.53mm" style="background-color:#cd1719;"></td>
       <td width="15mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$riesgo[0]</td>
       <td width="3.53mm" style="background-color:#ee7521;"></td>
@@ -810,7 +818,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=90,$h=30,$x=110,$y=146, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=146, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
 $str_htm3 = <<<EOT
@@ -903,7 +911,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=60,$h=30,$x=107,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 
 $retencion=$reporte_datos['per_ind_retencion'];
@@ -929,17 +937,17 @@ table td{
   padding-bottom:1px;
 }
 </style>
-<table WIDTH="91.46mm" style="text-align:center;">
+<table WIDTH="81mm" style="text-align:center;">
   <tbody>
 
     <tr style="background-color:#B7BCC8;">
-      <td width="28.56mm" style="font-family:Montserrat-Regular; font-size:8;">Retención</td>
-      <td width="28.56mm" style="font-family:Montserrat-Regular; font-size:8;">Aprobación</td>
+      <td width="23.33mm" style="font-family:Montserrat-Regular; font-size:8;">Retención</td>
+      <td width="23.33mm" style="font-family:Montserrat-Regular; font-size:8;">Aprobación</td>
       <td width="34.34mm" style="font-family:Montserrat-Regular; font-size:8;">Eficiencia Terminal</td>
     </tr>
     <tr>
-      <td width="28.56mm" style="background-color:#ffffff; font-family:Montserrat-Bold; font-size:7;">$retencion</td>
-      <td width="28.56mm" style="background-color:#ffffff; font-family:Montserrat-Bold; font-size:7;">$aprobacion</td>
+      <td width="23.33mm" style="background-color:#ffffff; font-family:Montserrat-Bold; font-size:7;">$retencion</td>
+      <td width="23.33mm" style="background-color:#ffffff; font-family:Montserrat-Bold; font-size:7;">$aprobacion</td>
       <td width="34.34mm" style="background-color:#ffffff; font-family:Montserrat-Bold; font-size:7;">$efic_ter</td>
     </tr>
   </tbody>
@@ -966,27 +974,28 @@ $pdf->Image('assets/img/indic_icon.png', 110,240,7, 5, '', '', '', false, 300, '
 $fuente = <<<EOT
 <style>
 table td{
-  border: .1px solid #EFEFEF;
+  border:none;
   padding: 2px !important;
   padding-top:1px;
   padding-left:1px;
   padding-right:1px;
   padding-bottom:1px;
+  font-family:Montserrat-Bold;
 }
 </style>
 <table WIDTH="80mm" style="text-align:left;">
   <tbody>
     <tr>
-      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>1</sup>Estadística escolar 911.</td>
+      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>1</sup> Estadística escolar 911.</td>
     </tr>
     <tr>
-      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>2</sup>Sistema de Control Escolar del Estado de Sinaloa.</td>
+      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>2</sup> Sistema de Control Escolar del Estado de Sinaloa.</td>
     </tr>
     <tr>
-      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>3</sup>INEGI, encuesta Intercensal 2015.</td>
+      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>3</sup> INEGI, encuesta Intercensal 2015.</td>
     </tr>
     <tr>
-      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>4</sup>INALI con información de INEGI.</td>
+      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7;"><sup>4</sup> INALI con información de INEGI.</td>
     </tr>
   </tbody>
 </table>
@@ -995,7 +1004,7 @@ EOT;
 $html5fuente = <<<EOT
 $fuente
 EOT;
-$pdf->writeHTMLCell($w=60,$h=20,$x=110,$y=260, $html5fuente, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=80,$h=20,$x=110,$y=260, $html5fuente, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 ///TERMINA PRIMERA PÁGINA
 
