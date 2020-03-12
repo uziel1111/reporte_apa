@@ -1504,6 +1504,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
     font-weight: bold;
     color:#000000 !important;
     font-family: montserrat;
+       text-align: center;
   }
   table th{
     padding: 2px !important;
