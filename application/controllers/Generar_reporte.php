@@ -119,35 +119,35 @@ $str_htm3 =<<<EOD
             </tr>
             <tr>
               <td WIDTH="10"></td>
-              <td WIDTH="40"><font face="Montserrat-Regular">Nombre:</font></td>
+              <td WIDTH="40"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
               <td WIDTH="55">&nbsp;</td>
-              <td WIDTH="170"><font face="Montserrat-Bold" color="black">$nombre</font></td>
+              <td WIDTH="170"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="44"><font face="Montserrat-Regular">Municipio:</font></td>
+              <td WIDTH="44"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
               <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="156.88"><font face="Montserrat-Bold" color="black">$municipio</font></td>
+              <td WIDTH="156.88"><font face="Montserrat-Bold" color="#555">$municipio</font></td>
               <td WIDTH="5">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
             <tr>
               <td WIDTH="10"></td>
-              <td WIDTH="85"><font face="Montserrat-Regular">CCT:</font></td>
+              <td WIDTH="85"><font face="Montserrat-Regular" color="#555">CCT:</font></td>
               <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Montserrat-Bold" color="black">$cct</font></td>
+              <td WIDTH="130"><font face="Montserrat-Bold" color="#555">$cct</font></td>
               <td WIDTH="65">&nbsp;</td>
-              <td WIDTH="30"><font face="Montserrat-Regular">Turno:</font></td>
+              <td WIDTH="30"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
               <td WIDTH="35">&nbsp;</td>
-              <td WIDTH="55"><font face="Montserrat-Bold" color="black">$turno</font></td>
+              <td WIDTH="55"><font face="Montserrat-Bold" color="#555">$turno</font></td>
               <td WIDTH="107.88">&nbsp;</td>
             </tr>
             <tr>
               <td WIDTH="10"></td>
-              <td WIDTH="95"><font face="Montserrat-Regular">Director / Responsable:</font></td>
-              <td WIDTH="200"><font face="Montserrat-Bold" color="black">$director</font></td>
+              <td WIDTH="95"><font face="Montserrat-Regular" color="#555">Director / Responsable:</font></td>
+              <td WIDTH="200"><font face="Montserrat-Bold" color="#555">$director</font></td>
               <td WIDTH="222.88">&nbsp;</td>
             </tr>
             <tr>
