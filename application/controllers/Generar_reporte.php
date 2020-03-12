@@ -490,7 +490,7 @@ $pdf->MultiCell(92.75, 3.4,'', 0, 'C', 1, 0, 11.59, 71, true);
 $pdf->MultiCell(92.75, 3.4,$txt, 0, 'C', 1, 0, 11.59, 74.4, true);
 $pdf->MultiCell(92.75, 3.4,'', 0, 'C', 1, 0, 11.59, 77.8, true);
 
-$pdf->MultiCell(90.65, 3.4,'', 0, 'C', 1, 0, 106.64, 71, true); 
+$pdf->MultiCell(90.65, 3.4,'', 0, 'C', 1, 0, 106.64, 71, true);
 $pdf->MultiCell(90.65, 3.4,$txt1, 0, 'C', 1, 0, 106.64, 74.4, true);
 $pdf->MultiCell(90.65, 3.4,'', 0, 'C', 1, 0, 106.64, 77.8, true);
 
@@ -1348,6 +1348,19 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    // echo "<pre>";
    // print_r($a);
    // die();
+   if ($a==0) {
+     $srthtml_a='';
+   }
+   else {
+     $srthtml_a='<td width="'.$a.'" style="background-color:#ff9c3e; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$a_fotnt_size.'" face="Montserrat-Regular"><strong>'.$a.'%</strong></font></td>';
+   }
+   if ($b==0) {
+     $srthtml_b='';
+   }
+   else {
+     $srthtml_b='<td width="'.$b.'" style="background-color:#9ac27c; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$b_fotnt_size.'" face="Montserrat-Regular"><strong>'.$b.'%</strong></font></td>';
+   }
+
 $str_htm3 = <<<EOT
   <style>
   table td{
@@ -1357,14 +1370,15 @@ $str_htm3 = <<<EOT
   <table>
     <tbody>
     <tr WIDTH="105" HEIGHT="15">
+
       <td width="$a1" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>I</strong></td>
       <td width="5" HEIGHT="15"></td>
       <td width="$b1" style="text-align:right; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>II, III, IV</strong></td>
     </tr>
       <tr WIDTH="105" HEIGHT="15">
-        <td width="$a" style="background-color:#ff9c3e; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="$a_fotnt_size" face="Montserrat-Regular"><strong>$a%</strong></font></td>
+        $srthtml_a
         <td width="5" HEIGHT="15">&nbsp;</td>
-        <td width="$b" style="background-color:#9ac27c; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="$b_fotnt_size" face="Montserrat-Regular"><strong>$b%</strong></font></td>
+        $srthtml_b
       </tr>
     </tbody>
   </table>
