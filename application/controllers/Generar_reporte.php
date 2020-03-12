@@ -1081,9 +1081,9 @@ table td{
   <tbody>
     <tr>
       <td WIDTH="80">Calificaciones</td>
-      <td WIDTH="20" style="background-color:#ff9c3e;"></td>
+      <td WIDTH="10" HEIGHT="10" style="background-color:#ff9c3e;"></td>
       <td WIDTH="90">Niveles PLANEA $planea_ciclo</td>
-      <td WIDTH="20" style="background-color:#9ac27c;"></td>
+      <td WIDTH="10" HEIGHT="10" style="background-color:#9ac27c;"></td>
     </tr>
   </tbody>
 </table>
