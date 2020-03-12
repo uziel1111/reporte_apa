@@ -1428,6 +1428,7 @@ return $pdf;
 private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->SetFont('', '', 10);
   $pdf->SetAutoPageBreak(TRUE, 0);
+  
   $pdf->AddPage('P', 'A4');
   $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
   $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
@@ -1453,25 +1454,7 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   return $pdf;
 }
 
- function header_footer_h($pdf,$reporte_datos,$encabezado_h){
-  $pdf->SetAutoPageBreak(TRUE, 0);
-  $pdf->AddPage('L', 'A4');
-  $pdf->Image('assets/img/encabezado_h.png', 0,0,300, 35, '', '', '', false, 300, '', false, false, 0);
-  $pdf->Image('assets/img/pie_h.png', 0,195,300, 15, '', '', '', false, 300, '', false, false, 0);
-  $pdf->SetAutoPageBreak(FALSE, 0);
-  $pdf->SetFillColor(129, 113, 106);
-  $pdf->SetFont('', '', 10);
-  $pdf->SetTextColor(255, 255, 255);
-  $pdf->MultiCell(30, 10,$reporte_datos['encabezado_n_nivel'], 0, 'R', 1, 0, 250, 18, 'M');
-  $pdf->SetTextColor(0, 0, 0);
-  $pdf->SetFillColor(255, 255, 255);
-  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', 1, 0, 230, 28, 'M');
 
-
-  $pdf->writeHTMLCell($w=150,$h=55,$x=10,$y=40, $encabezado_h, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-
-  return $pdf;
-}
 
  function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_v){
   // echo "<pre>"; print_r($array_datos); die();
