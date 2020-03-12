@@ -1462,13 +1462,13 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   // $pdf->SetAutoPageBreak(TRUE, 0);
   $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
-$pdf->Image('assets/img/admiracion.png', 16,71,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/admiracion.png', 16,66,5, 5, '', '', '', false, 300, '', false, false, 0);
 $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos que muy posiblemente han abandonado sus estudios<sup>2</sup></h2>
 <table WIDTH="100mm">
       <tbody>
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm"></td>
-          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm"><font face="Montserrat-Regular">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm"><font face="Montserrat-Regular" size="7" color="black">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
 Contacte inmediatamente a su padre, madre o tutor para procurar que se reintegre a la escuela con los apoyos académicos necesarios.</font></td>
           </tr>
         </tbody>
@@ -1478,16 +1478,14 @@ Contacte inmediatamente a su padre, madre o tutor para procurar que se reintegre
 $msj
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
   $str_html='
   <style>
   table td{
     padding: 2px !important;
     border: .3px solid #BFC0C3;
     font-weight: bold;
-    color:#000000 !important;
     font-family: montserrat;
-       text-align: center;
   }
   table th{
     padding: 2px !important;
@@ -1507,16 +1505,16 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
   //
   if($array_datos[0] == 'No hay datos para mostrar'){
     $str_html .= '<tr>
-    <td HEIGHT="20" colspan="3" style="color:#000000 !important;font-family: montserrat; "><font face="Montserrat-Bold" color="black"> '.$array_datos[0].'</font></td>
+    <td HEIGHT="20" colspan="3" style="color:#000000 !important;font-family: montserrat; "><font face="Montserrat" color="black"> '.$array_datos[0].'</font></td>
     </tr>';
 
   }else{
       foreach ($array_datos as $key => $alumno) {
 
       $str_html .= '<tr>
-      <td HEIGHT="20" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat-Bold" color="black"> '.$alumno['nombre_alu'].'</font></td>
-      <td style="text-align:center;" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat-Bold" color="black"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
-      <td style="color:#000000 !important; font-family: montserrat; "><font face="Montserrat-Bold" color="black"> '.$alumno['motivo'].'</font></td>
+      <td HEIGHT="20" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat" color="black"> '.$alumno['nombre_alu'].'</font></td>
+      <td style="text-align:center;" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat" color="black"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
+      <td style="color:#000000 !important; font-family: montserrat; "><font face="Montserrat" color="black"> '.$alumno['motivo'].'</font></td>
       </tr>';
       }
 }
@@ -1528,7 +1526,7 @@ $html= <<<EOT
 $str_html
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=85, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=76, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return [
     'pdf' => $pdf
@@ -1541,13 +1539,13 @@ function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
  $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 
-$pdf->Image('assets/img/admiracion.png', 16,70,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/admiracion.png', 16,66,5, 5, '', '', '', false, 300, '', false, false, 0);
 $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos con alto y muy alto riesgo de abandono<sup>2</sup></h2>
 <table WIDTH="104mm" HEIGHT="12mm">
       <tbody>
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
-          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular" size="7" color="black">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
 Cite a los padres de familia en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
           </tr>
         </tbody>
@@ -1557,7 +1555,7 @@ Cite a los padres de familia en forma inmediata para acordar acciones y asegurar
 $msj
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
  $str_html='
  <style>
@@ -1565,7 +1563,6 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
    padding: 2px !important;
    border: .3px solid #BFC0C3;
    font-weight: bold;
-   color:#000 !important;
    font-family: montserratb;
  }
  table th{
@@ -1589,7 +1586,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
  // echo "<pre>"; print_r($array_datos); die();
  if($array_datos[0] == 'No hay datos para mostrar'){
   $str_html .= '<tr>
-  <td HEIGHT="20" colspan="3"> <font face="Montserrat-Bold" color="black">'.$array_datos[0].'</font></td>
+  <td HEIGHT="20" colspan="3"> <font face="Montserrat" color="black">'.$array_datos[0].'</font></td>
   </tr>';
 
 }else{
@@ -1604,12 +1601,12 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
     $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
   }
      $str_html .= '<tr>
-     <td width= "55mm" style="border-left-style: none;" HEIGHT="20"><font face="Montserrat-Bold" color="black">'.$cuadrito.$alumno['nombre_alu'].'</font></td>
-     <td width= "23.4mm" style="text-align:center;"> <font face="Montserrat-Bold" color="black">'.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
-     <td width= "22.18mm" style="text-align:center;"><font face="Montserrat-Bold" color="black"> '.$alumno['inasistencias'].'</font></td>
-     <td width= "21.10mm" style="text-align:center;"><font face="Montserrat-Bold" color="black"> '.$alumno['asig_reprobadas'].'</font></td>
-     <td width= "20.11mm" style="text-align:center;" ><font face="Montserrat-Bold" color="black"> '.$alumno['extraedad'].'</font></td>
-     <td width= "44.15mm"><font face="Montserrat-Bold" color="black"> '.$alumno['nombre_madre_padre_tutor'].'</font></td>
+     <td width= "55mm" style="border-left-style: none;" HEIGHT="20"><font face="Montserrat" color="black">'.$cuadrito.$alumno['nombre_alu'].'</font></td>
+     <td width= "23.4mm" style="text-align:center;"> <font face="Montserrat" color="black">'.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
+     <td width= "22.18mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['inasistencias'].'</font></td>
+     <td width= "21.10mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['asig_reprobadas'].'</font></td>
+     <td width= "20.11mm" style="text-align:center;" ><font face="Montserrat" color="black"> '.$alumno['extraedad'].'</font></td>
+     <td width= "44.15mm"><font face="Montserrat" color="black"> '.$alumno['nombre_madre_padre_tutor'].'</font></td>
      </tr>';
   }
 }
@@ -1623,7 +1620,7 @@ $html= <<<EOT
 $str_html
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=80, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=78, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
  return [
    'pdf' => $pdf
