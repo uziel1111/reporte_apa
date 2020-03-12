@@ -1296,6 +1296,9 @@ $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=235, $html5, $border=0, $ln=1, $fill=0
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 $idreporte=$reporte_datos['idreporteapa'];
 $alumnos_baja=$this->Apa_model->get_alumnos_baja($idreporte);
+if($alumnos_baja == null){
+  array_push($alumnos_baja,'No hay datos para mostrar');
+}
 // echo "<pre>";print_r($alumnos_baja);die();
 $array_items = array_chunk($alumnos_baja, 25);
 foreach ($array_items as $key => $item) {
@@ -1309,6 +1312,9 @@ foreach ($array_items as $key => $item) {
 
 $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
 // echo "<pre>";print_r($alumnos_mar);die();
+if($alumnos_mar == null){
+  array_push($alumnos_baja,'No hay datos para mostrar');
+}
 $array_items = array_chunk($alumnos_mar, 25);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_v);
@@ -1449,6 +1455,7 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
 }
 
  function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_v){
+  // echo "<pre>"; print_r($array_datos); die();
   // add a page
   // $pdf->SetAutoPageBreak(TRUE, 0);
   $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
@@ -1492,16 +1499,23 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
 </tr>';
 
   // $contador = 1;
-  // echo "<pre>"; print_r($array_datos); die();
-  foreach ($array_datos as $key => $alumno) {
+  // 
+  if($array_datos[0] == 'No hay datos para mostrar'){
+    $str_html .= '<tr>
+    <td HEIGHT="20" colspan="3"> '.$array_datos[0].'</td>
+    </tr>';
 
+  }else{ 
+      foreach ($array_datos as $key => $alumno) {
+     
       $str_html .= '<tr>
       <td HEIGHT="20"> '.$alumno['nombre_alu'].'</td>
       <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
       <td> '.$alumno['motivo'].'</td>
       </tr>';
+      }
 }
-
+  
   $str_html .= '</table>';
 
 // $str_html = "";
@@ -1566,6 +1580,12 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
 
  // $contador = 1;
  // echo "<pre>"; print_r($array_datos); die();
+ if($array_datos[0] == 'No hay datos para mostrar'){
+  $str_html .= '<tr>
+  <td HEIGHT="20" colspan="3"> '.$array_datos[0].'</td>
+  </tr>';
+    
+}else{ 
  foreach ($array_datos as $key => $alumno) {
   if (isset($alumno['muyalto_alto'])) {
       if ($alumno['muyalto_alto'] == 'M') {
@@ -1584,6 +1604,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $r
      <td width= "20.11mm" style="text-align:center;" > '.$alumno['extraedad'].'</td>
      <td width= "44.15mm"> '.$alumno['nombre_madre_padre_tutor'].'</td>
      </tr>';
+  }
 }
 
  $str_html .= '</table>';
