@@ -293,12 +293,14 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $p1->ShowBorder();
     $p1->SetColor('black');
     $p1->SetSliceColors(array('#F9EC13','#F07622','#CD2027','#DBDAD8'));
-    $graph_p->SetColor('#F7F7F6');
+    // $graph_p->SetColor('#F7F7F6');
+    $graph_p->SetColor('#EFEFEF');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
     $pdf->Image('pastel.png', 125,85,55, 39, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
     ///Termina creación de grafica de pastel
+    
 
     ///Empieza creación de grafica de barras MATRICULA
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
@@ -350,8 +352,14 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $b3plot->SetColor("white");
     $b3plot->SetFillColor("#f1a73e");
     $graph->Stroke('barras.png');
-    $pdf->Image('barras.png', 20,110,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('barras.png', 12.6,120,90, 50, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras.png');
+    $pdf->SetFont('montserratb', '', 11);
+    $pdf->SetTextColor(145, 145, 145);
+    $pdf->MultiCell(65, 8,"Histórico de matrícula", 0, 'L', 0, 0, 20, 120, 'M');
+    $pdf->SetFont('montserrat', '', 9);
+    $pdf->MultiCell(5, 7,"1", 0, 'L', 0, 0, 65, 120, 'M');
+    
     // /Termina creación de grafica de barras
 
     // /Empieza creación de grafica de barras DISTRIBUCION POR GRADO
@@ -472,24 +480,24 @@ $txt2 = 'APRENDIZAJE';
 // Multicell test
 $pdf->SetFillColor(0, 173, 234);
 $pdf->SetTextColor(255, 255, 255);
-$pdf->MultiCell(92, 7,$txt, 0, 'C', 1, 0, 13, 70, 'M');
-$pdf->MultiCell(92, 7,$txt1, 0, 'C', 1, 0, 107, 70, 'M');
+$pdf->MultiCell(95.75, 10.2,$txt, 0, 'C', 1, 0, 10.5, 74.6, 'M');
+$pdf->MultiCell(95.75, 10.2,$txt1, 0, 'C', 1, 0, 108.64, 74.6, 'M');
 
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Estadística de escuela", 0, 'L', 0, 0, 20, 77, 'M');
-$pdf->SetFont('montserrat', '', 10);
-$pdf->MultiCell(65, 8,"1", 0, 'L', 0, 0, 65, 77, 'M');
+$pdf->MultiCell(65, 8,"Estadística de escuela", 0, 'L', 0, 0, 20, 85, 'M');
+$pdf->SetFont('montserrat', '', 9);
+$pdf->MultiCell(5, 7,"1", 0, 'L', 0, 0, 65, 85, 'M');
 
 $pdf->SetFont('montserratb', '', 11);
-$pdf->MultiCell(85, 10,"Inicio de ciclo escolar 2019-2020", 0, 'L', 0, 0, 20, 82, 'M');
-$pdf->MultiCell(65, 10,"1", 0, 'L', 0, 0, 65, 77, 'M');
+$pdf->MultiCell(85, 10,"Inicio de ciclo escolar 2019-2020", 0, 'L', 0, 0, 20, 90, 'M');
+
 // $pdf->MultiCell(80, 0, $left_column, 0, 'J', 1, 0, '', '', true, 0, false, true, 0);
 
 //pinta el fondo de color de las 2 columnas de la 1ra y segunda hoja
 $pdf->SetFillColor(239, 239, 239);
 $pdf->MultiCell(95.75, 200,'', 0, 'C', 1, 0, 10.5, 84.57, true);
-// $pdf->MultiCell(92, 200,'', 0, 'C', 1, 0, 107, 78, true);
+$pdf->MultiCell(95.75, 200,'', 0, 'C', 1, 0, 108.64, 84.57, true);
 
 $pdf->SetTextColor(0, 0, 0);
 
@@ -512,15 +520,15 @@ table td{
 <table width="90mm">
   <tbody>
     <tr style="background-color:#e4e4e2; text-align:center;">
-      <td width="15mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">&nbsp;</td>
-      <td width="9.40mm"style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">Total</td>
-      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">1<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">2<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">3<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">4<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">5<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">6<sup>o</sup></td>
-      <td width="11.40mm" style="background-color:#b6b6b; font-family:Montserrat-Bold; font-size:7;">Multigrado</td>
+      <td width="15mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">&nbsp;</td>
+      <td width="9.40mm"style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">Total</td>
+      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">1<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">2<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">3<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">4<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">5<sup>o</sup></td>
+      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">6<sup>o</sup></td>
+      <td width="11.40mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">Multigrado</td>
     </tr>
     <tr>
       <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Alumnos</td>
@@ -609,7 +617,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=90,$h=23.12,$x=12,$y=87, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=90,$h=23.12,$x=12,$y=95, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $ti_ciclo_ac=$reporte_datos['asi_est_ac_ciclo'];
 $ti_ciclo_h1=$reporte_datos['asi_est_h1_ciclo'];
@@ -631,22 +639,22 @@ table td{
   padding-bottom:1px;
 }
 </style>
-<table WIDTH="245">
+<table width="82.28mm">
   <tbody>
     <tr>
-      <td style="background-color:#DCDDDF;">Alumnos</td>
-      <td style="background-color:#9E2E21;"></td>
-      <td style="text-align:center;">$ti_ciclo_ac</td>
-      <td style="background-color:#939598;"></td>
-      <td style="text-align:center;">$ti_ciclo_h1</td>
-      <td style="background-color:#399443;"></td>
-      <td style="text-align:center;">$ti_ciclo_h2</td>
+      <td width="28.22mm" style="background-color:#E7E7E7;">Ciclo</td>
+      <td width="3.02mm" style="background-color:#e68dab;"></td>
+      <td width="15mm" style="text-align:center;">$ti_ciclo_ac</td>
+      <td width="3.02mm" style="background-color:#00adea;"></td>
+      <td width="15mm" style="text-align:center;">$ti_ciclo_h1</td>
+      <td width="3.02mm" style="background-color:#f1a73e;"></td>
+      <td width="15mm" style="text-align:center;">$ti_ciclo_h2</td>
     </tr>
     <tr>
-      <td style="background-color:#DCDDDF;">Grupos</td>
-      <td style="text-align:center;" colspan="2">$asi_est_al_t</td>
-      <td style="text-align:center;" colspan="2">$tot_ciclo_h1</td>
-      <td style="text-align:center;" colspan="2">$tot_ciclo_h2</td>
+      <td width="28.22mm" style="background-color:#E7E7E7;">Total de alumnos</td>
+      <td width="18.02mm" style="text-align:center;" colspan="2">$asi_est_al_t</td>
+      <td width="18.02mm" style="text-align:center;" colspan="2">$tot_ciclo_h1</td>
+      <td width="18.02mm" style="text-align:center;" colspan="2">$tot_ciclo_h2</td>
     </tr>
   </tbody>
 </table>
@@ -656,7 +664,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=60,$h=30,$x=15,$y=165, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=82.28,$h=10,$x=15,$y=180, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $anios_asis=$reporte_datos['asi_rez_gedad_noasiste'];
 
@@ -925,10 +933,10 @@ EOT;
 
 $pdf->writeHTMLCell($w=60,$h=30,$x=110,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$pdf->Image('assets/img/escuela_icon.png', 16,78,5, 5, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/mat_his.png', 16,110,5, 5, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/porcen_asis.png', 16,180,4, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/lenguas_icon.png', 16,264,6, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/escuela_icon.png', 13,88,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/mat_his.png', 13,120,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/porcen_asis.png', 13,190,4, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/lenguas_icon.png', 13,264,6, 5, '', '', '', false, 300, '', false, false, 0);
 
 $pdf->Image('assets/img/alu_riesgo_icon.png', 110,82,3, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/dist_grado_icon.png', 110,138,6, 4, '', '', '', false, 300, '', false, false, 0);
