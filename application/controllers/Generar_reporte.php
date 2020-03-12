@@ -97,11 +97,11 @@ $str_htm3 =<<<EOD
           padding-bottom:4px;
         }
         </style>
-        <table WIDTH="524">
+        <table WIDTH="255">
           <tbody>
             <tr>
               <td WIDTH="2"></td>
-              <td WIDTH="85"></td>
+              <td WIDTH="73.88"></td>
               <td WIDTH="10"></td>
               <td WIDTH="130"></td>
               <td WIDTH="5"></td>
@@ -116,54 +116,41 @@ $str_htm3 =<<<EOD
               <td WIDTH="2"></td>
             </tr>
             <tr>
-              <td WIDTH="2"></td>
+              <td WIDTH="10"></td>
               <td WIDTH="40"><font face="Montserrat-Regular">Nombre:</font></td>
-              <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Montserrat-Bold">$nombre</font></td>
+              <td WIDTH="55">&nbsp;</td>
+              <td WIDTH="170"><font face="Montserrat-Bold">$nombre</font></td>
               <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="25">&nbsp;</td>
-              <td WIDTH="50">&nbsp;</td>
-              <td WIDTH="45">&nbsp;</td>
-              <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="45"><font face="Montserrat-Regular">Municipio:</font></td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="44"><font face="Montserrat-Regular">Municipio:</font></td>
               <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="50"><font face="Montserrat-Bold">$municipio</font></td>
-              <td WIDTH="85">&nbsp;</td>
+              <td WIDTH="156.88"><font face="Montserrat-Bold">$municipio</font></td>
+              <td WIDTH="5">&nbsp;</td>
               <td WIDTH="2"></td>
             </tr>
             <tr>
-              <td WIDTH="2"></td>
+              <td WIDTH="10"></td>
               <td WIDTH="85"><font face="Montserrat-Regular">CCT:</font></td>
               <td WIDTH="10">&nbsp;</td>
               <td WIDTH="130"><font face="Montserrat-Bold">$cct</font></td>
-              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="65">&nbsp;</td>
               <td WIDTH="30"><font face="Montserrat-Regular">Turno:</font></td>
-              <td WIDTH="10">&nbsp;</td>
+              <td WIDTH="35">&nbsp;</td>
               <td WIDTH="55"><font face="Montserrat-Bold">$turno</font></td>
-              <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="85">&nbsp;</td>
-              <td WIDTH="75">&nbsp;</td>
-              <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="2"></td>
+              <td WIDTH="107.88">&nbsp;</td>
+            </tr>
+            <tr>
+              <td WIDTH="10"></td>
+              <td WIDTH="95"><font face="Montserrat-Regular">Director / Responsable:</font></td>
+              <td WIDTH="200"><font face="Montserrat-Bold">$director</font></td>
+              <td WIDTH="222.88">&nbsp;</td>
             </tr>
             <tr>
               <td WIDTH="2"></td>
-              <td WIDTH="100"><font face="Montserrat-Regular">Director / Responsable:</font></td>
-              <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Montserrat-Bold">$director</font></td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="25">&nbsp;</td>
-              <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="45">&nbsp;</td>
-              <td WIDTH="30">&nbsp;</td>
-              <td WIDTH="40">&nbsp;</td>
-              <td WIDTH="55">&nbsp;</td>
-              <td WIDTH="85">&nbsp;</td>
-              <td WIDTH="2"></td>
-            </tr>
-            <tr>
-              <td WIDTH="2"></td>
-              <td WIDTH="85"></td>
+              <td WIDTH="73.88"></td>
               <td WIDTH="10"></td>
               <td WIDTH="130"></td>
               <td WIDTH="5"></td>
@@ -1284,18 +1271,23 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
   $pdf->SetAutoPageBreak(FALSE, 0);
   $pdf->SetFillColor(129, 113, 106);
-  $pdf->SetFont('montserratb', 'B', 12);
+  $pdf->SetFont('montserratb', '', 12);
   $pdf->SetTextColor(255, 255, 255);
   $pdf->MultiCell(35, 10,$reporte_datos['encabezado_n_nivel'], 0, 'C', false, 0, 165, 24, 'M');
-  $pdf->SetFont('montserratb', 'B', 10);
-  $pdf->SetTextColor(80, 76, 75);
+  $pdf->SetFont('montserratb', '', 10);
+  // $pdf->SetTextColor(80, 76, 75);
+  $pdf->SetTextColor(150, 146, 143);
   $pdf->SetFillColor(255, 255, 255);
   $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', false, 0, 143, 30, 'M');
 
   $pdf->SetFont('', '', 8);
 
-  $pdf->writeHTMLCell($w=120,$h=55,$x=10,$y=38, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+  $pdf->writeHTMLCell($w=120,$h=55,$x=11.59,$y=36.78, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=false);
+// $pdf->SetFillColor(0, 0, 0);
+// $pdf->MultiCell(12.6, 10,'', 0, 'C', true, 0, 0, 36, 'M');
 
+// $pdf->SetFillColor(0, 0, 0);
+// $pdf->MultiCell(11.22, 10,'', 0, 'C', true, 0, 198.88, 30, 'M');
   return $pdf;
 }
 
@@ -1324,7 +1316,23 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   // $pdf->SetAutoPageBreak(TRUE, 0);
   $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
+$pdf->Image('assets/img/admiracion.png', 16,71,5, 5, '', '', '', false, 300, '', false, false, 0);
+$msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos que muy posiblemente han abandonado sus estudios<sup>2</sup></h2>
+<table WIDTH="104mm">
+      <tbody>
+        <tr>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm"></td>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="178mm"><font face="Montserrat-Regular">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
+Contacte inmediatamente a su padre, madre o tutor para procurar que se reintegre a la escuela con los apoyos académicos necesarios.</font></td>
+          </tr>
+        </tbody>
+      </table>
+  ';
+  $html= <<<EOT
+$msj
+EOT;
 
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
   $str_html='
   <style>
   table td{
@@ -1364,18 +1372,36 @@ $html= <<<EOT
 $str_html
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=80, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=85, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
   return [
     'pdf' => $pdf
     ];
 }// pinta_al_baja()
 
-function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_h){
+function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
  // add a page
  // $pdf->SetAutoPageBreak(TRUE, 0);
- $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
+ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
+
+$pdf->Image('assets/img/admiracion.png', 16,70,5, 5, '', '', '', false, 300, '', false, false, 0);
+$msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos con alto y muy alto riesgo de abandono<sup>2</sup></h2>
+<table WIDTH="104mm" HEIGHT="12mm">
+      <tbody>
+        <tr>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
+          <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm" HEIGHT="9.7mm"><font face="Montserrat-Regular">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
+Cite a los padres de familia en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
+          </tr>
+        </tbody>
+      </table>
+  ';
+  $html= <<<EOT
+$msj
+EOT;
+
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=60, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
  $str_html='
  <style>
@@ -1393,29 +1419,33 @@ function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_h){
  </style>
  <table width= "100%">
 <tr>
-<th width= "25%" HEIGHT="20">Nombre</th>
-<th width= "8%" >Grado / Grupo</th>
-<th width= "8%">Inasistencias en periodo</th>
-<th width= "8%">Asignaturas Reprobadas</th>
-<th width= "5%">Extraedad</th>
-<th width= "20%">Madre, Padre o Tutor</th>
-<th width= "15%">Domicilio</th>
-<th width= "10%">Teléfono</th>
+<th width= "55mm" HEIGHT="20">Nombre</th>
+<th width= "23.4mm" >Grado / Grupo</th>
+<th width= "22.18mm">Inasistencias en periodo</th>
+<th width= "21.10mm">Asignaturas Reprobadas</th>
+<th width= "20.11mm">Extraedad</th>
+<th width= "44.15mm">Madre, Padre o Tutor</th>
 </tr>';
 
  // $contador = 1;
  // echo "<pre>"; print_r($array_datos); die();
  foreach ($array_datos as $key => $alumno) {
-     $cuadrito='   <img src="assets/img/cuadrito.png" border="1" height="5" width="5" align="middle"/>  ';
+  if (isset($alumno['bandera'])) {
+      if ($alumno['bandera'] == 1) {
+       $cuadrito='   <img src="assets/img/cuadrito-rojo.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+     }else if ($alumno['bandera'] == 2) {
+      $cuadrito='   <img src="assets/img/cuadrito-naranja.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+    }
+  }else{
+    $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+  }
      $str_html .= '<tr>
-     <td width= "25%" style="border-left-style: none;" HEIGHT="20">'.$cuadrito.$alumno['nombre_alu'].'</td>
-     <td style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
-     <td style="text-align:center;"> '.$alumno['inasistencias'].'</td>
-     <td style="text-align:center;"> '.$alumno['asig_reprobadas'].'</td>
-     <td style="text-align:center;" > '.$alumno['extraedad'].'</td>
-     <td> '.$alumno['nombre_madre_padre_tutor'].'</td>
-     <td> '.$alumno['domicilio'].'</td>
-     <td> '.$alumno['telefono'].'</td>
+     <td width= "55mm" style="border-left-style: none;" HEIGHT="20">'.$cuadrito.$alumno['nombre_alu'].'</td>
+     <td width= "23.4mm" style="text-align:center;"> '.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</td>
+     <td width= "22.18mm" style="text-align:center;"> '.$alumno['inasistencias'].'</td>
+     <td width= "21.10mm" style="text-align:center;"> '.$alumno['asig_reprobadas'].'</td>
+     <td width= "20.11mm" style="text-align:center;" > '.$alumno['extraedad'].'</td>
+     <td width= "44.15mm"> '.$alumno['nombre_madre_padre_tutor'].'</td>
      </tr>';
 }
 
