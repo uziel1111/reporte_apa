@@ -74,7 +74,7 @@ class Generar_reporte extends CI_Controller {
     $pdf->SetAuthor('Proyecto Educativo');
     $pdf->SetTitle('Reporte APA');
     $pdf->SetSubject('Reporte APA');
-    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+    // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
     $nombre=$array_datos_escuela['nombre'];
     $cct=$array_datos_escuela['cct'];
@@ -287,7 +287,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $pdf->Image('pastel.png', 125,85,55, 39, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
     ///Termina creación de grafica de pastel
-    
+
 
     ///Empieza creación de grafica de barras MATRICULA
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
@@ -346,7 +346,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
     $pdf->MultiCell(65, 8,"Histórico de matrícula", 0, 'L', 0, 0, 20, 120, 'M');
     $pdf->SetFont('montserrat', '', 9);
     $pdf->MultiCell(5, 7,"1", 0, 'L', 0, 0, 65, 120, 'M');
-    
+
     // /Termina creación de grafica de barras
 
     // /Empieza creación de grafica de barras DISTRIBUCION POR GRADO
@@ -935,18 +935,52 @@ $pdf->Image('assets/img/indic_icon.png', 110,210,7, 5, '', '', '', false, 300, '
 
 /// INICIA SEGUNDA PÄGINA
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
-
-$pdf->SetFont('', '', 8);
-$pdf->SetFillColor(194, 0, 31);
+$pdf->SetFont('montserratb', 'B', 13);
+$pdf->SetFillColor(0, 173, 234);
 $pdf->SetTextColor(255, 255, 255);
-$pdf->MultiCell(185, 10,$txt2, 0, 'C', 1, 0, 13, 60, true);
+$pdf->MultiCell(186.3, 3.4,"", 0, 'C', 1, 0, 12.6, 58, true);
+$pdf->MultiCell(186.3, 3.4,$txt2, 0, 'C', 1, 0, 12.6, 61.4, true);
+$pdf->MultiCell(186.3, 3.4,"", 0, 'C', 1, 0, 12.6, 64.8, true);
 
+$pdf->Image('assets/img/efic_ter_icon.png', 16,76,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->SetFont('montserratb', '', 11);
+$pdf->SetTextColor(145, 145, 145);
+$pdf->MultiCell(65, 8,"Eficiencia terminal efectiva", 0, 'L', 0, 0, 22, 76, 'M');
+$pdf->SetTextColor(145, 145, 145);
+$pdf->SetFillColor(255, 255, 255);
+$pdf->MultiCell(20, 10,$reporte_datos['apr_ete'].'%', 0, 'L', 1, 0, 22, 82, 'M');
+$pdf->SetFont('montserratb', '', 7);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFillColor(255, 255, 255);
-$pdf->MultiCell(120, 10,$reporte_datos['apr_ete'].'% Porcentaje de alumnos egresados con aprendizajes suficientes', 0, 'L', 1, 0, 17, 80, 'M');
+$pdf->MultiCell(120, 10,'Porcentaje de alumnos egresados con aprendizajes suficientes.', 0, 'L', 1, 0, 32, 83, 'M');
 
-$pdf->MultiCell(50, 10,'Lenguaje y Comunicación', 0, 'L', 1, 0, 50, 95, 'M');
-$pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 95, 'M');
+// $pdf->SetFillColor(0, 0, 0);
+// $pdf->MultiCell(50, 4.8,'', 0, 'C', true, 0, 0, 100, 'M');
+$style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
+$pdf->Line(18, 89, 193, 89, $style);
+
+$pdf->Image('assets/img/planea_icon.png', 16,92,5, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->SetFont('montserratb', '', 11);
+$pdf->SetTextColor(145, 145, 145);
+$pdf->MultiCell(65, 8,"Resultados PLANEA 2018", 0, 'L', 0, 0, 22, 92, 'M');
+$style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
+$pdf->Line(108.89, 98, 108.89, 156, $style);
+
+// $pdf->SetFillColor(0, 0, 0);
+// $pdf->MultiCell(68.89, 10,'', 0, 'C', true, 0, 130, 100, 'M');
+$pdf->SetTextColor(75, 74, 72);
+$pdf->SetFillColor(255, 255, 255);
+$pdf->MultiCell(70, 10,'Lenguaje y Comunicación', 0, 'L', 1, 0, 37, 98, 'M');
+$pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 98, 'M');
+
+$pdf->Image('assets/img/escuela_icon.png', 26,109,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->MultiCell(50, 10,'Escuela 2016', 0, 'L', 1, 0, 32, 111, 'M');
+$pdf->Image('assets/img/escuela_icon.png', 26,121,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->MultiCell(50, 10,'Escuela 2018', 0, 'L', 1, 0, 32, 123, 'M');
+$pdf->Image('assets/img/esta_icon.png', 26,133,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->MultiCell(50, 10,'Estado 2018', 0, 'L', 1, 0, 32, 135, 'M');
+$pdf->Image('assets/img/pais_icon.png', 26,145,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->MultiCell(50, 10,'País 2018', 0, 'L', 1, 0, 32, 147, 'M');
 
 
 $tipo='leng';
@@ -989,12 +1023,12 @@ $b2plot = new BarPlot($data2y);
 $gbplot = new GroupBarPlot(array($b1plot,$b2plot));
 $graph->Add($gbplot);
 $b1plot->SetColor("white");
-$b1plot->SetFillColor("#F47B2F");
+$b1plot->SetFillColor("#ff9c3e");
 $b2plot->SetColor("white");
-$b2plot->SetFillColor("#EE1D23");
+$b2plot->SetFillColor("#9ac27c");
 $graph->Stroke('barras2.png');
 
-$pdf->Image('barras2.png', 10,160,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+$pdf->Image('barras2.png', 10,163,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
 
 unlink('barras2.png');
 
@@ -1019,16 +1053,24 @@ $b2plot = new BarPlot($data2y);
 $gbplot = new GroupBarPlot(array($b1plot,$b2plot));
 $graph->Add($gbplot);
 $b1plot->SetColor("white");
-$b1plot->SetFillColor("#F47B2F");
+$b1plot->SetFillColor("#ff9c3e");
 $b2plot->SetColor("white");
-$b2plot->SetFillColor("#EE1D23");
+$b2plot->SetFillColor("#9ac27c");
 $graph->Stroke('barras3.png');
 
-$pdf->Image('barras3.png', 110,160,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+$pdf->Image('barras3.png', 110,163,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
 
+$pdf->SetFont('montserratb', 'B', 11);
+$pdf->SetTextColor(75, 74, 72);
+$pdf->SetFillColor(255, 255, 255);
+$pdf->MultiCell(170, 10,'Comparativo entre resultados de PLANEA y aprovechamiento escolar', 0, 'L', 1, 0, 35, 160, 'M');
+$style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
+$pdf->Line(108.89, 170, 108.89, 215, $style);
 unlink('barras3.png');
 
 /////Termina gráfica mate
+
+$pdf->SetFont('montserratb', 'B', 7);
 
 $planea_ciclo=$reporte_datos['apr_planea1_nlogro_esc_periodo'];
 $str_htm3 = <<<EOT
@@ -1046,9 +1088,9 @@ table td{
   <tbody>
     <tr>
       <td WIDTH="80">Calificaciones</td>
-      <td WIDTH="20" style="background-color:#D1232A;"></td>
+      <td WIDTH="20" style="background-color:#ff9c3e;"></td>
       <td WIDTH="90">Niveles PLANEA $planea_ciclo</td>
-      <td WIDTH="20" style="background-color:#F5842A;"></td>
+      <td WIDTH="20" style="background-color:#9ac27c;"></td>
     </tr>
   </tbody>
 </table>
@@ -1062,9 +1104,16 @@ $pdf->SetTextColor(0, 0, 0);
 $pdf->writeHTMLCell($w=60,$h=30,$x=65,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 ///Contenidos temáticos
-
-$cont_tem_lyc = array(0 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_1txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_1por']), 1 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_2txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_2por']), 2 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_3txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_3por']), 3 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_4txt'],'por' => $reporte_datos['apr_planea1_ct_esc_lyc_4por']));
-$cont_tem_mat= array(0 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_1txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_1por']), 1 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_2txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_2por']), 2 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_3txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_3por']), 3 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_4txt'],'por' => $reporte_datos['apr_planea1_ct_esc_mat_4por']));;
+$pdf->Image('assets/img/cont_tem_icon.png', 16,225,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->SetFont('montserratb', '', 11);
+$pdf->SetTextColor(145, 145, 145);
+$pdf->MultiCell(165, 8,"Contenidos temáticos con menor porcentaje de aciertos en la escuela", 0, 'L', 0, 0, 22, 227, 'M');
+$style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
+$pdf->Line(108.89, 235, 108.89, 275, $style);
+$pdf->SetFont('montserratb', '', 7);
+$pdf->SetTextColor(0, 0, 0);
+$cont_tem_lyc = array(0 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_1txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_1por']), 1 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_2txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_2por']), 2 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_3txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_3por']), 3 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_4txt'],'por' => $reporte_datos['apr_planea1_ct_esc_lyc_4por']), 4 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_5txt'],'por' => $reporte_datos['apr_planea1_ct_esc_lyc_5por']));
+$cont_tem_mat= array(0 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_1txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_1por']), 1 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_2txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_2por']), 2 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_3txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_mat_3por']), 3 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_4txt'],'por' => $reporte_datos['apr_planea1_ct_esc_mat_4por']), 4 => array('txt' => $reporte_datos['apr_planea1_ct_esc_mat_5txt'],'por' => $reporte_datos['apr_planea1_ct_esc_mat_5por']));
 
 
 //////lyc
@@ -1092,7 +1141,7 @@ $por=$lyc['por'];
 $str_htm3 .= <<<EOT
 <tr>
   <td WIDTH="22" style="text-align:center;"><font color="red">$por%</font></td>
-  <td WIDTH="200" style="text-align:left;">$txt</td>
+  <td WIDTH="230" style="text-align:left;">$txt</td>
 </tr>
 EOT;
 }
@@ -1107,7 +1156,7 @@ EOT;
 $html5 = <<<EOT
 $str_htm3
 EOT;
-$pdf->writeHTMLCell($w=60,$h=30,$x=20,$y=240, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=70,$h=30,$x=16,$y=235, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 /////mat
 
@@ -1135,7 +1184,7 @@ $por=$mat['por'];
 $str_htm3 .= <<<EOT
 <tr>
   <td WIDTH="22" style="text-align:center;"><font color="red"><strong>$por%</strong></font></td>
-  <td WIDTH="200" style="text-align:left;">$txt</td>
+  <td WIDTH="230" style="text-align:left;">$txt</td>
 </tr>
 EOT;
 }
@@ -1150,17 +1199,12 @@ EOT;
 $html5 = <<<EOT
 $str_htm3
 EOT;
-$pdf->writeHTMLCell($w=60,$h=30,$x=105,$y=240, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=235, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$pdf->Image('assets/img/efic_ter_icon.png', 16,72,5, 5, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/planea_icon.png', 16,87,5, 6, '', '', '', false, 300, '', false, false, 0);
 
-$pdf->Image('assets/img/esc_ver_icon.png', 16,105,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/esc_ver_icon.png', 16,117,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/esta_icon.png', 16,129,6, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/pais_icon.png', 16,141,6, 6, '', '', '', false, 300, '', false, false, 0);
 
-$pdf->Image('assets/img/cont_tem_icon.png', 22,230,6, 6, '', '', '', false, 300, '', false, false, 0);
+
+
 
 
 // $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
@@ -1225,9 +1269,9 @@ $str_htm3 = <<<EOT
       <td width="$b1" style="text-align:right;" HEIGHT="15"><strong>II, III, IV</strong></td>
     </tr>
       <tr WIDTH="105" HEIGHT="15">
-        <td width="$a" style="background-color:#F47B2F; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
+        <td width="$a" style="background-color:#ff9c3e; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
         <td width="5" HEIGHT="15">&nbsp;</td>
-        <td width="$b" style="background-color:#EE1D23; text-align:center;" color="white" HEIGHT="15"><strong>$b%</strong></td>
+        <td width="$b" style="background-color:#9ac27c; text-align:center;" color="white" HEIGHT="15"><strong>$b%</strong></td>
       </tr>
     </tbody>
   </table>
@@ -1238,20 +1282,20 @@ $str_htm3
 EOT;
 $pdf->SetFont('', '', 7);
 if ($yg==1){
-$yg=100;
+$yg=105;
 }
 elseif ($yg==2){
-$yg=112;
+$yg=117;
 }
 elseif ($yg==3){
-$yg=124;
+$yg=129;
 }
 else {
-$yg=136;
+$yg=141;
 }
 
 if ($tipo=='leng'){
-  $xg=50;
+  $xg=60;
 }
 else {
   $xg=130;
