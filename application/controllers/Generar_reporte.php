@@ -1073,8 +1073,8 @@ $planea_aprov_esp=array(0 => $reporte_datos['apr_planea1_nlogro_esc_lyc_i'],1 =>
 $planea_aprov_mat=array(0 => $reporte_datos['apr_planea1_nlogro_esc_mat_i'],1 => $reporte_datos['apr_planea1_nlogro_esc_mat_ii'],2 => $reporte_datos['apr_planea1_nlogro_esc_mat_iii'],3 => $reporte_datos['apr_planea1_nlogro_esc_mat_iv'] );
 
 /////Inicia gráfica español
-// print_r($prom_cal_esp);
-// print_r($planea_aprov[1]); die();
+// print_r($prom_cal_esp);die();
+// print_r($planea_aprov_esp); die();
 $data1y=$prom_cal_esp;
 $data2y=$planea_aprov_esp;
 $data3y=array(0,0,0,0,0,0);
@@ -1082,7 +1082,7 @@ $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-$graph->yaxis->SetTickPositions(array(0,10,20,30,40), array(5,15,25,35));
+$graph->yaxis->SetTickPositions(array(0,10,20,30,40,50,60,70,80,100), array(0,10,20,30,40,50,60,70,80,100));
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
@@ -1112,7 +1112,7 @@ $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-$graph->yaxis->SetTickPositions(array(0,10,20,30,40), array(5,15,25,35));
+$graph->yaxis->SetTickPositions(array(0,10,20,30,40,50,60,70,80,100), array(0,10,20,30,40,50,60,70,80,100));
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
