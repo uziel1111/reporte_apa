@@ -1324,7 +1324,18 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
      $a1=$a;
      $b1=$b;
    }
-
+   if ($a<27) {
+     $a_fotnt_size=5;
+   }
+   else {
+     $a_fotnt_size=12;
+   }
+   if ($b<27) {
+     $b_fotnt_size=5;
+   }
+   else {
+     $b_fotnt_size=12;
+   }
 $str_htm3 = <<<EOT
   <style>
   table td{
@@ -1339,9 +1350,9 @@ $str_htm3 = <<<EOT
       <td width="$b1" style="text-align:right;" HEIGHT="15"><strong>II, III, IV</strong></td>
     </tr>
       <tr WIDTH="105" HEIGHT="15">
-        <td width="$a" style="background-color:#ff9c3e; text-align:center;" color="white" HEIGHT="15"><strong>$a%</strong></td>
+        <td width="$a" style="background-color:#ff9c3e; text-align:center;" color="white" HEIGHT="15"><font size="$a_fotnt_size" face="Montserrat-Regular"><strong>$a%</strong></font></td>
         <td width="5" HEIGHT="15">&nbsp;</td>
-        <td width="$b" style="background-color:#9ac27c; text-align:center;" color="white" HEIGHT="15"><strong>$b%</strong></td>
+        <td width="$b" style="background-color:#9ac27c; text-align:center;" color="white" HEIGHT="15"><font size="$b_fotnt_size" face="Montserrat-Regular"><strong>$b%</strong></font></td>
       </tr>
     </tbody>
   </table>
