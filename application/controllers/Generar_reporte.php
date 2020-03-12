@@ -1336,6 +1336,9 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    else {
      $b_fotnt_size=12;
    }
+   // echo "<pre>";
+   // print_r($a);
+   // die();
 $str_htm3 = <<<EOT
   <style>
   table td{
@@ -1345,14 +1348,14 @@ $str_htm3 = <<<EOT
   <table>
     <tbody>
     <tr WIDTH="105" HEIGHT="15">
-      <td width="$a1" style="text-align:center;" HEIGHT="15"><strong>I</strong></td>
+      <td width="$a1" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>I</strong></td>
       <td width="5" HEIGHT="15"></td>
-      <td width="$b1" style="text-align:right;" HEIGHT="15"><strong>II, III, IV</strong></td>
+      <td width="$b1" style="text-align:right; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>II, III, IV</strong></td>
     </tr>
       <tr WIDTH="105" HEIGHT="15">
-        <td width="$a" style="background-color:#ff9c3e; text-align:center;" color="white" HEIGHT="15"><font size="$a_fotnt_size" face="Montserrat-Regular"><strong>$a%</strong></font></td>
+        <td width="$a" style="background-color:#ff9c3e; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="$a_fotnt_size" face="Montserrat-Regular"><strong>$a%</strong></font></td>
         <td width="5" HEIGHT="15">&nbsp;</td>
-        <td width="$b" style="background-color:#9ac27c; text-align:center;" color="white" HEIGHT="15"><font size="$b_fotnt_size" face="Montserrat-Regular"><strong>$b%</strong></font></td>
+        <td width="$b" style="background-color:#9ac27c; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="$b_fotnt_size" face="Montserrat-Regular"><strong>$b%</strong></font></td>
       </tr>
     </tbody>
   </table>
