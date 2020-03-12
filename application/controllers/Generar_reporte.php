@@ -34,6 +34,7 @@ class Generar_reporte extends CI_Controller {
     // $planea_aprov=$this->Apa_model->get_planea_aprov();
     // $array_datos_escuela=$this->Apa_model->get_datos_escuela();
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
+    // echo "<pre>";print_r($reporte_datos);die();
     if (!isset($reporte_datos)) {
     echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
     }
@@ -1359,17 +1360,21 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    // echo "<pre>";
    // print_r($a);
    // die();
-   if ($a==0) {
+   if ($a==0 || $a=='') {
      $srthtml_a='';
+     $srthtml_a1='';
    }
    else {
      $srthtml_a='<td width="'.$a.'" style="background-color:#ff9c3e; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$a_fotnt_size.'" face="Montserrat-Regular"><strong>'.$a.'%</strong></font></td>';
+     $srthtml_a1='<td width="'.$a1.'" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>I</strong></td>';
    }
-   if ($b==0) {
+   if ($b==0 || $b=='') {
      $srthtml_b='';
+     $srthtml_b1='';
    }
    else {
      $srthtml_b='<td width="'.$b.'" style="background-color:#9ac27c; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$b_fotnt_size.'" face="Montserrat-Regular"><strong>'.$b.'%</strong></font></td>';
+     $srthtml_b1='<td width="'.$b1.'" style="text-align:right; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>II, III, IV</strong></td>';
    }
 
 $str_htm3 = <<<EOT
@@ -1381,10 +1386,9 @@ $str_htm3 = <<<EOT
   <table>
     <tbody>
     <tr WIDTH="105" HEIGHT="15">
-
-      <td width="$a1" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>I</strong></td>
+      $srthtml_a1
       <td width="5" HEIGHT="15"></td>
-      <td width="$b1" style="text-align:right; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>II, III, IV</strong></td>
+      $srthtml_b1
     </tr>
       <tr WIDTH="105" HEIGHT="15">
         $srthtml_a
