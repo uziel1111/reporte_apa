@@ -420,11 +420,11 @@ $str_htm3 = <<<EOT
     <style>
     table td{
       border: none;
-      padding: 5px !important;
+      padding: 10px !important;
       background-color:#e4e0df;
     }
     </style>
-    <table WIDTH="527">
+    <table WIDTH="200mm">
       <tbody>
         <tr>
           <td WIDTH="24"></td>
@@ -439,9 +439,9 @@ $html3 = <<<EOT
 		$str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=120,$h=55,$x=12,$y=60, $html3, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=120,$h=55,$x=11.59,$y=60, $html3, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$pdf->Image('assets/img/admiracion.png', 15,61,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/admiracion.png', 12,61,5, 5, '', '', '', false, 300, '', false, false, 0);
 
 
 $str_htm3 = <<<EOT
