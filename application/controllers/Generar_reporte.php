@@ -1428,7 +1428,7 @@ return $pdf;
 private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->SetFont('', '', 10);
   $pdf->SetAutoPageBreak(TRUE, 0);
-  
+
   $pdf->AddPage('P', 'A4');
   $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
   $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
