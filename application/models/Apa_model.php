@@ -636,7 +636,7 @@ class Apa_model extends CI_Model
                             pct.mct_mat3  AS apr_planea1_ct_esc_mat_3txt,
                             pct.mct_mat_p4 AS apr_planea1_ct_esc_mat_4por,
                             pct.mct_mat4 AS apr_planea1_ct_esc_mat_4txt,
-                      pct.mct_mat_p4 AS apr_planea1_ct_esc_mat_5por,
+                            pct.mct_mat_p4 AS apr_planea1_ct_esc_mat_5por,
                             pct.mct_mat4 AS apr_planea1_ct_esc_mat_5txt
                             FROM centrocfg cfg
                             INNER JOIN cct ct ON ct.idct=cfg.idct
@@ -1242,6 +1242,265 @@ class Apa_model extends CI_Model
         $this->db->query($query2);
 
       }
+    }
+
+    function update_porcentaje_cal_primaria(){
+      $query="SELECT idcentrocfg FROM centrocfg where nivel=2";
+      $datos=$this->db->query($query)->result_array();
+      for ($i=0; $i<count($datos); $i++) {
+        $query="UPDATE complemento_apa t
+              JOIN
+              (
+                SELECT  cfg.idcentrocfg,
+                                ((g.total_5_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_5',
+                                    ((e.total_67_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_6-7',
+                                    ((c.total_89_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_8-9',
+                                    ((a.total_10_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_10',
+                                    ((h.total_5_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_5',
+                                    ((f.total_67_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_6-7',
+                                    ((d.total_89_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_8-9',
+                                    ((b.total_10_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_10'
+                              FROM centrocfg cfg
+                              LEFT JOIN (
+                                SELECT cfg.idcentrocfg,COUNT(*) AS total_10_lyc
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
+                                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS a ON a.idcentrocfg=cfg.idcentrocfg
+
+                              LEFT JOIN (
+                                SELECT cfg.idcentrocfg,COUNT(*) AS total_10_mat
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS b ON b.idcentrocfg=cfg.idcentrocfg
+                              LEFT JOIN (
+                                    SELECT cfg.idcentrocfg,COUNT(*) AS total_89_lyc
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
+                                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS c ON c.idcentrocfg=cfg.idcentrocfg
+
+                              LEFT JOIN (
+                                     SELECT cfg.idcentrocfg,COUNT(*) AS total_89_mat
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS d ON d.idcentrocfg=cfg.idcentrocfg
+
+                              LEFT JOIN (
+                                    SELECT cfg.idcentrocfg,COUNT(*) AS total_67_lyc
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
+                                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS e ON e.idcentrocfg=cfg.idcentrocfg
+
+                              LEFT JOIN (
+                                     SELECT cfg.idcentrocfg,COUNT(*) AS total_67_mat
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS f ON f.idcentrocfg=cfg.idcentrocfg
+
+                              LEFT JOIN (
+                                   SELECT cfg.idcentrocfg,COUNT(*) AS total_5_lyc
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
+                                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS g ON g.idcentrocfg=cfg.idcentrocfg
+                              LEFT JOIN (
+                                     SELECT cfg.idcentrocfg,COUNT(*) AS total_5_mat
+                                          FROM centrocfg cfg
+                                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                                          INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                              ) AS h ON h.idcentrocfg=cfg.idcentrocfg
+                              LEFT JOIN (
+                    SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM ( 
+                      SELECT cfg.idcentrocfg
+                          FROM centrocfg cfg
+                          INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
+                          INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
+                          INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
+                          INNER JOIN alumno a ON a.idalumno=e.idalumno
+                          WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A' AND eval.p1 IS NOT NULL AND eval.`p1`!=0 GROUP BY e.`idexpediente`
+                                      ) AS a
+                              ) AS i ON i.idcentrocfg=cfg.idcentrocfg
+                              WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
+                
+              ) AS d
+              SET       t.`apr_prom_al_esc_esp_5`=d.`apr_prom_al_esc_esp_5`,
+                        t.`apr_prom_al_esc_esp_6-7`=d.`apr_prom_al_esc_esp_6-7`,
+                        t.`apr_prom_al_esc_esp_8-9`=d.`apr_prom_al_esc_esp_8-9`,
+                        t.`apr_prom_al_esc_esp_10`=d.`apr_prom_al_esc_esp_10`,
+                        t.`apr_prom_al_esc_mat_5`=d.`apr_prom_al_esc_mat_5`,
+                        t.`apr_prom_al_esc_mat_6-7`=d.`apr_prom_al_esc_mat_6-7`,
+                        t.`apr_prom_al_esc_mat_8-9`=d.`apr_prom_al_esc_mat_8-9`,
+                        t.`apr_prom_al_esc_mat_10`=d.`apr_prom_al_esc_mat_10`
+              WHERE t.idcentrocfg=d.idcentrocfg";
+              $this->db->query($query);
+
+      }
+      $query="SELECT idcentrocfg FROM centrocfg where nivel=3";
+      $datos=$this->db->query($query)->result_array();
+          for ($i=0; $i<count($datos); $i++) {        
+              $query="
+                UPDATE complemento_apa t
+                  JOIN
+                  (
+                    SELECT  cfg.idcentrocfg,
+                                    ((g.total_5_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_5',
+                                    ((e.total_67_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_6-7',
+                                    ((c.total_89_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_8-9',
+                                    ((a.total_10_lyc*100)/i.total_alumnos) AS 'apr_prom_al_esc_esp_10',
+                                    ((h.total_5_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_5',
+                                    ((f.total_67_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_6-7',
+                                    ((d.total_89_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_8-9',
+                                    ((b.total_10_mat*100)/i.total_alumnos) AS 'apr_prom_al_esc_mat_10'
+                                  FROM centrocfg cfg
+                                  LEFT JOIN (
+                                    SELECT cfg.idcentrocfg,COUNT(*) AS total_10_lyc
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
+                                              WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS a ON a.idcentrocfg=cfg.idcentrocfg
+
+                                  LEFT JOIN (
+                                    SELECT cfg.idcentrocfg,COUNT(*) AS total_10_mat
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                              WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS b ON b.idcentrocfg=cfg.idcentrocfg
+                                  LEFT JOIN (
+                                        SELECT cfg.idcentrocfg,COUNT(*) AS total_89_lyc
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
+                                              WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS c ON c.idcentrocfg=cfg.idcentrocfg
+
+                                  LEFT JOIN (
+                                         SELECT cfg.idcentrocfg,COUNT(*) AS total_89_mat
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                              WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS d ON d.idcentrocfg=cfg.idcentrocfg
+
+                                  LEFT JOIN (
+                                        SELECT cfg.idcentrocfg,COUNT(*) AS total_67_lyc
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
+                                              WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS e ON e.idcentrocfg=cfg.idcentrocfg
+
+                                  LEFT JOIN (
+                                         SELECT cfg.idcentrocfg,COUNT(*) AS total_67_mat
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                              WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS f ON f.idcentrocfg=cfg.idcentrocfg
+
+                                  LEFT JOIN (
+                                       SELECT cfg.idcentrocfg,COUNT(*) AS total_5_lyc
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
+                                              WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS g ON g.idcentrocfg=cfg.idcentrocfg
+                                  LEFT JOIN (
+                                         SELECT cfg.idcentrocfg,COUNT(*) AS total_5_mat
+                                              FROM centrocfg cfg
+                                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                                              INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
+                                              WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                  ) AS h ON h.idcentrocfg=cfg.idcentrocfg
+                                  LEFT JOIN (
+                        SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM ( 
+                          SELECT cfg.idcentrocfg
+                              FROM centrocfg cfg
+                              INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
+                              INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
+                              INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
+                              INNER JOIN alumno a ON a.idalumno=e.idalumno
+                              WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A' AND eval.p1 IS NOT NULL AND eval.`p1`!=0  AND eval.`idasig` IN(1,2,3,8,9,10)
+                              GROUP BY e.`idexpediente`
+                                          ) AS a
+                                  ) AS i ON i.idcentrocfg=cfg.idcentrocfg
+                                  WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
+                    
+                  ) AS d
+                  SET       t.`apr_prom_al_esc_esp_5`=d.`apr_prom_al_esc_esp_5`,
+                            t.`apr_prom_al_esc_esp_6-7`=d.`apr_prom_al_esc_esp_6-7`,
+                            t.`apr_prom_al_esc_esp_8-9`=d.`apr_prom_al_esc_esp_8-9`,
+                            t.`apr_prom_al_esc_esp_10`=d.`apr_prom_al_esc_esp_10`,
+                            t.`apr_prom_al_esc_mat_5`=d.`apr_prom_al_esc_mat_5`,
+                            t.`apr_prom_al_esc_mat_6-7`=d.`apr_prom_al_esc_mat_6-7`,
+                            t.`apr_prom_al_esc_mat_8-9`=d.`apr_prom_al_esc_mat_8-9`,
+                            t.`apr_prom_al_esc_mat_10`=d.`apr_prom_al_esc_mat_10`
+                  WHERE t.idcentrocfg=d.idcentrocfg
+              ";
+              $this->db->query($query);
+          }
     }
 
 }

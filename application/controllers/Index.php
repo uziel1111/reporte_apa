@@ -13,7 +13,7 @@ class Index extends CI_Controller
 	}
 
 	function index(){
-		echo "Bienvenido :)"; die();
+		// echo "Bienvenido :)"; die();
 		//llenar planea reactivo por idcentrocfg
 		// $resultado=$this->Apa_model->llenar_planeaxreactivoxcentrocfg();
 
@@ -23,6 +23,7 @@ class Index extends CI_Controller
 		// $resultado=$this->Apa_model->inserta_calificaciones_primaria();
 		// $resultado=$this->Apa_model->inserta_calificaciones_secundaria();
 		
+		$resultado=$this->Apa_model->update_porcentaje_cal_primaria();
 		
 
 	}
