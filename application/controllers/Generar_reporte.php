@@ -119,31 +119,35 @@ $str_htm3 =<<<EOD
               <td WIDTH="2"></td>
             </tr>
             <tr>
-              <td WIDTH="10"></td>
-              <td WIDTH="40"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
-              <td WIDTH="55">&nbsp;</td>
-              <td WIDTH="170"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="44"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
-              <td WIDTH="20">&nbsp;</td>
-              <td WIDTH="156.88"><font face="Montserrat-Bold" color="#555">$municipio</font></td>
-              <td WIDTH="5">&nbsp;</td>
-              <td WIDTH="2"></td>
+              <td WIDTH="10" HEIGHT="13"></td>
+              <td WIDTH="40" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
+              <td WIDTH="55" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="170" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
+              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="20" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
+              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="140.88" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$municipio</font></td>
+              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="2" HEIGHT="13"></td>
             </tr>
             <tr>
-              <td WIDTH="10"></td>
-              <td WIDTH="85"><font face="Montserrat-Regular" color="#555">CCT:</font></td>
-              <td WIDTH="10">&nbsp;</td>
-              <td WIDTH="130"><font face="Montserrat-Bold" color="#555">$cct</font></td>
-              <td WIDTH="65">&nbsp;</td>
-              <td WIDTH="30"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
-              <td WIDTH="35">&nbsp;</td>
-              <td WIDTH="55"><font face="Montserrat-Bold" color="#555">$turno</font></td>
-              <td WIDTH="107.88">&nbsp;</td>
+              <td WIDTH="10" HEIGHT="13"></td>
+              <td WIDTH="85" HEIGHT="13"><font face="Montserrat-Regular" color="#555">CCT:</font></td>
+              <td WIDTH="10" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$cct</font></td>
+              <td WIDTH="35" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="30" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
+              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="55" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$turno</font></td>
+              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="50" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Modalidad:</font></td>
+              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="45" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$modalidad</font></td>
+              <td WIDTH="102.88" HEIGHT="13">&nbsp;</td>
             </tr>
             <tr>
               <td WIDTH="10"></td>
@@ -175,102 +179,6 @@ $encabezado_v = <<<EOT
     		$str_htm3
 EOT;
 
-$str_htm3 = <<<EOT
-<style>
-table td{
-  border: none;
-  padding: 5px !important;
-  background-color:#ECECEE;
-  padding-top:2px;
-  padding-left:2px;
-  padding-right:2px;
-  padding-bottom:2px;
-}
-</style>
-<table WIDTH="740">
-  <tbody>
-    <tr>
-      <td WIDTH="10"></td>
-      <td WIDTH="85"></td>
-      <td WIDTH="50"></td>
-      <td WIDTH="150"></td>
-      <td WIDTH="40"></td>
-      <td WIDTH="25"></td>
-      <td WIDTH="30"></td>
-      <td WIDTH="60"></td>
-      <td WIDTH="30"></td>
-      <td WIDTH="40"></td>
-      <td WIDTH="40"></td>
-      <td WIDTH="60"></td>
-      <td WIDTH="165"></td>
-    </tr>
-    <tr>
-      <td WIDTH="10"></td>
-      <td WIDTH="85">Nombre:</td>
-      <td WIDTH="50">&nbsp;</td>
-      <td WIDTH="150"><strong>$nombre</strong></td>
-      <td WIDTH="40">&nbsp;</td>
-      <td WIDTH="25">&nbsp;</td>
-      <td WIDTH="30">&nbsp;</td>
-      <td WIDTH="60">&nbsp;</td>
-      <td WIDTH="30">&nbsp;</td>
-      <td WIDTH="40">Muncipio:</td>
-      <td WIDTH="40">&nbsp;</td>
-      <td WIDTH="60"><strong>$municipio</strong></td>
-      <td WIDTH="165">&nbsp;</td>
-    </tr>
-    <tr>
-      <td WIDTH="10"></td>
-      <td WIDTH="85">CCT:</td>
-      <td WIDTH="50">&nbsp;</td>
-      <td WIDTH="150"><strong>$cct</strong></td>
-      <td WIDTH="40">&nbsp;</td>
-      <td WIDTH="25">Turno:</td>
-      <td WIDTH="30">&nbsp;</td>
-      <td WIDTH="60"><strong>$turno</strong></td>
-      <td WIDTH="30">&nbsp;</td>
-      <td WIDTH="40">Modalidad:</td>
-      <td WIDTH="40">&nbsp;</td>
-      <td WIDTH="60"><strong>$modalidad</strong></td>
-      <td WIDTH="165">&nbsp;</td>
-    </tr>
-    <tr>
-      <td WIDTH="10"></td>
-      <td WIDTH="85">Director / Responsable:</td>
-      <td WIDTH="50">&nbsp;</td>
-      <td WIDTH="150"><strong>$director</strong></td>
-      <td WIDTH="40">&nbsp;</td>
-      <td WIDTH="25">&nbsp;</td>
-      <td WIDTH="30">&nbsp;</td>
-      <td WIDTH="60">&nbsp;</td>
-      <td WIDTH="30">&nbsp;</td>
-      <td WIDTH="40">&nbsp;</td>
-      <td WIDTH="40">&nbsp;</td>
-      <td WIDTH="60">&nbsp;</td>
-      <td WIDTH="165">&nbsp;</td>
-    </tr>
-    <tr>
-      <td WIDTH="10"></td>
-      <td WIDTH="85"></td>
-      <td WIDTH="50"></td>
-      <td WIDTH="150"></td>
-      <td WIDTH="40"></td>
-      <td WIDTH="25"></td>
-      <td WIDTH="30"></td>
-      <td WIDTH="60"></td>
-      <td WIDTH="30"></td>
-      <td WIDTH="40"></td>
-      <td WIDTH="40"></td>
-      <td WIDTH="60"></td>
-      <td WIDTH="165"></td>
-      </tr>
-  </tbody>
-</table>
-EOT;
-
-$encabezado_h = <<<EOT
-$str_htm3
-EOT;
 
 
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
