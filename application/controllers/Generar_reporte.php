@@ -1420,12 +1420,16 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
     border: .3px solid #BFC0C3;
     font-weight: bold;
     font-family: montserrat;
+    text-align:center;
+    vertical-align: middle !important;
   }
   table th{
     padding: 2px !important;
     text-align: center;
     border: .3px solid #BFC0C3;
     background-color:#E6E7E9;
+    vertical-align: middle !important;
+    line-height: 20px;
   }
   </style>
   <table width= "100%">
@@ -1480,7 +1484,7 @@ $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumno
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular" size="7" color="black">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
-Cite a los padres de familia en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
+Cite a su padre, madre o tutor en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
           </tr>
         </tbody>
       </table>
