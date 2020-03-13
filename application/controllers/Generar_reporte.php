@@ -285,7 +285,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
       $data2y= array_slice($riesgo_muy_alto, 0, 3);
     }
 
-    
+
     $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
     $pdf->Line(110, 157, 195, 157, $style);
 
@@ -603,7 +603,7 @@ $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
 $pdf->MultiCell(75, 8,"Rezago educativo del municipio", 0, 'L', 0, 0, 20, 202, 'M');
 $pdf->SetFont('montserrat', '', 9);
-$pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 87, 202, 'M');
+$pdf->MultiCell(5, 5,"3", 0, 'L', 0, 0, 87, 202, 'M');
 
 /*$rez_ed0=number_format((float)$rez_ed[0]);
 $rez_ed1=number_format((float)$rez_ed[1]);
@@ -1163,7 +1163,7 @@ $por=$lyc['por'];
 $str_htm3 .= <<<EOT
 <tr>
   <td WIDTH="22" style="text-align:center;"><font color="red">$por%</font></td>
-  <td WIDTH="230" style="text-align:left;">$txt</td>
+  <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">$txt</font></td>
 </tr>
 EOT;
 }
@@ -1206,7 +1206,7 @@ $por=$mat['por'];
 $str_htm3 .= <<<EOT
 <tr>
   <td WIDTH="22" style="text-align:center;"><font color="red"><strong>$por%</strong></font></td>
-  <td WIDTH="230" style="text-align:left;">$txt</td>
+  <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">$txt</font></td>
 </tr>
 EOT;
 }
