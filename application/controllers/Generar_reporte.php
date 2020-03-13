@@ -1429,6 +1429,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
     font-family: montserrat;
     text-align:center;
     vertical-align: middle !important;
+    line-height: 15px;
   }
   table th{
     padding: 2px !important;
@@ -1436,7 +1437,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
     border: .3px solid #BFC0C3;
     background-color:#E6E7E9;
     vertical-align: middle !important;
-    line-height: 20px;
+    line-height: 15px;
   }
   </style>
   <table width= "100%">
@@ -1509,12 +1510,14 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
    border: .3px solid #BFC0C3;
    font-weight: bold;
    font-family: montserratb;
+   line-height: 10px;
  }
  table th{
    padding: 2px !important;
    text-align: center;
    border: .3px solid #BFC0C3;
    background-color:#E6E7E9;
+   line-height: 10px;
  }
  </style>
  <table width= "100%">
