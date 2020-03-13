@@ -1256,7 +1256,7 @@ foreach ($array_items as $key => $item) {
 $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
 // echo "<pre>";print_r($alumnos_mar);die();
 if($alumnos_mar == null){
-  array_push($alumnos_baja,'No hay datos para mostrar');
+  array_push($alumnos_mar,'No hay datos para mostrar');
 }
 $array_items = array_chunk($alumnos_mar, 25);
 foreach ($array_items as $key => $item) {
@@ -1511,6 +1511,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
    font-weight: bold;
    font-family: montserratb;
    line-height: 10px;
+   text-align:center;
  }
  table th{
    padding: 2px !important;
@@ -1534,7 +1535,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
  // echo "<pre>"; print_r($array_datos); die();
  if($array_datos[0] == 'No hay datos para mostrar'){
   $str_html .= '<tr>
-  <td HEIGHT="20" colspan="3"> <font face="Montserrat" color="black">'.$array_datos[0].'</font></td>
+  <td HEIGHT="20" colspan="6"> <font face="Montserrat" color="black">'.$array_datos[0].'</font></td>
   </tr>';
 
 }else{
