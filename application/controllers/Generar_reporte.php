@@ -961,11 +961,20 @@ $pdf->SetTextColor(145, 145, 145);
 $pdf->MultiCell(65, 8,"Eficiencia terminal efectiva", 0, 'L', 0, 0, 22, 76, 'M');
 $pdf->SetTextColor(145, 145, 145);
 $pdf->SetFillColor(255, 255, 255);
-$pdf->MultiCell(20, 10,$reporte_datos['apr_ete'].'%', 0, 'L', 1, 0, 22, 82, 'M');
-$pdf->SetFont('montserratb', '', 7);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFillColor(255, 255, 255);
-$pdf->MultiCell(120, 10,'Porcentaje de alumnos egresados con aprendizajes suficientes.', 0, 'L', 1, 0, 32, 83, 'M');
+if ($reporte_datos['apr_ete']=='') {
+  $pdf->SetFont('montserratb', '', 7);
+  $pdf->SetTextColor(0, 0, 0);
+  $pdf->SetFillColor(255, 255, 255);
+  $pdf->MultiCell(120, 10,'No es posible calcular el dato por falta de información.', 0, 'L', 1, 0, 32, 83, 'M');
+}
+else {
+  $pdf->MultiCell(20, 10,$reporte_datos['apr_ete'].'%', 0, 'L', 1, 0, 22, 82, 'M');
+  $pdf->SetFont('montserratb', '', 7);
+  $pdf->SetTextColor(0, 0, 0);
+  $pdf->SetFillColor(255, 255, 255);
+  $pdf->MultiCell(120, 10,'Porcentaje de alumnos egresados con aprendizajes suficientes.', 0, 'L', 1, 0, 32, 83, 'M');
+}
+
 
 // $pdf->SetFillColor(0, 0, 0);
 // $pdf->MultiCell(50, 4.8,'', 0, 'C', true, 0, 0, 100, 'M');
@@ -1153,21 +1162,32 @@ table td{
 <table WIDTH="222">
   <tbody>
 EOT;
+// echo "<pre>";print_r($cont_tem_lyc);die();
+if ($cont_tem_lyc[0]['txt']=='') {
+  $str_htm3 .= <<<EOT
+  <tr>
 
-foreach ($cont_tem_lyc as $lyc) {
-if ($lyc['txt']!=''){
-// echo $lyc['txt'];
-$txt=$lyc['txt'];
-$por=$lyc['por'];
-
-$str_htm3 .= <<<EOT
-<tr>
-  <td WIDTH="22" style="text-align:center;"><font color="red">$por%</font></td>
-  <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">$txt</font></td>
-</tr>
+    <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">Dato no disponible.</font></td>
+  </tr>
 EOT;
 }
+else {
+  foreach ($cont_tem_lyc as $lyc) {
+    if ($lyc['txt']!=''){
+    // echo $lyc['txt'];
+    $txt=$lyc['txt'];
+    $por=$lyc['por'];
+
+    $str_htm3 .= <<<EOT
+    <tr>
+      <td WIDTH="22" style="text-align:center;"><font color="red">$por%</font></td>
+      <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">$txt</font></td>
+    </tr>
+EOT;
+    }
+  }
 }
+
 // die();
 
 $str_htm3 .= <<<EOT
@@ -1196,21 +1216,32 @@ table td{
 <table WIDTH="222">
   <tbody>
 EOT;
+if ($cont_tem_mat[0]['txt']=='') {
+  $str_htm3 .= <<<EOT
+  <tr>
 
-foreach ($cont_tem_mat as $mat) {
-if ($mat['txt']!=''){
-// echo $mat['txt'];
-$txt=$mat['txt'];
-$por=$mat['por'];
-
-$str_htm3 .= <<<EOT
-<tr>
-  <td WIDTH="22" style="text-align:center;"><font color="red"><strong>$por%</strong></font></td>
-  <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">$txt</font></td>
-</tr>
+    <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">Dato no disponible.</font></td>
+  </tr>
 EOT;
 }
+else {
+  foreach ($cont_tem_mat as $mat) {
+    if ($mat['txt']!=''){
+    // echo $mat['txt'];
+    $txt=$mat['txt'];
+    $por=$mat['por'];
+
+    $str_htm3 .= <<<EOT
+    <tr>
+      <td WIDTH="22" style="text-align:center;"><font color="red"><strong>$por%</strong></font></td>
+      <td WIDTH="230" style="text-align:left;"><font face="Montserrat-Regular">$txt</font></td>
+    </tr>
+EOT;
+    }
+  }
 }
+
+
 // die();
 
 $str_htm3 .= <<<EOT
@@ -1300,6 +1331,9 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    if ($a==0 || $a=='') {
      $srthtml_a='';
      $srthtml_a1='';
+     if ($a=='' && $b=='') {
+       $srthtml_a='<td width="100" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>Dato no disponible.</strong></td>';
+     }
    }
    else {
      $srthtml_a='<td width="'.$a.'" style="background-color:#ff9c3e; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$a_fotnt_size.'" face="Montserrat-Regular"><strong>'.$a.'%</strong></font></td>';
@@ -1308,6 +1342,9 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    if ($b==0 || $b=='') {
      $srthtml_b='';
      $srthtml_b1='';
+     // if ($b=='') {
+     //   $srthtml_b='<td width="100" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>Dato no disponible.</strong></td>';
+     // }
    }
    else {
      $srthtml_b='<td width="'.$b.'" style="background-color:#9ac27c; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$b_fotnt_size.'" face="Montserrat-Regular"><strong>'.$b.'%</strong></font></td>';
