@@ -506,30 +506,36 @@ else {
   <table width="90mm">
     <tbody>
       <tr style="background-color:#e4e4e2; text-align:center;">
-        <td width="15mm">&nbsp;</td>
-        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">Total</td>
-        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">1<sup>o</sup></td>
-        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">2<sup>o</sup></td>
-        <td style="text-align:center; font-family:Montserrat-Bold; font-size:7;">3<sup>o</sup></td>
+        <td width="20mm">&nbsp;</td>
+        <td width="12mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452">Total</td>
+        <td width="12mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452">1<sup>o</sup></td>
+        <td width="12mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452">2<sup>o</sup></td>
+        <td width="12mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452">3<sup>o</sup></td>
+        <td width="22mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452">Multigrado</td>
       </tr>
       <tr>
-        <td width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Alumnos</td>
-        <td style="text-align:center;">$asi_est_al_t</td>
-        <td style="text-align:center;">$est_asis_alumnos[0]</td>
-        <td style="text-align:center;">$est_asis_alumnos[1]</td>
-        <td style="text-align:center;">$est_asis_alumnos[2]</td>
+        <td width="20mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7; color:#545452;">Alumnos</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_al_t</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[0]</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[1]</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[2]</td>
+        <td width="22mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;"></td>
       </tr>
       <tr>
-        <td width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Grupos</td>
-        <td style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$asi_est_gr_t</td>
-        <td style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[0]</td>
-        <td style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[1]</td>
-        <td style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[2]</td>
+        <td width="20mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7; color:#545452;">Grupos</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_gr_t</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[0]</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7;color:#545452;">$est_asis_gr[1]</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:7;color:#545452;">$est_asis_gr[2]</td>
+        <td width="22mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$est_asis_gr[6]</td>
       </tr>
       <tr>
-        <td width="15mm" style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Docentes</font></td>
-        <td style="text-align:center;">$asi_est_doc</td>
-        <td colspan="6"></td>
+        <td width="20mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7; color:#545452;">Docentes</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  color:#545452; font-family:Montserrat-Bold; font-size:7;">$asi_est_doc</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;"></td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;"></td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;"></td>
+        <td width="22mm"></td>
 
       </tr>
     </tbody>
@@ -599,12 +605,12 @@ $pdf->MultiCell(75, 8,"Rezago educativo del municipio", 0, 'L', 0, 0, 20, 202, '
 $pdf->SetFont('montserrat', '', 9);
 $pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 87, 202, 'M');
 
-$rez_ed0=number_format((float)$rez_ed[0]);
+/*$rez_ed0=number_format((float)$rez_ed[0]);
 $rez_ed1=number_format((float)$rez_ed[1]);
 $rez_ed2=number_format((float)$rez_ed[2]);
 $rez_na0=number_format((float)$rez_na[0]);
 $rez_na1=number_format((float)$rez_na[1]);
-$rez_na2=number_format((float)$rez_na[2]);
+$rez_na2=number_format((float)$rez_na[2]);*/
 
 
 $str_htm3 = <<<EOT
@@ -639,12 +645,12 @@ table td{
     </tr>
     <tr>
       <td width="22.78mm" style="background-color:#E7E7E7; font-family:Montserrat-Bold; font-size:7; color:#545452;">$anios_asis</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed0</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed1</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed2</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na0</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na1</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na2</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed[0]</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed[1]</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed[2]</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na[0]</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na[1]</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na[2]</td>
     </tr>
   </tbody>
 </table>
@@ -809,10 +815,10 @@ else {
     <tbody>
 
       <tr style="background-color:#E6E7E9;">
-        <td width="20.25mm" style="text-align:center; color:#545452;">Grados</td>
-        <td width="20.25mm" style="text-align:center; color:#545452;">1<sup>o</sup></td>
-        <td width="20.25mm" style="text-align:center; color:#545452;">2<sup>o</sup></td>
-        <td width="20.25mm" style="text-align:center; color:#545452;">3<sup>o</sup></td>
+        <td width="24.76mm" style="text-align:center; color:#545452;">Grados</td>
+        <td width="18.74mm" style="text-align:center; color:#545452;">1<sup>o</sup></td>
+        <td width="18.74mm" style="text-align:center; color:#545452;">2<sup>o</sup></td>
+        <td width="18.74mm" style="text-align:center; color:#545452;">3<sup>o</sup></td>
       </tr>
       <tr>
         <td width="6.02mm" style="background-color:#F5842A;">&nbsp;</td>
@@ -838,22 +844,15 @@ EOT;
 
 $pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-if($reporte_datos['per_ind_retencion']!=0 || $reporte_datos['per_ind_retencion']!=null){
-  $retencion=$reporte_datos['per_ind_retencion']." %";
-}else{
-  $retencion="No disponible";
-}
 
-if($reporte_datos['per_ind_aprobacion']!=0 || $reporte_datos['per_ind_aprobacion']!=null){
-  $aprobacion=$reporte_datos['per_ind_retencion']." %";
-}else{
-  $aprobacion="No disponible";
-}
-if($reporte_datos['per_ind_et']!=0 ||$reporte_datos['per_ind_et']!=null){
-  $efic_ter=$reporte_datos['per_ind_retencion']." %";
-}else{
-  $efic_ter="No disponible";
-}
+  $retencion=$reporte_datos['per_ind_retencion']." %";
+
+
+  $aprobacion=$reporte_datos['per_ind_aprobacion']." %";
+
+  $efic_ter=$reporte_datos['per_ind_et']." %";
+
+
 
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(110, 215, 195, 215, $style);
