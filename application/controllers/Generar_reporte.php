@@ -59,9 +59,9 @@ class Generar_reporte extends CI_Controller {
     $riesgo_muy_alto=array(0 => $reporte_datos['per_riesgo_al_muy_alto_1'],1 => $reporte_datos['per_riesgo_al_muy_alto_2'],2 => $reporte_datos['per_riesgo_al_muy_alto_3'],3 => $reporte_datos['per_riesgo_al_muy_alto_4'],4 => $reporte_datos['per_riesgo_al_muy_alto_5'],5 => $reporte_datos['per_riesgo_al_muy_alto_6'] );
 
 
-    $rez_ed = array(0 => $reporte_datos['asi_rez_pob_t'],1 => $reporte_datos['asi_rez_pob_m'],2 => $reporte_datos['asi_rez_pob_h']);
-    $rez_na = array(0 => $reporte_datos['asi_rez_noasiste_t'],1 => $reporte_datos['asi_rez_noasiste_m'],2 => $reporte_datos['asi_rez_noasiste_h']);
-    $analfabeta = array(0 => $reporte_datos['asi_analfabeta_t'],1 => $reporte_datos['asi_analfabeta_m'],2 => $reporte_datos['asi_analfabeta_h']);
+    $rez_ed = array(0 => $reporte_datos['asi_rez_pob_h'],1 => $reporte_datos['asi_rez_pob_m'],2 => $reporte_datos['asi_rez_pob_t']);
+    $rez_na = array(0 => $reporte_datos['asi_rez_noasiste_h'],1 => $reporte_datos['asi_rez_noasiste_m'],2 => $reporte_datos['asi_rez_noasiste_t']);
+    $analfabeta = array(0 => $reporte_datos['asi_analfabeta_h'],1 => $reporte_datos['asi_analfabeta_m'],2 => $reporte_datos['asi_analfabeta_t']);
 
 
     $this->graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
@@ -211,18 +211,18 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
     ///Empieza creación de grafica de barras MATRICULA
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-    $data1y=$est_asis_alumnos;
-    $data2y=$est_asis_alumnos_h1;
-    $data3y=$est_asis_alumnos_h2;
+    $data1y=$est_asis_alumnos_h1;
+    $data2y=$est_asis_alumnos_h2;
+    $data3y=$est_asis_alumnos;
     // print_r($data1y);
     // print_r($data2y);
     // print_r($data3y);
     // die();
     }
     else {
-    $data1y= array_slice($est_asis_alumnos, 0, 3);
-    $data2y= array_slice($est_asis_alumnos_h1, 0, 3);
-    $data3y= array_slice($est_asis_alumnos_h2, 0, 3);
+    $data1y= array_slice($est_asis_alumnos_h1, 0, 3);
+    $data2y= array_slice($est_asis_alumnos_h2, 0, 3);
+    $data3y= array_slice($est_asis_alumnos, 0, 3);
     }
 // echo "<pre>";
 //  print_r($est_asis_alumnos);
@@ -473,10 +473,10 @@ table td{
       <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[3]</td>
       <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[4]</td>
       <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[5]</td>
-      <td width="11.40mm" style="background-color:#ffffff; text-align:center;">$est_asis_gr[6]</td>
+      <td width="11.40mm" style="background-color:#ffffff; text-align:center; color:#545452; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[6]</td>
     </tr>
     <tr height="5.27mm">
-      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7; color:#545452;">Docentes</td>
+      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Docentes</td>
       <td  width="9.40mm"style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_doc</td>
       <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
       <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
@@ -520,7 +520,7 @@ else {
         <td style="text-align:center;">$est_asis_alumnos[2]</td>
       </tr>
       <tr>
-        <td width="15mm" style="background-color:#e4e4e2;"><font face='Montserrat-Regular' size="7">Grupos</font></td>
+        <td width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Grupos</td>
         <td style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$asi_est_gr_t</td>
         <td style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[0]</td>
         <td style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[1]</td>
@@ -565,19 +565,19 @@ table td{
 <table width="82.28mm">
   <tbody>
     <tr>
-      <td width="28.22mm" style="background-color:#E7E7E7;">Ciclo</td>
-      <td width="3.02mm" style="background-color:#e68dab;"></td>
-      <td width="15mm" style="text-align:center;">$ti_ciclo_ac</td>
+      <td width="28.22mm" style="background-color:#E7E7E7; font-family:Montserrat-Regular; font-size:7; color:#646462;">Ciclo</td>
+      <td width="3.02mm" style="background-color:#e68dab; "></td>
+      <td width="15mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#E7E7E7">$ti_ciclo_ac</td>
       <td width="3.02mm" style="background-color:#00adea;"></td>
-      <td width="15mm" style="text-align:center;">$ti_ciclo_h1</td>
+      <td width="15mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#E7E7E7">$ti_ciclo_h1</td>
       <td width="3.02mm" style="background-color:#f1a73e;"></td>
-      <td width="15mm" style="text-align:center;">$ti_ciclo_h2</td>
+      <td width="15mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#E7E7E7">$ti_ciclo_h2</td>
     </tr>
     <tr>
-      <td width="28.22mm" style="background-color:#E7E7E7;">Total de alumnos</td>
-      <td width="18.02mm" style="text-align:center;" colspan="2">$asi_est_al_t</td>
-      <td width="18.02mm" style="text-align:center;" colspan="2">$tot_ciclo_h1</td>
-      <td width="18.02mm" style="text-align:center;" colspan="2">$tot_ciclo_h2</td>
+      <td width="28.22mm" style="background-color:#E7E7E7; font-family:Montserrat-Regular; font-size:7; color:#646462;">Total de alumnos</td>
+      <td width="18.02mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$tot_ciclo_h1</td>
+      <td width="18.02mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$tot_ciclo_h2</td>
+      <td width="18.02mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$asi_est_al_t</td>
     </tr>
   </tbody>
 </table>
@@ -587,7 +587,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=82.28,$h=10,$x=15,$y=180, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=82.28,$h=16,$x=15,$y=180, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $anios_asis=$reporte_datos['asi_rez_gedad_noasiste'];
 
