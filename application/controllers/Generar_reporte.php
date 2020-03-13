@@ -59,9 +59,9 @@ class Generar_reporte extends CI_Controller {
     $riesgo_muy_alto=array(0 => $reporte_datos['per_riesgo_al_muy_alto_1'],1 => $reporte_datos['per_riesgo_al_muy_alto_2'],2 => $reporte_datos['per_riesgo_al_muy_alto_3'],3 => $reporte_datos['per_riesgo_al_muy_alto_4'],4 => $reporte_datos['per_riesgo_al_muy_alto_5'],5 => $reporte_datos['per_riesgo_al_muy_alto_6'] );
 
 
-    $rez_ed = array(0 => $reporte_datos['asi_rez_pob_h'],1 => $reporte_datos['asi_rez_pob_m'],2 => $reporte_datos['asi_rez_pob_t']);
-    $rez_na = array(0 => $reporte_datos['asi_rez_noasiste_h'],1 => $reporte_datos['asi_rez_noasiste_m'],2 => $reporte_datos['asi_rez_noasiste_t']);
-    $analfabeta = array(0 => $reporte_datos['asi_analfabeta_h'],1 => $reporte_datos['asi_analfabeta_m'],2 => $reporte_datos['asi_analfabeta_t']);
+    $rez_ed = array(0 => number_format((float)$reporte_datos['asi_rez_pob_h']),1 => number_format((float)$reporte_datos['asi_rez_pob_m']),2 => number_format((float)$reporte_datos['asi_rez_pob_t']));
+    $rez_na = array(0 => number_format((float)$reporte_datos['asi_rez_noasiste_h']),1 => number_format((float)$reporte_datos['asi_rez_noasiste_m']),2 =>number_format((float)$reporte_datos['asi_rez_noasiste_t']));
+    $analfabeta = array(0 => number_format((float)$reporte_datos['asi_analfabeta_h']),1 => number_format((float)$reporte_datos['asi_analfabeta_m']),2 => number_format((float)$reporte_datos['asi_analfabeta_t']));
 
 
     $this->graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
@@ -599,6 +599,14 @@ $pdf->MultiCell(75, 8,"Rezago educativo del municipio", 0, 'L', 0, 0, 20, 202, '
 $pdf->SetFont('montserrat', '', 9);
 $pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 87, 202, 'M');
 
+$rez_ed0=number_format((float)$rez_ed[0]);
+$rez_ed1=number_format((float)$rez_ed[1]);
+$rez_ed2=number_format((float)$rez_ed[2]);
+$rez_na0=number_format((float)$rez_na[0]);
+$rez_na1=number_format((float)$rez_na[1]);
+$rez_na2=number_format((float)$rez_na[2]);
+
+
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -631,12 +639,12 @@ table td{
     </tr>
     <tr>
       <td width="22.78mm" style="background-color:#E7E7E7; font-family:Montserrat-Bold; font-size:7; color:#545452;">$anios_asis</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed[0]</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed[1]</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed[2]</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na[0]</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na[1]</td>
-      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na[2]</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed0</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed1</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_ed2</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na0</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na1</td>
+      <td width="11.20mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$rez_na2</td>
     </tr>
   </tbody>
 </table>
@@ -749,7 +757,7 @@ table td{
   padding-bottom:1px;
 }
 </style>
-<table WIDTH="245">
+<table WIDTH="81mm">
   <tbody>
 
     <tr style="background-color:#E6E7E9;">
@@ -764,22 +772,22 @@ table td{
     <tr>
       <td width="6.02mm" style="background-color:#F5842A;">&nbsp;</td>
       <td width="21.8mm"  style="text-align:center; background-color:#DCDDDF; font-family:Montserrat-Regular; font-size:7; color:#545452;">Alto</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_alto[0]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_alto[1]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_alto[2]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_alto[3]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_alto[4]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_alto[5]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[0]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[1]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[2]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[3]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[4]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[5]</td>
     </tr>
     <tr>
       <td width="6.02mm" style="background-color:#D1232A;">&nbsp;</td>
       <td width="21.8mm" style="text-align:center; background-color:#DCDDDF; font-family:Montserrat-Regular; font-family:7; color:#545452;">Muy alto</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_muy_alto[0]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_muy_alto[1]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_muy_alto[2]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_muy_alto[3]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-family:7; color:#000;">$riesgo_muy_alto[4]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#000;">$riesgo_muy_alto[5]</td>
+      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[0]</td>
+      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[1]</td>
+      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[2]</td>
+      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[3]</td>
+      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-family:7; color:#545452;">$riesgo_muy_alto[4]</td>
+      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[5]</td>
     </tr>
   </tbody>
 </table>
@@ -797,28 +805,28 @@ else {
     padding-bottom:1px;
   }
   </style>
-  <table WIDTH="245">
+  <table WIDTH="81mm">
     <tbody>
 
       <tr style="background-color:#E6E7E9;">
-        <td style="text-align:center; color:#545452;">Grados</td>
-        <td style="text-align:center; color:#545452;">1<sup>o</sup></td>
-        <td style="text-align:center; color:#545452;">2<sup>o</sup></td>
-        <td style="text-align:center; color:#545452;">3<sup>o</sup></td>
+        <td width="20.25mm" style="text-align:center; color:#545452;">Grados</td>
+        <td width="20.25mm" style="text-align:center; color:#545452;">1<sup>o</sup></td>
+        <td width="20.25mm" style="text-align:center; color:#545452;">2<sup>o</sup></td>
+        <td width="20.25mm" style="text-align:center; color:#545452;">3<sup>o</sup></td>
       </tr>
       <tr>
-        <td style="background-color:#F5842A;">&nbsp;</td>
-        <td colspan="2" style="background-color:#DCDDDF; color:#545452;">Alto</td>
-        <td style="text-align:center; color:#545452;">$riesgo_alto[0]</td>
-        <td style="text-align:center; color:#545452;">$riesgo_alto[1]</td>
-        <td style="text-align:center; color:#545452;">$riesgo_alto[2]</td>
+        <td width="6.02mm" style="background-color:#F5842A;">&nbsp;</td>
+        <td width="18.74mm" style="background-color:#DCDDDF; color:#545452;">Alto</td>
+        <td width="18.74mm" style="background-color:#ffffff; text-align:center; color:#545452;">$riesgo_alto[0]</td>
+        <td width="18.74mm" style="background-color:#ffffff; text-align:center; color:#545452;">$riesgo_alto[1]</td>
+        <td width="18.74mm" style="background-color:#ffffff; text-align:center; color:#545452;">$riesgo_alto[2]</td>
       </tr>
       <tr>
-        <td style="background-color:#D1232A;">&nbsp;</td>
-        <td colspan="2" style="background-color:#DCDDDF; color:#545452;">Muy alto</td>
-        <td style="text-align:center; color:#000;">$riesgo_muy_alto[0]</td>
-        <td style="text-align:center; color:#000;">$riesgo_muy_alto[1]</td>
-        <td style="text-align:center; color:#000;">$riesgo_muy_alto[2]</td>
+        <td width="6.02mm" style="background-color:#D1232A;">&nbsp;</td>
+        <td width="18.74mm" style="background-color:#DCDDDF; color:#545452;">Muy alto</td>
+        <td width="18.74mm" style="background-color:#ffffff; text-align:center; color:#545452;">$riesgo_muy_alto[0]</td>
+        <td width="18.74mm" style="background-color:#ffffff; text-align:center; color:#545452;">$riesgo_muy_alto[1]</td>
+        <td width="18.74mm" style="background-color:#ffffff; text-align:center; color:#545452;">$riesgo_muy_alto[2]</td>
       </tr>
     </tbody>
   </table>
@@ -828,7 +836,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=60,$h=30,$x=107,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 if($reporte_datos['per_ind_retencion']!=0 || $reporte_datos['per_ind_retencion']!=null){
   $retencion=$reporte_datos['per_ind_retencion']." %";
