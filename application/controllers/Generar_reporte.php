@@ -353,7 +353,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=120,$h=55,$x=11.59,$y=60, $html3, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$pdf->Image('assets/img/admiracion.png', 12,61,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/admiracion.png', 14,60.8,5, 5, '', '', '', false, 300, '', false, false, 0);
 
 
 $str_htm3 = <<<EOT
@@ -679,13 +679,13 @@ table td{
       <td width="90mm" height="5.78mm" style="background-color:#ffffff; font-family:Montserrat-Medium; font-size:9; color:#545452; border:none;">Analfabetismo</td>
     </tr>
     <tr style="background-color:#DCDDDF;">
-      <td WIDTH="43.35mm" height="8.67mm"></td>
+      <td WIDTH="43.10mm" height="8.67mm"></td>
       <td WIDTH="16.49mm" height="8.67mm" style="text-align:center;"><img src="assets/img/male.png" border="0" height="16" width="8"  /></td>
       <td WIDTH="13.94mm" height="8.67mm" style="text-align:center;"><img src="assets/img/female.png" border="0" height="16" width="8" align="middle" /></td>
       <td WIDTH="16.49mm" height="8.67mm" style="text-align:center;"><img src="assets/img/male_female.png" border="0" height="16" width="16" align="middle" /></td>
     </tr>
     <tr>
-      <td width="43.55mm" height="8.5mm" style="background-color:#DCDDDF; font-family:Montserrat-Bold; font-size:7; color:#545452;">Población mayor de 15 años que no sabe leer ni escribir</td>
+      <td width="43.10mm" height="8.5mm" style="background-color:#DCDDDF; font-family:Montserrat-Bold; font-size:7; color:#545452;">Población mayor de 15 años que no sabe leer ni escribir</td>
       <td WIDTH="16.49mm" height="8.5mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$analfabeta[0]</td>
       <td WIDTH="13.94mm" height="8.5mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$analfabeta[1]</td>
       <td WIDTH="16.49mm" height="8.5mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$analfabeta[2]</td>
@@ -1027,19 +1027,44 @@ $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$r
 
 ///Empieza creación de grafica de barras
 
-$prom_cal_esp=array(0 => $reporte_datos['apr_prom_al_esc_esp_5'],1 => $reporte_datos['apr_prom_al_esc_esp_6-7'],2 => $reporte_datos['apr_prom_al_esc_esp_8-9'],3 => $reporte_datos['apr_prom_al_esc_esp_10'] );
-$prom_cal_mat=array(0 => $reporte_datos['apr_prom_al_esc_mat_5'],1 => $reporte_datos['apr_prom_al_esc_mat_6-7'],2 => $reporte_datos['apr_prom_al_esc_mat_8-9'],3 => $reporte_datos['apr_prom_al_esc_mat_10'] );
+$prom_cal_esp=array(
+  0 => ($reporte_datos['apr_prom_al_esc_esp_5'] == '') ? 0: $reporte_datos['apr_prom_al_esc_esp_5'],
+  1 => ($reporte_datos['apr_prom_al_esc_esp_6-7'] == '') ? 0: $reporte_datos['apr_prom_al_esc_esp_6-7'],
+  2 => ($reporte_datos['apr_prom_al_esc_esp_8-9'] == '') ? 0: $reporte_datos['apr_prom_al_esc_esp_8-9'],
+  3 => ($reporte_datos['apr_prom_al_esc_esp_10'] == '') ? 0: $reporte_datos['apr_prom_al_esc_esp_10']  );
+$prom_cal_mat=array(
+  0 => ($reporte_datos['apr_prom_al_esc_mat_5'] == '') ? 0: $reporte_datos['apr_prom_al_esc_mat_5'],
+  1 => ($reporte_datos['apr_prom_al_esc_mat_6-7'] == '') ? 0: $reporte_datos['apr_prom_al_esc_mat_6-7'],
+  2 => ($reporte_datos['apr_prom_al_esc_mat_8-9'] == '') ? 0: $reporte_datos['apr_prom_al_esc_mat_8-9'],
+  3 => ($reporte_datos['apr_prom_al_esc_mat_10'] == '') ? 0: $reporte_datos['apr_prom_al_esc_mat_10']  );
 
-$planea_aprov_esp=array(0 => $reporte_datos['apr_planea1_nlogro_esc_lyc_i'],1 => $reporte_datos['apr_planea1_nlogro_esc_lyc_ii'],2 => $reporte_datos['apr_planea1_nlogro_esc_lyc_iii'],3 => $reporte_datos['apr_planea1_nlogro_esc_lyc_iv'] );
-$planea_aprov_mat=array(0 => $reporte_datos['apr_planea1_nlogro_esc_mat_i'],1 => $reporte_datos['apr_planea1_nlogro_esc_mat_ii'],2 => $reporte_datos['apr_planea1_nlogro_esc_mat_iii'],3 => $reporte_datos['apr_planea1_nlogro_esc_mat_iv'] );
+$planea_aprov_esp=array(
+  0 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_i'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_i'] ,
+  1 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_ii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_ii'] ,
+  2 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_iii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_iii'] ,
+  3 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_iv'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_iv']  );
+$planea_aprov_mat=array(
+  0 => ($reporte_datos['apr_planea1_nlogro_esc_mat_i'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_i'] ,
+  1 => ($reporte_datos['apr_planea1_nlogro_esc_mat_ii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_ii'] ,
+  2 => ($reporte_datos['apr_planea1_nlogro_esc_mat_iii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_iii'] ,
+  3 => ($reporte_datos['apr_planea1_nlogro_esc_mat_iv'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_iv']  );
 
-/////Inicia gráfica español
-// $prom_cal_esp=array(0 => "",1 => "",2 => "",3 => "" );
+$vect_esp = array();
+$vect_esp = array_unique(array_merge((array)$prom_cal_esp, (array)$planea_aprov_esp));
 
-// echo "<pre>";
-// print_r($prom_cal_esp);
-// die();
-// print_r($planea_aprov_esp); die();
+$vect_mat = array();
+$vect_mat = array_unique(array_merge((array)$prom_cal_mat, (array)$planea_aprov_mat));
+
+asort($vect_esp, 0);
+asort($vect_mat, 0);
+
+if($vect_esp[0] == 0){
+  $vect_esp =array();
+}
+if($vect_mat[0] == 0){
+  $vect_mat = array();
+}
+
 $data1y=$prom_cal_esp;
 $data2y=$planea_aprov_esp;
 $data3y=array(0,0,0,0,0,0);
@@ -1047,7 +1072,7 @@ $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-$graph->yaxis->SetTickPositions(array(0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,100), array(0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,100));
+$graph->yaxis->SetTickPositions($vect_esp, $vect_esp);
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
@@ -1077,7 +1102,7 @@ $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-$graph->yaxis->SetTickPositions(array(0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,100), array(0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,100));
+$graph->yaxis->SetTickPositions($vect_mat, $vect_mat);
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
 $graph->xaxis->SetTickLabels(array('5   NI','6-7  NII','8-9  NIII','10   NIV'));
