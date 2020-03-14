@@ -93,7 +93,7 @@ class Apa_model extends CI_Model
                 SELECT cfg.idcentrocfg, aux.id_reactivo AS id_reactivo,l.n_alum_eval,
                   l.r{$i}_lyc,p.id_periodo
                  FROM `temporal_planea3` l
-                 INNER JOIN cct ct ON ct.cct=l.cct AND ct.turno=l.turno
+                 INNER JOIN cct ct ON ct.cct=l.cct
                  INNER JOIN centrocfg cfg ON cfg.idct=ct.idct AND l.turno=(IF(cfg.turno='M',100,(IF(cfg.turno='V',200,IF(cfg.turno='N',300,400)))))
                  INNER JOIN periodoplanea p ON p.periodo=l.periodo_planea
                  INNER JOIN (
@@ -116,31 +116,63 @@ class Apa_model extends CI_Model
       }
 
       //para matematicas,secundaria
-      $x=0;
-      for ($i=47; $i<93 ; $i++) {
+      // $x=0;
+      for ($i=1; $i<51 ; $i++) {
 
-        $x=$x+1;
-          if($x==6 || $x==22 || $x==26 || $x==28){
-            $x=$x+1;
-          }
+        // $x=$x+1;
+        //   if($x==6 || $x==22 || $x==26 || $x==28){
+        //     $x=$x+1;
+        //   }
+          if($x!=6 && $x!=22 && $x!=26 && $x!=28){
 
-        $query=" INSERT INTO `apa_ok`.`planeaxidcentrocfg_reactivo` (
-                  `idcentrocfg`,
-                  `id_reactivo`,
-                  `n_almn_eval`,
-                  `n_aciertos`,
-                  `id_periodo`
-                )
-                SELECT cfg.idcentrocfg,'{$i}' AS id_reactivo,l.n_alum_eval,
-                  l.r{$x}_lyc,p.id_periodo
-                 FROM `temporal_planea3` l
-                 INNER JOIN cct ct ON ct.cct=l.cct AND ct.turno=l.turno
-                 INNER JOIN centrocfg cfg ON cfg.idct=ct.idct AND l.turno=(IF(cfg.turno='M',100,(IF(cfg.turno='V',200,IF(cfg.turno='N',300,400)))))
-                 INNER JOIN periodoplanea p ON p.periodo=l.periodo_planea
-                 WHERE cfg.nivel=3
-              ";
+        // $query=" INSERT INTO `apa_ok`.`planeaxidcentrocfg_reactivo` (
+        //           `idcentrocfg`,
+        //           `id_reactivo`,
+        //           `n_almn_eval`,
+        //           `n_aciertos`,
+        //           `id_periodo`
+        //         )
+        //         SELECT cfg.idcentrocfg,'{$i}' AS id_reactivo,l.n_alum_eval,
+        //           l.r{$x}_lyc,p.id_periodo
+        //          FROM `temporal_planea3` l
+        //          INNER JOIN cct ct ON ct.cct=l.cct AND ct.turno=l.turno
+        //          INNER JOIN centrocfg cfg ON cfg.idct=ct.idct AND l.turno=(IF(cfg.turno='M',100,(IF(cfg.turno='V',200,IF(cfg.turno='N',300,400)))))
+        //          INNER JOIN periodoplanea p ON p.periodo=l.periodo_planea
+        //          WHERE cfg.nivel=3
+        //       ";
+        //    $this->db->query($query);
+
+           $query=" INSERT INTO `apa_ok`.`planeaxidcentrocfg_reactivo` (
+                     `idcentrocfg`,
+                     `id_reactivo`,
+                     `n_almn_eval`,
+                     `n_aciertos`,
+                     `id_periodo`
+                   )
+                   SELECT cfg.idcentrocfg, aux.id_reactivo AS id_reactivo,l.n_alum_eval,
+                     l.r{$i}_mat,p.id_periodo
+                    FROM `temporal_planea3` l
+                    INNER JOIN cct ct ON ct.cct=l.cct
+                    INNER JOIN centrocfg cfg ON cfg.idct=ct.idct AND l.turno=(IF(cfg.turno='M',100,(IF(cfg.turno='V',200,IF(cfg.turno='N',300,400)))))
+                    INNER JOIN periodoplanea p ON p.periodo=l.periodo_planea
+                    INNER JOIN (
+                      SELECT
+                       r.*
+                       FROM planea_camposdisciplinares cd
+                       INNER JOIN planea_unidad_analisis ud ON cd.id_campodisiplinario = ud.id_campodisiplinario AND ud.id_nivel=3
+                       INNER JOIN planea_contenido c ON ud.id_unidad_analisis = c.id_unidad_analisis
+                       INNER JOIN planea_reactivo r ON c.id_contenido = r.id_contenido
+
+                       WHERE cd.id_campodisiplinario=1
+
+                       ORDER BY r.n_reactivo
+                    ) aux on aux.n_reactivo = $i
+                    WHERE cfg.nivel=3
+                 ";
+             // echo $query; die();
            $this->db->query($query);
       }
+    }
 
             //para primaria,español
       $x=0;
