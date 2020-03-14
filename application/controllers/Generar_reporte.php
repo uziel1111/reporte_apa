@@ -83,7 +83,7 @@ class Generar_reporte extends CI_Controller {
     $cct=$array_datos_escuela['cct'];
     $director=$array_datos_escuela['director'];
     $turno=$array_datos_escuela['turno'];
-    $municipio=$array_datos_escuela['municipio'];
+    $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
     $modalidad=$array_datos_escuela['modalidad'];
 
 
