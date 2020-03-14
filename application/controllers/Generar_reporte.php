@@ -186,20 +186,43 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
     ///Empieza creación de grafica de pastel PERMANENCIA
 // echo "<pre>";
-//     print_r($riesgo); die();
+//     print_r(
+//       array_sum($riesgo)
+//     ); 
+// die();
+$imagenpie = "";
+    if(array_sum($riesgo) != 0){
     $graph_p = new PieGraph(350,250);
     $graph_p->SetBox(false);
     $p1 = new PiePlot($riesgo);
+    // echo"<pre>";
+    // print_r($p1); die();
     $graph_p->Add($p1);
     $p1->ShowBorder();
     $p1->SetColor('black');
-    $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
+    
+      // $p1->SetSliceColors(array('#ffffff'));
+      $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
+    
     // $graph_p->SetColor('#F7F7F6');
     $graph_p->SetColor('#EFEFEF');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
+    
     $pdf->Image('pastel.png', 110,95,70, 50, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
+    }else{
+      $str_htmmensaje = <<<EOT
+    <p>SIN DATOS QUE MOSTRAR</p>
+EOT;
+
+$htmlmsn = <<<EOT
+    $str_htmmensaje
+EOT;
+
+$pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+    }
+
     ///Termina creación de grafica de pastel
 
 
