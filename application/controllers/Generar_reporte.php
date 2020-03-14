@@ -200,7 +200,8 @@ $imagenpie = "";
     $graph_p->Add($p1);
     $p1->ShowBorder();
     $p1->SetColor('black');
-    
+    $p1->SetGuideLines();
+
       // $p1->SetSliceColors(array('#ffffff'));
       $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
     
