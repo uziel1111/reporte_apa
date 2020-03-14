@@ -78,14 +78,10 @@ class Apa_model extends CI_Model
 
     function llenar_planeaxreactivoxcentrocfg(){
       //para secundaria,español
-      $x=0;
-      for ($i=1; $i<47; $i++) {
+      // $x=0;
+      for ($i=1; $i<52; $i++) {
         //para español omitir reactivos 24,28,35,42,43
-        if($i==24 || $i==28 || $i==35 || $i==42 || $i==43){
-          $x=$i+1;
-        }else{
-          $x=$i;
-        }
+        if($i!=24 && $i!=28 && $i!=35 && $i!=42 && $i!=43){
 
         $query=" INSERT INTO `apa_ok`.`planeaxidcentrocfg_reactivo` (
                   `idcentrocfg`,
@@ -94,16 +90,29 @@ class Apa_model extends CI_Model
                   `n_aciertos`,
                   `id_periodo`
                 )
-                SELECT cfg.idcentrocfg,'{$i}' AS id_reactivo,l.n_alum_eval,
-                  l.r{$x}_lyc,p.id_periodo
+                SELECT cfg.idcentrocfg, aux.id_reactivo AS id_reactivo,l.n_alum_eval,
+                  l.r{$i}_lyc,p.id_periodo
                  FROM `temporal_planea3` l
                  INNER JOIN cct ct ON ct.cct=l.cct AND ct.turno=l.turno
                  INNER JOIN centrocfg cfg ON cfg.idct=ct.idct AND l.turno=(IF(cfg.turno='M',100,(IF(cfg.turno='V',200,IF(cfg.turno='N',300,400)))))
                  INNER JOIN periodoplanea p ON p.periodo=l.periodo_planea
+                 INNER JOIN (
+                   SELECT
+                    r.*
+                    FROM planea_camposdisciplinares cd
+                    INNER JOIN planea_unidad_analisis ud ON cd.id_campodisiplinario = ud.id_campodisiplinario AND ud.id_nivel=3
+                    INNER JOIN planea_contenido c ON ud.id_unidad_analisis = c.id_unidad_analisis
+                    INNER JOIN planea_reactivo r ON c.id_contenido = r.id_contenido
+
+                    WHERE cd.id_campodisiplinario=1
+
+                    ORDER BY r.n_reactivo
+                 ) aux on aux.n_reactivo = $i
                  WHERE cfg.nivel=3
               ";
           // echo $query; die();
         $this->db->query($query);
+        }
       }
 
       //para matematicas,secundaria
@@ -1347,7 +1356,7 @@ class Apa_model extends CI_Model
                                           WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS h ON h.idcentrocfg=cfg.idcentrocfg
                               LEFT JOIN (
-                    SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM ( 
+                    SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM (
                       SELECT cfg.idcentrocfg
                           FROM centrocfg cfg
                           INNER JOIN grupo_prim g ON g.idcentrocfg=cfg.idcentrocfg
@@ -1358,7 +1367,7 @@ class Apa_model extends CI_Model
                                       ) AS a
                               ) AS i ON i.idcentrocfg=cfg.idcentrocfg
                               WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
-                
+
               ) AS d
               SET       t.`apr_prom_al_esc_esp_5`=d.`apr_prom_al_esc_esp_5`,
                         t.`apr_prom_al_esc_esp_6-7`=d.`apr_prom_al_esc_esp_6-7`,
@@ -1374,7 +1383,7 @@ class Apa_model extends CI_Model
       }
       $query="SELECT idcentrocfg FROM centrocfg where nivel=3";
       $datos=$this->db->query($query)->result_array();
-          for ($i=0; $i<count($datos); $i++) {        
+          for ($i=0; $i<count($datos); $i++) {
               $query="
                 UPDATE complemento_apa t
                   JOIN
@@ -1475,7 +1484,7 @@ class Apa_model extends CI_Model
                                               WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS h ON h.idcentrocfg=cfg.idcentrocfg
                                   LEFT JOIN (
-                        SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM ( 
+                        SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM (
                           SELECT cfg.idcentrocfg
                               FROM centrocfg cfg
                               INNER JOIN grupo_sec g ON g.idcentrocfg=cfg.idcentrocfg
@@ -1487,7 +1496,7 @@ class Apa_model extends CI_Model
                                           ) AS a
                                   ) AS i ON i.idcentrocfg=cfg.idcentrocfg
                                   WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
-                    
+
                   ) AS d
                   SET       t.`apr_prom_al_esc_esp_5`=d.`apr_prom_al_esc_esp_5`,
                             t.`apr_prom_al_esc_esp_6-7`=d.`apr_prom_al_esc_esp_6-7`,
