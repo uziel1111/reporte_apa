@@ -605,8 +605,8 @@ table td{
     </tr>
     <tr>
       <td width="28.22mm" style="background-color:#E7E7E7; font-family:Montserrat-Regular; font-size:7; color:#646462;">Total de alumnos</td>
-      <td width="18.02mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$tot_ciclo_h1</td>
       <td width="18.02mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$tot_ciclo_h2</td>
+      <td width="18.02mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$tot_ciclo_h1</td>
       <td width="18.02mm" style="text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452; background-color:#ffffff;">$asi_est_al_t</td>
     </tr>
   </tbody>
