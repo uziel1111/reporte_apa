@@ -78,7 +78,7 @@ class Generar_reporte extends CI_Controller {
 
     //// Parámetros iniciales para PDF///
 
-    $pdf = new My_tcpdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf = new My_tcpdf('P', 'mm', 'LETTER', true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor('Proyecto Educativo');
     $pdf->SetTitle('Reporte APA');
@@ -1386,7 +1386,7 @@ if($alumnos_baja == null){
   array_push($alumnos_baja,'No hay datos para mostrar');
 }
 // echo "<pre>";print_r($alumnos_baja);die();
-$array_items = array_chunk($alumnos_baja, 25);
+$array_items = array_chunk($alumnos_baja, 23);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
@@ -1401,7 +1401,7 @@ $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
 if($alumnos_mar == null){
   array_push($alumnos_mar,'No hay datos para mostrar');
 }
-$array_items = array_chunk($alumnos_mar, 25);
+$array_items = array_chunk($alumnos_mar, 23);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
@@ -1525,19 +1525,19 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->SetFont('', '', 10);
   $pdf->SetAutoPageBreak(TRUE, 0);
 
-  $pdf->AddPage('P', 'A4');
-  $pdf->Image('assets/img/encabezado.png', 0,0,210, 35, '', '', '', false, 300, '', false, false, 0);
-  $pdf->Image('assets/img/pie.png', 0,282,210, 15, '', '', '', false, 300, '', false, false, 0);
+  $pdf->AddPage('P', 'LETTER');
+  $pdf->Image('assets/img/encabezado.png', 0,0,217, 35, '', '', '', false, 300, '', false, false, 0);
+  $pdf->Image('assets/img/pie.png', 0,262,210, 15, '', '', '', false, 300, '', false, false, 0);
   $pdf->SetAutoPageBreak(FALSE, 0);
   $pdf->SetFillColor(129, 113, 106);
   $pdf->SetFont('montserratb', '', 12);
   $pdf->SetTextColor(255, 255, 255);
-  $pdf->MultiCell(35, 10,$reporte_datos['encabezado_n_nivel'], 0, 'C', false, 0, 165, 24, 'M');
+  $pdf->MultiCell(35, 10,$reporte_datos['encabezado_n_nivel'], 0, 'C', false, 0, 170, 24, 'M');
   $pdf->SetFont('montserratb', '', 10);
   // $pdf->SetTextColor(80, 76, 75);
   $pdf->SetTextColor(150, 146, 143);
   $pdf->SetFillColor(255, 255, 255);
-  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', false, 0, 143, 30, 'M');
+  $pdf->MultiCell(50, 10,$reporte_datos['encabezado_n_periodo'].' PERIODO', 0, 'R', false, 0, 150, 30, 'M');
 
   $pdf->SetFont('', '', 8);
 
