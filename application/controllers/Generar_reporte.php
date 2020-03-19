@@ -1411,10 +1411,10 @@ foreach ($array_items as $key => $item) {
 /// Termina Cuarta PÄGINA
 
 
-// $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
-  $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/";
-  $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P1".".pdf";
-  $pdf->Output($ruta."REPORTES_SINALOA/".$archivom,'F');
+$pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
+  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/";
+  // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P1".".pdf";
+  // $pdf->Output($ruta."REPORTES_SINALOA/".$archivom,'F');
       // ob_end_flush();
 
 
