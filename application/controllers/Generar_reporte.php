@@ -1123,7 +1123,7 @@ for ($i=0; $i < count($planea_aprov_esp); $i++) {
 
 // echo $x1."\n".$x."\n";
 
-if($x1<4 && $x<4){
+if($x1<4 || $x<4){
 
 $data1y=$prom_cal_esp;
 $data2y=$planea_aprov_esp;
@@ -1175,7 +1175,7 @@ for ($i=0; $i < count($planea_aprov_mat); $i++) {
 
 // echo $x3."\n".$x2."\n";
 // die();
-if($x3<4 && $x2<4){
+if($x3<4 || $x2<4){
 
 /////Inicia gráfica mate
 $data1y=$prom_cal_mat;
