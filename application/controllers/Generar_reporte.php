@@ -1,4 +1,5 @@
 <?php
+ini_set('memory_limit', '-1');
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Generar_reporte extends CI_Controller {
@@ -12,16 +13,17 @@ class Generar_reporte extends CI_Controller {
 
 
   function index(){
-    // function index($cct,$turno,$periodo,$ciclo){
-    // function index($cct=NULL,$turno=NULL,$periodo=NULL,$ciclo=NULL){
-    // echo '<pre>';print_r($this->input->get());
-    // echo "Hola mundo";die();
-    // echo $cct;die();
-
+    
     // $this->rep($cct,$turno,$periodo,$ciclo);
-    // $this->rep();
+    
+    // $query="SELECT cct,turno,periodo,ciclo 
+    //         FROM complemento_apa
+    //         LIMIT 3010";
+    // $datos=$this->db->query($query)->result_array();
+    // for ($i=0; $i < count($datos) ; $i++) { 
+    //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
+    // }
 
-    // $this->graf();
   }
 
 
@@ -29,6 +31,7 @@ class Generar_reporte extends CI_Controller {
   function rep($cct,$turno,$periodo,$ciclo){
        // echo "Hola mundo";die();
     // $riesgo=$this->Apa_model->get_riesgo_abandono();
+     // ob_start();
     $historico=$this->Apa_model->get_historico_mat();
     $distribucion=$this->Apa_model->get_distribucionxgrado();
     // $planea_aprov=$this->Apa_model->get_planea_aprov();
@@ -65,6 +68,9 @@ class Generar_reporte extends CI_Controller {
 
 
     $this->graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
+
+    
+    
   }
 
   function graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
@@ -276,6 +282,11 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $b3plot = new BarPlot($data3y);
     $gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
     $graph->Add($gbplot);
+
+    // $vector100 = array(0,2,4,6,8,10,12,14,16,18,20);
+    // $vect_esp = array(1,3,5,7,9,11,13,15,17,19);
+    // $graph->yaxis->SetTickPositions($vector100, $vect_esp);
+
     $b1plot->SetColor("white");
     $b1plot->SetFillColor("#e68dab");
     $b2plot->SetColor("white");
@@ -297,6 +308,7 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     // /Termina creación de grafica de barras
 
     // /Empieza creación de grafica de barras DISTRIBUCION POR GRADO
+
     $data1y=$riesgo_alto;
     $data2y=$riesgo_muy_alto;
 
@@ -319,6 +331,7 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $graph1->SetTheme($theme_class);
     $graph1->yaxis->title->Set("Alumnos");
     $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
+     // $graph1->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
     // $graph1->xaxis->Hide();
@@ -1088,6 +1101,29 @@ if($vect_esp[0] == 0){
 if($vect_mat[0] == 0){
   $vect_mat = array();
 }
+// echo "<pre>";
+// print_r($prom_cal_esp);
+// print_r($planea_aprov_esp);
+// die();
+
+$x=0;
+for ($i=0; $i < count($prom_cal_esp); $i++) { 
+  if($prom_cal_esp[$i]==0){
+    $x=$x+1;
+  }
+}
+
+
+$x1=0;
+for ($i=0; $i < count($planea_aprov_esp); $i++) { 
+  if($planea_aprov_esp[$i]==0){
+    $x1=$x1+1;
+  }
+}
+
+// echo $x1."\n".$x."\n";
+
+if($x1<4 && $x<4){
 
 $data1y=$prom_cal_esp;
 $data2y=$planea_aprov_esp;
@@ -1116,8 +1152,30 @@ $graph->Stroke('barras2.png');
 $pdf->Image('barras2.png', 10,163,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
 
 unlink('barras2.png');
-
+}
 /////Termina gráfica español
+
+// print_r($prom_cal_mat);
+// print_r($planea_aprov_mat);
+// die();
+$x2=0;
+for ($i=0; $i < count($prom_cal_mat); $i++) { 
+  if($prom_cal_mat[$i]==0){
+    $x2=$x2+1;
+  }
+}
+
+
+$x3=0;
+for ($i=0; $i < count($planea_aprov_mat); $i++) { 
+  if($planea_aprov_mat[$i]==0){
+    $x3=$x3+1;
+  }
+}
+
+// echo $x3."\n".$x2."\n";
+// die();
+if($x3<4 && $x2<4){
 
 /////Inicia gráfica mate
 $data1y=$prom_cal_mat;
@@ -1152,7 +1210,7 @@ $pdf->MultiCell(170, 10,'Comparativo entre resultados de PLANEA y aprovechamient
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(108.89, 170, 108.89, 215, $style);
 unlink('barras3.png');
-
+}
 /////Termina gráfica mate
 
 $pdf->SetFont('montserratb', 'B', 7);
@@ -1353,7 +1411,13 @@ foreach ($array_items as $key => $item) {
 /// Termina Cuarta PÄGINA
 
 
-$pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
+// $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
+  $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/";
+  $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P1".".pdf";
+  $pdf->Output($ruta."REPORTES_SINALOA/".$archivom,'F');
+      // ob_end_flush();
+
+
 }
 
 
