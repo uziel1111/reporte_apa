@@ -1,0 +1,4 @@
+# -- conf de la base de datos php ------------------------------
+/application/config/database.php
+# -- Ignora el conf----
+/application/config/config.php
