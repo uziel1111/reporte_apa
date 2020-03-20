@@ -1149,7 +1149,7 @@ $b2plot->SetColor("white");
 $b2plot->SetFillColor("#9ac27c");
 $graph->Stroke('barras2.png');
 
-$pdf->Image('barras2.png', 10,163,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+$pdf->Image('barras2.png', 10,163,80, 40, 'PNG', '', '', false, 300, '', false, false, 0);
 
 unlink('barras2.png');
 }
@@ -1201,14 +1201,14 @@ $b2plot->SetColor("white");
 $b2plot->SetFillColor("#9ac27c");
 $graph->Stroke('barras3.png');
 
-$pdf->Image('barras3.png', 110,163,80, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+$pdf->Image('barras3.png', 110,163,80, 40, 'PNG', '', '', false, 300, '', false, false, 0);
 
 $pdf->SetFont('montserratb', 'B', 11);
 $pdf->SetTextColor(75, 74, 72);
 $pdf->SetFillColor(255, 255, 255);
 $pdf->MultiCell(170, 10,'Comparativo entre resultados de PLANEA y aprovechamiento escolar', 0, 'L', 1, 0, 35, 160, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
-$pdf->Line(108.89, 170, 108.89, 215, $style);
+$pdf->Line(108.89, 167, 108.89, 200, $style);
 unlink('barras3.png');
 }
 /////Termina gráfica mate
@@ -1244,15 +1244,15 @@ $str_htm3
 EOT;
 
 $pdf->SetTextColor(0, 0, 0);
-$pdf->writeHTMLCell($w=60,$h=30,$x=65,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=60,$h=30,$x=65,$y=205, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 ///Contenidos temáticos
-$pdf->Image('assets/img/cont_tem_icon.png', 16,225,6, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/cont_tem_icon.png', 16,215,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(165, 8,"Contenidos temáticos con menor porcentaje de aciertos en la escuela", 0, 'L', 0, 0, 22, 227, 'M');
+$pdf->MultiCell(165, 8,"Contenidos temáticos con menor porcentaje de aciertos en la escuela", 0, 'L', 0, 0, 22, 215, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
-$pdf->Line(108.89, 235, 108.89, 275, $style);
+$pdf->Line(108.89, 223, 108.89, 260, $style);
 $pdf->SetFont('montserratb', '', 7);
 $pdf->SetTextColor(0, 0, 0);
 $cont_tem_lyc = array(0 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_1txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_1por']), 1 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_2txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_2por']), 2 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_3txt'] ,'por' => $reporte_datos['apr_planea1_ct_esc_lyc_3por']), 3 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_4txt'],'por' => $reporte_datos['apr_planea1_ct_esc_lyc_4por']), 4 => array('txt' => $reporte_datos['apr_planea1_ct_esc_lyc_5txt'],'por' => $reporte_datos['apr_planea1_ct_esc_lyc_5por']));
@@ -1310,7 +1310,7 @@ EOT;
 $html5 = <<<EOT
 $str_htm3
 EOT;
-$pdf->writeHTMLCell($w=70,$h=30,$x=16,$y=235, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=70,$h=30,$x=16,$y=223, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 /////mat
 
@@ -1364,7 +1364,7 @@ EOT;
 $html5 = <<<EOT
 $str_htm3
 EOT;
-$pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=235, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=223, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 
 
