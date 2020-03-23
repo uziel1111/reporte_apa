@@ -1565,7 +1565,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
 <tr>
 <th width= "40%" HEIGHT="20">Nombre</th>
 <th width= "21%" >Grado / Grupo</th>
-<th width= "39%">Motivo</th>
+<th width= "36%">Motivo</th>
 </tr>';
 
   // $contador = 1;
