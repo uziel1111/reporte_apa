@@ -209,18 +209,29 @@ class DatosMunicipal_model extends CI_Model
     }
 
     function get_alumnos_baja($idreporte){
+      // $q = "SELECT
+      //       *
+      //       FROM bajas_apa
+      //       WHERE idreporteapa IN({$idreporte}) order by grado, grupo, nombre_alu";
+      // return $this->db->query($q)->result_array();
       $q = "SELECT
-            *
-            FROM bajas_apa
-            WHERE idreporteapa IN({$idreporte}) order by grado, grupo, nombre_alu";
+            b.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
+            FROM bajas_apa as b
+            INNER JOIN complemento_apa c on c.idreporteapa=b.idreporteapa
+            WHERE b.idreporteapa IN({$idreporte}) order by c.idcentrocfg,b.grado, b.grupo, b.nombre_alu";
       return $this->db->query($q)->result_array();
     }
 
     function get_alumnos_mar($idreporte){
-      $q = "SELECT
-            *
-            FROM muy_alto_riesgo
-            WHERE idreporteapa IN({$idreporte}) order by muyalto_alto desc, grado asc, grupo, nombre_alu";
+      // $q = "SELECT
+      //       *
+      //       FROM muy_alto_riesgo
+      //       WHERE idreporteapa IN({$idreporte}) order by muyalto_alto desc, grado asc, grupo, nombre_alu";
+       $q = "SELECT
+            m.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
+            FROM muy_alto_riesgo as m
+            INNER JOIN complemento_apa c ON c.idreporteapa=m.idreporteapa
+            WHERE m.idreporteapa IN({$idreporte}) order by c.idcentrocfg,m.muyalto_alto desc, m.grado asc, m.grupo, m.nombre_alu";
             // echo $q;die();
       return $this->db->query($q)->result_array();
     }
