@@ -344,8 +344,8 @@ $str_htm3 = <<<EOT
       <tbody>
         <tr>
           <td WIDTH="24"></td>
-          <td  style="line-height: 200%" WIDTH="500">El propósito de este reporte es aportar información que ayude a tomar decisiones a las escuelas para asegurar la asistencia, permanencia y aprendizaje de todos
-            sus estudiantes. Se sugiere ampliamente que el Consejo Técnico Escolar lo analice y actúe según lo juzgue necesario.</td>
+          <td  style="line-height: 200%" WIDTH="500">El propósito de este reporte es aportar información que ayude a tomar decisiones a las autoridades para asegurar la asistencia, permanencia y aprendizaje de todos
+            los estudiantes del estado. Se sugiere ampliamente que cada nivel educativo lo analice y actúe según lo juzgue necesario.</td>
           </tr>
         </tbody>
       </table>
@@ -791,13 +791,13 @@ table td{
     </tr>
     <tr>
       <td width="6.02mm" style="background-color:#D1232A;">&nbsp;</td>
-      <td width="21.8mm" style="text-align:center; background-color:#DCDDDF; font-family:Montserrat-Regular; font-family:7; color:#545452;">Muy alto</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[0]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[1]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[2]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[3]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-family:7; color:#545452;">$riesgo_muy_alto0[4]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[5]</td>
+      <td width="21.8mm" style="background-color:#DCDDDF; text-align:center; font-family:Montserrat-Regular; font-size:7; color:#545452;">Muy alto</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[0]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[1]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[2]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[3]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[4]</td>
+      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto0[5]</td>
     </tr>
   </tbody>
 </table>
@@ -1532,7 +1532,7 @@ $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumno
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm"></td>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="175mm"><font face="Montserrat-Regular" size="7" color="black">Alumnos dados de baja, que aún no han sido registrados en otra escuela de Sinaloa.<br>
-Contacte inmediatamente a su padre, madre o tutor para procurar que se reintegre a la escuela con los apoyos académicos necesarios.</font></td>
+Se recomienda acordar acciones en lo inmediato para asegurar su continuidad en la escuela.</font></td>
           </tr>
         </tbody>
       </table>
