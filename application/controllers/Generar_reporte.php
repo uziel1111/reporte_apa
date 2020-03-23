@@ -294,7 +294,7 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $b3plot->SetColor("white");
     $b3plot->SetFillColor("#f1a73e");
     $graph->Stroke('barras.png');
-    $pdf->Image('barras.png', 12.6,128,90, 50, 'PNG', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('barras.png', 12.6,128,90, 40, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras.png');
 
     $pdf->Line(12.6, 118, 103, 118,array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'phase' => 10, 'color' => array(206,206,206)));
@@ -325,7 +325,7 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
     $pdf->Line(110, 157, 195, 157, $style);
 
-    $graph1 = new Graph(350,200,'auto');
+    $graph1 = new Graph(350,100,'auto');
     $graph1->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph1->SetTheme($theme_class);
@@ -352,7 +352,7 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $b2plot->SetColor("white");
     $b2plot->SetFillColor("#EE1D23");
     $graph1->Stroke('barras1.png');
-    $pdf->Image('barras1.png', 107,165,75,49, 'PNG', '', '', false, 300, '', false, false, 0);
+    $pdf->Image('barras1.png', 107,165,75,39, 'PNG', '', '', false, 300, '', false, false, 0);
     unlink('barras1.png');
     ///Termina creación de grafica de barras
 
@@ -630,17 +630,17 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=82.28,$h=16,$x=15,$y=180, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=82.28,$h=16,$x=15,$y=169, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $anios_asis=$reporte_datos['asi_rez_gedad_noasiste'];
 
-$pdf->Line(12.6, 197, 103, 197,array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'phase' => 10, 'color' => array(206,206,206)));
+$pdf->Line(12.6, 178, 103, 178,array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'phase' => 10, 'color' => array(206,206,206)));
 
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(75, 8,"Rezago educativo del municipio", 0, 'L', 0, 0, 20, 202, 'M');
+$pdf->MultiCell(75, 8,"Rezago educativo del municipio", 0, 'L', 0, 0, 20, 182, 'M');
 $pdf->SetFont('montserrat', '', 9);
-$pdf->MultiCell(5, 5,"3", 0, 'L', 0, 0, 87, 202, 'M');
+$pdf->MultiCell(5, 5,"3", 0, 'L', 0, 0, 87, 182, 'M');
 
 /*$rez_ed0=number_format((float)$rez_ed[0]);
 $rez_ed1=number_format((float)$rez_ed[1]);
@@ -697,7 +697,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=90,$h=30,$x=12,$y=210, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=90,$h=30,$x=12,$y=190, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $str_htm3 = <<<EOT
 <style>
@@ -735,15 +735,15 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=90,$h=22.95,$x=12.1,$y=240, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=90,$h=22.95,$x=12.1,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $pdf->SetFont('montserratmedium','','9');
 $pdf->SetTextColor(98,87,85);
-$pdf->MultiCell(80, 10,'Lengua nativa: '.$reporte_datos['asi_lenguas_nativas'], 0, 'L', 1, 0, 23, 265, 'M');
+$pdf->MultiCell(80, 10,'Lengua nativa: '.$reporte_datos['asi_lenguas_nativas'], 0, 'L', 1, 0, 23, 247, 'M');
 
 $pdf->SetFont('montserratmedium','','7');
 $pdf->SetTextColor(98,87,85);
-$pdf->MultiCell(5, 5,'4', 0, 'L', 1, 0, 60, 265, 'M');
+$pdf->MultiCell(5, 5,'4', 0, 'L', 1, 0, 60, 247, 'M');
 
 $rit=$reporte_datos['per_riesgo_al_t'];
 $str_htm3 = <<<EOT
@@ -879,7 +879,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=205, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 
   $retencion=$reporte_datos['per_ind_retencion']." %";
@@ -892,14 +892,14 @@ $pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=220, $html5, $border=0, $ln=1, $fill=0
 
 
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
-$pdf->Line(110, 215, 195, 215, $style);
+$pdf->Line(110, 217, 195, 217, $style);
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Indicadores de permanencia", 0, 'L', 0, 0, 115, 240, 'M');
+$pdf->MultiCell(65, 8,"Indicadores de permanencia", 0, 'L', 0, 0, 115, 220, 'M');
 $pdf->SetFont('montserrat', '', 9);
-$pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 173, 240, 'M');
+$pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 173, 220, 'M');
 $pdf->SetFont('montserratb', '', 10);
-$pdf->MultiCell(100, 7,"Inicio de ciclo escolar ".$reporte_datos['per_ind_ciclo'], 0, 'L', 0, 0, 115, 245, 'M');
+$pdf->MultiCell(100, 7,"Inicio de ciclo escolar ".$reporte_datos['per_ind_ciclo'], 0, 'L', 0, 0, 115, 225, 'M');
 
 $str_htm3 = <<<EOT
 <style>
@@ -933,16 +933,16 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=81.46,$h=10.71,$x=110,$y=250, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=81.46,$h=10.71,$x=110,$y=230, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $pdf->Image('assets/img/escuela_icon.png', 13,88,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/mat_his.png', 13,120,5, 5, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/porcen_asis.png', 13,202,4, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/lenguas_icon.png', 13,265,6, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/porcen_asis.png', 13,182,4, 6, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/lenguas_icon.png', 13,247,6, 5, '', '', '', false, 300, '', false, false, 0);
 
 $pdf->Image('assets/img/alu_riesgo_icon.png', 109,88,3, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/dist_grado_icon.png', 110,161,6, 4, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/indic_icon.png', 110,240,7, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/indic_icon.png', 110,220,7, 5, '', '', '', false, 300, '', false, false, 0);
 
 //pinto la fuente
 
@@ -979,7 +979,7 @@ EOT;
 $html5fuente = <<<EOT
 $fuente
 EOT;
-$pdf->writeHTMLCell($w=80,$h=20,$x=110,$y=260, $html5fuente, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=80,$h=20,$x=110,$y=240, $html5fuente, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 ///TERMINA PRIMERA PÁGINA
 
