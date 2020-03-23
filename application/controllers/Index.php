@@ -10,6 +10,7 @@ class Index extends CI_Controller
 		parent::__construct();
     	$this->load->helper('url');
     	$this->load->model('Apa_model');
+    	$this->load->model('DatosMunicipal_model');
 	}
 
 	function index(){
@@ -26,7 +27,8 @@ class Index extends CI_Controller
 		//En la siguiente funcion insertamos el porcentaje de alumnos con calificacion 5,calificacion de 6-7,calificacion 8-9 y por ultimo el porcentaje de alumnos con calificacion 10 del nivel primaria y secundaria en la tabla complemento_apa	
 		// $resultado=$this->Apa_model->update_porcentaje_cal_primaria();
 		
-
+		//insertamos los contenidos tematicos por municipio y nivel
+		// $this->DatosMunicipal_model->insertacontenidos_xmunxnivel(); die();
 	}
 }
 
