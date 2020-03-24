@@ -521,7 +521,7 @@ else {
       <tr>
         <td width="20mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7; color:#545452;">Alumnos</td>
         <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:6; color:#545452;">$asi_est_al_t</td>
-        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:6; 6olor:#545452;">$est_asis_alumnos0[0]</td>
+        <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:6; color:#545452;">$est_asis_alumnos0[0]</td>
         <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:6; color:#545452;">$est_asis_alumnos0[1]</td>
         <td width="12mm" style="text-align:center; background-color:#ffffff;  font-family:Montserrat-Bold; font-size:6; color:#545452;">$est_asis_alumnos0[2]</td>
         <td width="22mm" style="text-align:center; font-family:Montserrat-Bold; font-size:6; color:#545452;"></td>
@@ -1907,7 +1907,7 @@ $html= <<<EOT
 $str_html
 EOT;
 
-        $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=76, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+        $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=78, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
         return [
           'pdf' => $pdf

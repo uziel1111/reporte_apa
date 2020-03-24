@@ -216,15 +216,15 @@ class DatosEdo_model extends CI_Model
     }
 
     function get_alumnos_mar($idreporte){
-      // $q = "SELECT
-      //       m.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
-      //       FROM muy_alto_riesgo as m
-      //       INNER JOIN complemento_apa c ON c.idreporteapa=m.idreporteapa
-      //       WHERE m.idreporteapa IN({$idreporte}) order by c.idcentrocfg,m.muyalto_alto desc, m.grado asc, m.grupo, m.nombre_alu";
       $q = "SELECT
-            *
+            m.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
             FROM muy_alto_riesgo as m
-            WHERE idreporteapa IN({$idreporte}) order by muyalto_alto desc,grado asc, grupo, nombre_alu";
+            INNER JOIN complemento_apa c ON c.idreporteapa=m.idreporteapa
+            WHERE m.idreporteapa IN({$idreporte}) order by c.idcentrocfg,m.muyalto_alto desc, m.grado asc, m.grupo, m.nombre_alu";
+      // $q = "SELECT
+      //       *
+      //       FROM muy_alto_riesgo as m
+      //       WHERE idreporteapa IN({$idreporte}) order by muyalto_alto desc,grado asc, grupo, nombre_alu";
             // echo $q;die();
       return $this->db->query($q)->result_array();
     }
