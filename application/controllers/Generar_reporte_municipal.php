@@ -16,14 +16,16 @@ class Generar_reporte_municipal extends CI_Controller {
   function index(){
     // $this->rep($cct,$turno,$periodo,$ciclo);
     
-    // $query="SELECT cct,turno,periodo,ciclo 
-    //         FROM complemento_apa
-    //         LIMIT 3010";
+    // $query="SELECT idmunicipio FROM municipio where idmunicipio=6";
     // $datos=$this->db->query($query)->result_array();
     // for ($i=0; $i < count($datos) ; $i++) { 
-    //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
+    //   $this->rep($datos[$i]['idmunicipio'],2,1,'2020');
     // }
 
+    // for ($i=0; $i < count($datos) ; $i++) { 
+    //   $this->rep($datos[$i]['idmunicipio'],3,1,'2020');
+    // }
+    // die();
   }
 
 
@@ -31,10 +33,12 @@ class Generar_reporte_municipal extends CI_Controller {
      
 
     $reporte_datos=$this->DatosMunicipal_model->get_reporte_apa($idmunicipio,$idnivel,$periodo,$ciclo);
-
-    if (!isset($reporte_datos)) {
+    // echo "<pre>"; print_r($reporte_datos); die();
+    // echo $reporte_datos['idreporteapa']; die();
+    if ($reporte_datos==null || $reporte_datos['idreporteapa']=='' || $reporte_datos['idreporteapa']==null) {
       echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
     }
+    // die();
     $array_datos_escuela= array(
       "municipio" => $reporte_datos['encabezado_muni_escuela']
     );
@@ -1349,20 +1353,16 @@ $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=225, $html5, $border=0, $ln=1, $fill=0
 /// INICIA TERCERA PÄGINA
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 $idreporte=$reporte_datos['idreporteapa'];
-$alumnos_baja=$this->DatosMunicipal_model->get_alumnos_baja($idreporte);
+$ids=explode(",", $idreporte);
+for ($i=0; $i <count($ids) ; $i++) { 
+$alumnos_baja=$this->DatosMunicipal_model->get_alumnos_baja($ids[$i]);
 if($alumnos_baja == null){
   array_push($alumnos_baja,'No hay datos para mostrar');
-}
-// echo "<pre>";print_r($alumnos_baja);die();
-
-
+}else{
 $array_items = array_chunk($alumnos_baja, 23);
 
 foreach ($array_items as $key => $item) {
-  // echo "<pre>";
-// print_r($array_items);
-// print_r($key);
-// print_r($item); die();
+
   $array_datos_escuela= array(
     "nombre" => $item[0]['encabezado_n_escuela'],
     "cct" => $item[0]['cct'],
@@ -1471,16 +1471,19 @@ EOT;
   $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado);
   $pdf = $array_return['pdf'];
 }
+}
+}
 
 /// Termina TERCERA PÄGINA
 
 /// INICIA Cuarta PÄGINA
-
-$alumnos_mar=$this->DatosMunicipal_model->get_alumnos_mar($idreporte);
+$ids=explode(",", $idreporte);
+for ($i=0; $i <count($ids) ; $i++) { 
+$alumnos_mar=$this->DatosMunicipal_model->get_alumnos_mar($ids[$i]);
 // echo "<pre>";print_r($alumnos_mar);die();
 if($alumnos_mar == null){
   array_push($alumnos_mar,'No hay datos para mostrar');
-}
+}else{
 $array_items = array_chunk($alumnos_mar, 23);
 foreach ($array_items as $key => $item) {
     $array_datos_escuela= array(
@@ -1590,6 +1593,8 @@ EOT;
   $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado);
   $pdf = $array_return['pdf'];
 }
+}
+}
 
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 /// Termina Cuarta PÄGINA
@@ -1598,7 +1603,7 @@ EOT;
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['encabezado_muni_escuela'].$reporte_datos['encabezado_n_nivel'].'.pdf', 'I');
   // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/";
   // $archivom = $reporte_datos['encabezado_muni_escuela']."_".$reporte_datos['encabezado_n_nivel']."_P1".".pdf";
-  // $pdf->Output($ruta."REPORTES_SINALOA/".$archivom,'F');
+  // $pdf->Output($ruta."REPORTES_MUNICIPAL/".$archivom,'F');
       // ob_end_flush();
 
 
@@ -1792,24 +1797,9 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
     </tr>';
 
   }else{
-      $idcfg=$array_datos[0]['idcentrocfg'];
+     
       foreach ($array_datos as $key => $alumno) {
-        if($idcfg!=$alumno['idcentrocfg']){
-        // echo $alumno['idcentrocfg']."\n"; die();
-          $idcfg=$alumno['idcentrocfg'];
-          $str_html .= '</table>';
-
-// $str_html = "";
-$html= <<<EOT
-$str_html
-EOT;
-
-        $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=76, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-
-        return [
-          'pdf' => $pdf
-          ];
-        }else{
+ 
 
           $str_html .= '<tr>
           <td HEIGHT="20" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat" color="black"> '.$alumno['nombre_alu'].'</font></td>
@@ -1817,10 +1807,8 @@ EOT;
           <td style="color:#000000 !important; font-family: montserrat; "><font face="Montserrat" color="black"> '.$alumno['motivo'].'</font></td>
           </tr>';
         }
-      }
 
-
-}
+  }
 
   $str_html .= '</table>';
 
@@ -1849,7 +1837,7 @@ $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumno
         <tr>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
           <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular" size="7" color="black">Por combinar inasistencias, bajas calificaciones y/o años sobre la edad ideal del grado.<br>
-Se recomienda acordar acciones en lo inmediato para asegurar su continuidad en la escuela.</font></td>
+Cite a su padre, madre o tutor en forma inmediata para acordar acciones y asegurar su permanencia en la escuela.</font></td>
           </tr>
         </tbody>
       </table>
@@ -1895,42 +1883,24 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
   </tr>';
 
 }else{
-  $idcfg=$array_datos[0]['idcentrocfg'];
  foreach ($array_datos as $key => $alumno) {
-    if($idcfg!=$alumno['idcentrocfg']){
-        // echo $alumno['idcentrocfg']."\n"; die();
-          $idcfg=$alumno['idcentrocfg'];
-          $str_html .= '</table>';
-
-// $str_html = "";
-$html= <<<EOT
-$str_html
-EOT;
-
-        $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=78, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-
-        return [
-          'pdf' => $pdf
-          ];
-        }else{
-    if (isset($alumno['muyalto_alto'])) {
-        if ($alumno['muyalto_alto'] == 'M') {
-         $cuadrito='   <img src="assets/img/cuadrito-rojo.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
-       }else if ($alumno['muyalto_alto'] == 'A') {
-        $cuadrito='   <img src="assets/img/cuadrito-naranja.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
-      }
-    }else{
-      $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+  if (isset($alumno['muyalto_alto'])) {
+      if ($alumno['muyalto_alto'] == 'M') {
+       $cuadrito='   <img src="assets/img/cuadrito-rojo.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+     }else if ($alumno['muyalto_alto'] == 'A') {
+      $cuadrito='   <img src="assets/img/cuadrito-naranja.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
     }
-       $str_html .= '<tr>
-       <td width= "55mm" style="border-left-style: none;" HEIGHT="20"><font face="Montserrat" color="black">'.$cuadrito.$alumno['nombre_alu'].'</font></td>
-       <td width= "23.4mm" style="text-align:center;" > <font face="Montserrat" color="black">'.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
-       <td width= "22.18mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['inasistencias'].'</font></td>
-       <td width= "21.10mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['asig_reprobadas'].'</font></td>
-       <td width= "20.11mm" style="text-align:center;" ><font face="Montserrat" color="black"> '.$alumno['extraedad'].'</font></td>
-       <td width= "44.15mm"><font face="Montserrat" color="black"> '.$alumno['nombre_madre_padre_tutor'].'</font></td>
-       </tr>';
-    }
+  }else{
+    $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+  }
+     $str_html .= '<tr>
+     <td width= "55mm" style="border-left-style: none;" HEIGHT="20"><font face="Montserrat" color="black">'.$cuadrito.$alumno['nombre_alu'].'</font></td>
+     <td width= "23.4mm" style="text-align:center;" > <font face="Montserrat" color="black">'.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
+     <td width= "22.18mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['inasistencias'].'</font></td>
+     <td width= "21.10mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['asig_reprobadas'].'</font></td>
+     <td width= "20.11mm" style="text-align:center;" ><font face="Montserrat" color="black"> '.$alumno['extraedad'].'</font></td>
+     <td width= "44.15mm"><font face="Montserrat" color="black"> '.$alumno['nombre_madre_padre_tutor'].'</font></td>
+     </tr>';
   }
 }
 

@@ -29,16 +29,10 @@ class Generar_reporte extends CI_Controller {
 
    // function rep(){
   function rep($cct,$turno,$periodo,$ciclo){
-       // echo "Hola mundo";die();
-    // $riesgo=$this->Apa_model->get_riesgo_abandono();
-     // ob_start();
-    $historico=$this->Apa_model->get_historico_mat();
-    $distribucion=$this->Apa_model->get_distribucionxgrado();
-    // $planea_aprov=$this->Apa_model->get_planea_aprov();
-    // $array_datos_escuela=$this->Apa_model->get_datos_escuela();
+ 
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
     // echo "<pre>";print_r($reporte_datos);die();
-    if (!isset($reporte_datos)) {
+    if ($reporte_datos==null) {
     echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
     }
     $array_datos_escuela= array(
@@ -67,13 +61,13 @@ class Generar_reporte extends CI_Controller {
     $analfabeta = array(0 => number_format((float)$reporte_datos['asi_analfabeta_h']),1 => number_format((float)$reporte_datos['asi_analfabeta_m']),2 => number_format((float)$reporte_datos['asi_analfabeta_t']));
 
 
-    $this->graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
+    $this->graf($riesgo,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
 
     
     
   }
 
-  function graf($riesgo,$historico,$distribucion,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
+  function graf($riesgo,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
     // echo "<pre>";print_r($reporte_datos);die();
 
     //// Parámetros iniciales para PDF///

@@ -54,7 +54,12 @@ class Apa_model extends CI_Model
             AND periodo = ?
             AND ciclo = ?";
             // echo $q;die();
-      return $this->db->query($q, array($cct,$turno,$periodo,$ciclo))->row_array();
+      // if($this->db->query($q, array($cct,$turno,$periodo,$ciclo))->row_array()){
+        return $this->db->query($q, array($cct,$turno,$periodo,$ciclo))->row_array();
+      // }else{
+      //   $error =$this->db->error();
+      //   return $error;
+      // }
       // return $this->db->query($q)->result_array();
     }
 

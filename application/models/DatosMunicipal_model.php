@@ -204,7 +204,13 @@ class DatosMunicipal_model extends CI_Model
             AND p.periodo_planea= ?
             ";
             // echo $q;die();
-      return $this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo,$periodo_planea))->row_array();
+      
+       // if($this->db->query($this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo,$periodo_planea))){
+        return $this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo,$periodo_planea))->row_array();
+      // }else{
+      //   $error =$this->db->error();
+      //   return $error;
+      // }
       // return $this->db->query($q)->result_array();
     }
 
