@@ -959,25 +959,25 @@ $pdf->MultiCell(186.3, 3.4,"", 0, 'C', 1, 0, 12.6, 58, true);
 $pdf->MultiCell(186.3, 3.4,$txt2, 0, 'C', 1, 0, 12.6, 61.4, true);
 $pdf->MultiCell(186.3, 3.4,"", 0, 'C', 1, 0, 12.6, 64.8, true);
 
-$pdf->Image('assets/img/efic_ter_icon.png', 16,76,5, 5, '', '', '', false, 300, '', false, false, 0);
-$pdf->SetFont('montserratb', '', 11);
-$pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Eficiencia terminal efectiva", 0, 'L', 0, 0, 22, 76, 'M');
-$pdf->SetTextColor(145, 145, 145);
-$pdf->SetFillColor(255, 255, 255);
-if ($reporte_datos['apr_ete']=='') {
-  $pdf->SetFont('montserratb', '', 7);
-  $pdf->SetTextColor(0, 0, 0);
-  $pdf->SetFillColor(255, 255, 255);
-  $pdf->MultiCell(120, 10,'No es posible calcular el dato por falta de información.', 0, 'L', 1, 0, 32, 83, 'M');
-}
-else {
-  $pdf->MultiCell(20, 10,$reporte_datos['apr_ete'].'%', 0, 'L', 1, 0, 22, 82, 'M');
-  $pdf->SetFont('montserratb', '', 7);
-  $pdf->SetTextColor(0, 0, 0);
-  $pdf->SetFillColor(255, 255, 255);
-  $pdf->MultiCell(120, 10,'Porcentaje de alumnos egresados con aprendizajes suficientes.', 0, 'L', 1, 0, 32, 83, 'M');
-}
+// $pdf->Image('assets/img/efic_ter_icon.png', 16,76,5, 5, '', '', '', false, 300, '', false, false, 0);
+// $pdf->SetFont('montserratb', '', 11);
+// $pdf->SetTextColor(145, 145, 145);
+// $pdf->MultiCell(65, 8,"Eficiencia terminal efectiva", 0, 'L', 0, 0, 22, 76, 'M');
+// $pdf->SetTextColor(145, 145, 145);
+// $pdf->SetFillColor(255, 255, 255);
+// if ($reporte_datos['apr_ete']=='') {
+//   $pdf->SetFont('montserratb', '', 7);
+//   $pdf->SetTextColor(0, 0, 0);
+//   $pdf->SetFillColor(255, 255, 255);
+//   $pdf->MultiCell(120, 10,'No es posible calcular el dato por falta de información.', 0, 'L', 1, 0, 32, 83, 'M');
+// }
+// else {
+//   $pdf->MultiCell(20, 10,$reporte_datos['apr_ete'].'%', 0, 'L', 1, 0, 22, 82, 'M');
+//   $pdf->SetFont('montserratb', '', 7);
+//   $pdf->SetTextColor(0, 0, 0);
+//   $pdf->SetFillColor(255, 255, 255);
+//   $pdf->MultiCell(120, 10,'Porcentaje de alumnos egresados con aprendizajes suficientes.', 0, 'L', 1, 0, 32, 83, 'M');
+// }
 
 
 // $pdf->SetFillColor(0, 0, 0);
