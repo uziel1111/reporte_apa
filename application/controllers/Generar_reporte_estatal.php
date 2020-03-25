@@ -858,15 +858,15 @@ $pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=205, $html5, $border=0, $ln=1, $fill=0
 
 
 
-$style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
-$pdf->Line(110, 217, 195, 217, $style);
-$pdf->SetFont('montserratb', '', 11);
-$pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Indicadores de permanencia", 0, 'L', 0, 0, 115, 220, 'M');
-$pdf->SetFont('montserrat', '', 9);
-$pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 173, 220, 'M');
-$pdf->SetFont('montserratb', '', 10);
-$pdf->MultiCell(100, 7,"Inicio de ciclo escolar ".$reporte_datos['per_ind_ciclo'], 0, 'L', 0, 0, 115, 225, 'M');
+// $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
+// $pdf->Line(110, 217, 195, 217, $style);
+// $pdf->SetFont('montserratb', '', 11);
+// $pdf->SetTextColor(145, 145, 145);
+// $pdf->MultiCell(65, 8,"Indicadores de permanencia", 0, 'L', 0, 0, 115, 220, 'M');
+// $pdf->SetFont('montserrat', '', 9);
+// $pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 173, 220, 'M');
+// $pdf->SetFont('montserratb', '', 10);
+// $pdf->MultiCell(100, 7,"Inicio de ciclo escolar ".$reporte_datos['per_ind_ciclo'], 0, 'L', 0, 0, 115, 225, 'M');
 
 $str_htm3 = <<<EOT
 <style>
@@ -900,7 +900,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-$pdf->writeHTMLCell($w=81.46,$h=10.71,$x=110,$y=230, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+// $pdf->writeHTMLCell($w=81.46,$h=10.71,$x=110,$y=230, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 $pdf->Image('assets/img/escuela_icon.png', 13,88,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/mat_his.png', 13,120,5, 5, '', '', '', false, 300, '', false, false, 0);
@@ -909,7 +909,7 @@ $pdf->Image('assets/img/lenguas_icon.png', 13,247,6, 5, '', '', '', false, 300, 
 
 $pdf->Image('assets/img/alu_riesgo_icon.png', 109,88,3, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/dist_grado_icon.png', 110,161,6, 4, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/indic_icon.png', 110,220,7, 5, '', '', '', false, 300, '', false, false, 0);
+// $pdf->Image('assets/img/indic_icon.png', 110,220,7, 5, '', '', '', false, 300, '', false, false, 0);
 
 //pinto la fuente
 
