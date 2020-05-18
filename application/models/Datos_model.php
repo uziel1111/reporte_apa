@@ -156,5 +156,29 @@ class Datos_model extends CI_Model
           return $this->db->query($q, array($idcentrocfg))->row_array();
   }
 
+    function get_alumnos_sin_curp(){
+    
+        $q= "SELECT lr.nombre_alumno as nombre,lr.apell1_alumno AS apellido_paterno,
+            IF(lr.apell2_alumno='NULL','',lr.apell2_alumno)AS apellido_materno,
+            day(lr.fechanac_alumno) AS dia,
+            month(lr.fechanac_alumno) AS mes,
+            year(lr.fechanac_alumno) AS anio,
+            IF(e.abreviatura IS NULL,'NE',e.`abreviatura`) AS estado,
+            lr.fechanac_alumno,lr.genero_alumno AS sexo
+             FROM `layoutalumnosreporteapa` lr
+             left join entidad e ON e.nombre=lr.entidadnac_alumno
+             WHERE lr.curp_alumno IS NULL AND curp_interno IS NULL;";
+          // echo "<pre>";print_r($q);die();
+        return $this->db->query($q)->result_array();
+    }
+
+    function actualizaCurpInterno($curp,$nombre,$apellido_paterno){    
+        $q= "UPDATE `layoutalumnosreporteapa` SET curp_interno='{$curp}'
+            where nombre_alumno='{$nombre}'  AND  apell1_alumno='{$apellido_paterno}' AND curp_alumno is null";
+          // echo "<pre>";
+          // echo $q;die();
+        return $this->db->query($q);
+    }
+
 
 }

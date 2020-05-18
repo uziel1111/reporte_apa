@@ -216,17 +216,38 @@ class DatosEdo_model extends CI_Model
     }
 
     function get_alumnos_mar($idreporte){
-      $q = "SELECT
-            m.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
-            FROM muy_alto_riesgo as m
-            INNER JOIN complemento_apa c ON c.idreporteapa=m.idreporteapa
-            WHERE m.idreporteapa IN({$idreporte}) order by c.idcentrocfg,m.muyalto_alto desc, m.grado asc, m.grupo, m.nombre_alu";
-      // $q = "SELECT
-      //       *
-      //       FROM muy_alto_riesgo as m
-      //       WHERE idreporteapa IN({$idreporte}) order by muyalto_alto desc,grado asc, grupo, nombre_alu";
+      // echo $idreporte;
+      // die();
+      $q = "SELECT d.total_muy_alto,
+                    d.total_alto,              
+                    d.municipio,
+                    d.total_alumnos,
+                    d.encabezado_n_nivel,
+                    d.encabezado_n_periodo,
+                    (d.total_alto+d.total_muy_alto) AS total_alto_riesgo,
+                    d.total_escuelas,
+                    ROUND((((d.total_muy_alto+d.total_alto)*100)/d.total_alumnos),2) AS porcentaje FROM (
+                      SELECT 
+                      SUM(c.per_riesgo_al_muy_alto) AS total_muy_alto
+                      ,SUM(c.per_riesgo_al_alto) AS total_alto
+                      ,c.encabezado_muni_escuela as municipio
+                      ,SUM(c.per_riesgo_al_t) AS total_alumnos
+                      ,c.encabezado_n_nivel
+                      ,c.encabezado_n_periodo
+                      ,COUNT(c.idcentrocfg) as total_escuelas
+                      FROM complemento_apa c
+                      INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
+                      INNER JOIN cct ct ON ct.idct=cfg.idct
+                      WHERE c.idreporteapa IN({$idreporte})
+                     AND  c.per_riesgo_al_t IS NOT NULL 
+                      GROUP BY ct.idmunicipio
+                      
+                          ) AS d 
+            -- WHERE d.total_muy_alto!=0 OR d.total_alto!=0
+        ORDER BY d.total_muy_alto DESC";
             // echo $q;die();
       return $this->db->query($q)->result_array();
     }
+
 
 }

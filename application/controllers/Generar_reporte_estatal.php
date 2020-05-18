@@ -15,19 +15,17 @@ class Generar_reporte_estatal extends CI_Controller {
 
   function index(){
     // $this->rep($cct,$turno,$periodo,$ciclo);
-    
-    // $query="SELECT cct,turno,periodo,ciclo 
-    //         FROM complemento_apa
-    //         LIMIT 3010";
-    // $datos=$this->db->query($query)->result_array();
+    // $datos=[];
+    // array_push($datos,2);
+    // array_push($datos,3);
     // for ($i=0; $i < count($datos) ; $i++) { 
-    //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
+    //   $this->rep($datos[$i],2,"2020");
     // }
 
   }
 
 
-  function rep($idnivel,$periodo,$ciclo){
+  function rep($idnivel = null,$periodo = null,$ciclo = null){
      
 
     $reporte_datos=$this->DatosEdo_model->get_reporte_apa($idnivel,$periodo,$ciclo);
@@ -1217,7 +1215,7 @@ $pdf->writeHTMLCell($w=60,$h=30,$x=65,$y=200, $html5, $border=0, $ln=1, $fill=0,
 $pdf->Image('assets/img/cont_tem_icon.png', 16,210,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(165, 8,"Contenidos temáticos con menor porcentaje de aciertos en la escuela", 0, 'L', 0, 0, 22, 210, 'M');
+$pdf->MultiCell(165, 8,"Contenidos temáticos con menor porcentaje de aciertos en el estado", 0, 'L', 0, 0, 22, 210, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(108.89, 220, 108.89, 255, $style);
 $pdf->SetFont('montserratb', '', 7);
@@ -1277,7 +1275,7 @@ EOT;
 $html5 = <<<EOT
 $str_htm3
 EOT;
-$pdf->writeHTMLCell($w=70,$h=30,$x=16,$y=225, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=70,$h=30,$x=16,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 /////mat
 
@@ -1331,7 +1329,7 @@ EOT;
 $html5 = <<<EOT
 $str_htm3
 EOT;
-$pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=225, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
 
 
@@ -1348,261 +1346,150 @@ $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=225, $html5, $border=0, $ln=1, $fill=0
 /// INICIA TERCERA PÄGINA
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 $idreporte=$reporte_datos['idreporteapa'];
-$ids=explode(",", $idreporte);
-for ($i=0; $i <count($ids) ; $i++) { 
-$alumnos_baja=$this->DatosEdo_model->get_alumnos_baja($ids[$i]);
-if($alumnos_baja == null){
-  array_push($alumnos_baja,'No hay datos para mostrar');
-}else{
+// $ids=explode(",", $idreporte);
+// for ($i=0; $i <count($ids) ; $i++) { 
+// $alumnos_baja=$this->DatosEdo_model->get_alumnos_baja($ids[$i]);
+// if($alumnos_baja == null){
+//   array_push($alumnos_baja,'No hay datos para mostrar');
+// }else{
 
-$array_items = array_chunk($alumnos_baja, 23);
-foreach ($array_items as $key => $item) {
-  // echo "<pre>";
-  // print_r($item);
-  // die();
-  $array_datos_escuela= array(
-    "nombre" => $item[0]['encabezado_n_escuela'],
-    "cct" => $item[0]['cct'],
-    "director" => $item[0]['encabezado_n_direc_resp'],
-    "turno" => $item[0]['encabezado_n_turno'],
-    "municipio" => $item[0]['encabezado_muni_escuela']
-    );
+// $array_items = array_chunk($alumnos_baja, 23);
+// foreach ($array_items as $key => $item) {
+//   // echo "<pre>";
+//   // print_r($item);
+//   // die();
+//   $array_datos_escuela= array(
+//     "nombre" => $item[0]['encabezado_n_escuela'],
+//     "cct" => $item[0]['cct'],
+//     "director" => $item[0]['encabezado_n_direc_resp'],
+//     "turno" => $item[0]['encabezado_n_turno'],
+//     "municipio" => $item[0]['encabezado_muni_escuela']
+//     );
 
-    $nombre=$array_datos_escuela['nombre'];
-    $cct=$array_datos_escuela['cct'];
-    $director=$array_datos_escuela['director'];
-    $turno=$array_datos_escuela['turno'];
-    $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
-    $str_htm_encabezado=<<<EOD
-        <style>
-        table td{
-          border: none;
-          padding: 5px !important;
-          background-color:#ECECEE;
-          font-size: 8px;
-          padding-top:4px;
-          padding-left:2px;
-          padding-right:2px;
-          padding-bottom:4px;
-        }
-        </style>
-        <table WIDTH="255">
-          <tbody>
-            <tr>
-              <td WIDTH="2"></td>
-              <td WIDTH="73.88"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="130"></td>
-              <td WIDTH="5"></td>
-              <td WIDTH="25"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="45"></td>
-              <td WIDTH="30"></td>
-              <td WIDTH="40"></td>
-              <td WIDTH="20"></td>
-              <td WIDTH="50"></td>
-              <td WIDTH="85"></td>
-              <td WIDTH="2"></td>
-            </tr>
-            <tr>
-              <td WIDTH="10" HEIGHT="13"></td>
-              <td WIDTH="40" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
-              <td WIDTH="55" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="170" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="20" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="140.88" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$municipio</font></td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="2" HEIGHT="13"></td>
-            </tr>
-            <tr>
-              <td WIDTH="10" HEIGHT="13"></td>
-              <td WIDTH="85" HEIGHT="13"><font face="Montserrat-Regular" color="#555">CCT:</font></td>
-              <td WIDTH="10" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$cct</font></td>
-              <td WIDTH="35" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="30" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="55" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$turno</font></td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="50" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="45" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="102.88" HEIGHT="13">&nbsp;</td>
-            </tr>
-            <tr>
-              <td WIDTH="10"></td>
-              <td WIDTH="95"><font face="Montserrat-Regular" color="#555">Director / Responsable:</font></td>
-              <td WIDTH="200"><font face="Montserrat-Bold" color="#555">$director</font></td>
-              <td WIDTH="222.88">&nbsp;</td>
-            </tr>
-            <tr>
-              <td WIDTH="2"></td>
-              <td WIDTH="73.88"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="130"></td>
-              <td WIDTH="5"></td>
-              <td WIDTH="25"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="45"></td>
-              <td WIDTH="30"></td>
-              <td WIDTH="40"></td>
-              <td WIDTH="20"></td>
-              <td WIDTH="50"></td>
-              <td WIDTH="85"></td>
-              <td WIDTH="2"></td>
-            </tr>
-          </tbody>
-        </table>
-EOD;
+//     $nombre=$array_datos_escuela['nombre'];
+//     $cct=$array_datos_escuela['cct'];
+//     $director=$array_datos_escuela['director'];
+//     $turno=$array_datos_escuela['turno'];
+//     $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
+//     $str_htm_encabezado=<<<EOD
+//         <style>
+//         table td{
+//           border: none;
+//           padding: 5px !important;
+//           background-color:#ECECEE;
+//           font-size: 8px;
+//           padding-top:4px;
+//           padding-left:2px;
+//           padding-right:2px;
+//           padding-bottom:4px;
+//         }
+//         </style>
+//         <table WIDTH="255">
+//           <tbody>
+//             <tr>
+//               <td WIDTH="2"></td>
+//               <td WIDTH="73.88"></td>
+//               <td WIDTH="10"></td>
+//               <td WIDTH="130"></td>
+//               <td WIDTH="5"></td>
+//               <td WIDTH="25"></td>
+//               <td WIDTH="10"></td>
+//               <td WIDTH="45"></td>
+//               <td WIDTH="30"></td>
+//               <td WIDTH="40"></td>
+//               <td WIDTH="20"></td>
+//               <td WIDTH="50"></td>
+//               <td WIDTH="85"></td>
+//               <td WIDTH="2"></td>
+//             </tr>
+//             <tr>
+//               <td WIDTH="10" HEIGHT="13"></td>
+//               <td WIDTH="40" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
+//               <td WIDTH="55" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="170" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
+//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="20" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
+//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="140.88" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$municipio</font></td>
+//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="2" HEIGHT="13"></td>
+//             </tr>
+//             <tr>
+//               <td WIDTH="10" HEIGHT="13"></td>
+//               <td WIDTH="85" HEIGHT="13"><font face="Montserrat-Regular" color="#555">CCT:</font></td>
+//               <td WIDTH="10" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$cct</font></td>
+//               <td WIDTH="35" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="30" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
+//               <td WIDTH="15" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="55" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$turno</font></td>
+//               <td WIDTH="15" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="50" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="15" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="45" HEIGHT="13">&nbsp;</td>
+//               <td WIDTH="102.88" HEIGHT="13">&nbsp;</td>
+//             </tr>
+//             <tr>
+//               <td WIDTH="10"></td>
+//               <td WIDTH="95"><font face="Montserrat-Regular" color="#555">Director / Responsable:</font></td>
+//               <td WIDTH="200"><font face="Montserrat-Bold" color="#555">$director</font></td>
+//               <td WIDTH="222.88">&nbsp;</td>
+//             </tr>
+//             <tr>
+//               <td WIDTH="2"></td>
+//               <td WIDTH="73.88"></td>
+//               <td WIDTH="10"></td>
+//               <td WIDTH="130"></td>
+//               <td WIDTH="5"></td>
+//               <td WIDTH="25"></td>
+//               <td WIDTH="10"></td>
+//               <td WIDTH="45"></td>
+//               <td WIDTH="30"></td>
+//               <td WIDTH="40"></td>
+//               <td WIDTH="20"></td>
+//               <td WIDTH="50"></td>
+//               <td WIDTH="85"></td>
+//               <td WIDTH="2"></td>
+//             </tr>
+//           </tbody>
+//         </table>
+// EOD;
 
-$encabezado = <<<EOT
-        $str_htm_encabezado
-EOT;
-  $array_return =  $this->pinta_al_baja($pdf,$item,$reporte_datos,$encabezado);
-  $pdf = $array_return['pdf'];
-}
-}
-}
+// $encabezado = <<<EOT
+//         $str_htm_encabezado
+// EOT;
+//   $array_return =  $this->pinta_al_baja($pdf,$item,$reporte_datos,$encabezado);
+//   $pdf = $array_return['pdf'];
+// }
+// }
+// }
 /// Termina TERCERA PÄGINA
 
 /// INICIA Cuarta PÄGINA
 
-$ids=explode(",", $idreporte);
+// $ids=explode(",", $idreporte);
 // echo "<pre>";
 // print_r($ids);
 // die();
-for ($i=0; $i <count($ids) ; $i++) { 
+// for ($i=0; $i <count($ids) ; $i++) { 
   
-$alumnos_mar=$this->DatosEdo_model->get_alumnos_mar($ids[$i]);
-if($alumnos_mar == null){
-  array_push($alumnos_mar,'No hay datos para mostrar');
-}else{
-// if(count($alumnos_mar)>=23){
-  $array_items = array_chunk($alumnos_mar, 23);
-// }else{
-//   $array_items = array_chunk($alumnos_mar, count($alumnos_mar));
+$alumnos_mar=$this->DatosEdo_model->get_alumnos_mar($idreporte);
+// echo "<pre>";
+// print_r($alumnos_mar); die();
+  if($alumnos_mar == null){
+    array_push($alumnos_mar,'No hay datos para mostrar');
+  }else{
+    $array_items = array_chunk($alumnos_mar,20);
+    foreach ($array_items as $key => $item) {
+      $array_return =  $this->pinta_muy_alto($pdf, $item);
+      $pdf = $array_return['pdf'];
+    }
+  }
 // }
-
-  // echo "<pre>";
-  // echo "idreporteapa\n".$ids[$i]."\n";
-  // echo "total\n".count($alumnos_mar)."\n";
-foreach ($array_items as $key => $item) {
-  // print_r($item);
-    $array_datos_escuela= array(
-    "nombre" => $item[0]['encabezado_n_escuela'],
-    "cct" => $item[0]['cct'],
-    "director" => $item[0]['encabezado_n_direc_resp'],
-    "turno" => $item[0]['encabezado_n_turno'],
-    "municipio" => $item[0]['encabezado_muni_escuela']
-    );
-
-    $nombre=$array_datos_escuela['nombre'];
-    $cct=$array_datos_escuela['cct'];
-    $director=$array_datos_escuela['director'];
-    $turno=$array_datos_escuela['turno'];
-    $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
-    $str_htm_encabezado=<<<EOD
-        <style>
-        table td{
-          border: none;
-          padding: 5px !important;
-          background-color:#ECECEE;
-          font-size: 8px;
-          padding-top:4px;
-          padding-left:2px;
-          padding-right:2px;
-          padding-bottom:4px;
-        }
-        </style>
-        <table WIDTH="255">
-          <tbody>
-            <tr>
-              <td WIDTH="2"></td>
-              <td WIDTH="73.88"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="130"></td>
-              <td WIDTH="5"></td>
-              <td WIDTH="25"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="45"></td>
-              <td WIDTH="30"></td>
-              <td WIDTH="40"></td>
-              <td WIDTH="20"></td>
-              <td WIDTH="50"></td>
-              <td WIDTH="85"></td>
-              <td WIDTH="2"></td>
-            </tr>
-            <tr>
-              <td WIDTH="10" HEIGHT="13"></td>
-              <td WIDTH="40" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
-              <td WIDTH="55" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="170" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="20" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="140.88" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$municipio</font></td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="2" HEIGHT="13"></td>
-            </tr>
-            <tr>
-              <td WIDTH="10" HEIGHT="13"></td>
-              <td WIDTH="85" HEIGHT="13"><font face="Montserrat-Regular" color="#555">CCT:</font></td>
-              <td WIDTH="10" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$cct</font></td>
-              <td WIDTH="35" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="30" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="55" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$turno</font></td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="50" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="45" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="102.88" HEIGHT="13">&nbsp;</td>
-            </tr>
-            <tr>
-              <td WIDTH="10"></td>
-              <td WIDTH="95"><font face="Montserrat-Regular" color="#555">Director / Responsable:</font></td>
-              <td WIDTH="200"><font face="Montserrat-Bold" color="#555">$director</font></td>
-              <td WIDTH="222.88">&nbsp;</td>
-            </tr>
-            <tr>
-              <td WIDTH="2"></td>
-              <td WIDTH="73.88"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="130"></td>
-              <td WIDTH="5"></td>
-              <td WIDTH="25"></td>
-              <td WIDTH="10"></td>
-              <td WIDTH="45"></td>
-              <td WIDTH="30"></td>
-              <td WIDTH="40"></td>
-              <td WIDTH="20"></td>
-              <td WIDTH="50"></td>
-              <td WIDTH="85"></td>
-              <td WIDTH="2"></td>
-            </tr>
-          </tbody>
-        </table>
-EOD;
-
-$encabezado = <<<EOT
-        $str_htm_encabezado
-EOT;
-  $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado);
-  $pdf = $array_return['pdf'];
-}
-}
-}
 // die();
 
 
@@ -1611,9 +1498,9 @@ EOT;
 
 
 $pdf->Output('Reporte_APA_Sinaloa_Estatal_'.$reporte_datos['encabezado_n_nivel'].'.pdf', 'I');
-  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/";
-  // $archivom = "REPORTE_ESTATAL_".$reporte_datos['encabezado_n_nivel']."_P1".".pdf";
-  // $pdf->Output($ruta."REPORTE_ESTATAL/".$archivom,'F');
+  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/Municipal/";
+  // $archivom = "REPORTE_ESTATAL_".$reporte_datos['encabezado_n_nivel']."_P2".".pdf";
+  // $pdf->Output($ruta.$archivom,'F');
       // ob_end_flush();
 
 
@@ -1828,13 +1715,28 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=76, $html, $border=0, $ln=1, $fill=0, $r
     ];
 }// pinta_al_baja()
 
-function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
- // add a page
- // $pdf->SetAutoPageBreak(TRUE, 0);
- $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
+function pinta_muy_alto($pdf,$array_datos){
+
+ // $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
+  $pdf->SetFont('', '', 10);
+  $pdf->SetAutoPageBreak(TRUE, 0);
+
+  $pdf->AddPage('P', 'LETTER');
+  $pdf->Image('assets/img/encabezado.png', 0,0,217, 35, '', '', '', false, 300, '', false, false, 0);
+  $pdf->Image('assets/img/pie.png', 0,262,210, 15, '', '', '', false, 300, '', false, false, 0);
+  $pdf->SetAutoPageBreak(FALSE, 0);
+  $pdf->SetFillColor(129, 113, 106);
+  $pdf->SetFont('montserratb', '', 12);
+  $pdf->SetTextColor(255, 255, 255);
+  $pdf->MultiCell(35, 10,$array_datos[0]['encabezado_n_nivel'], 0, 'C', false, 0, 170, 24, 'M');
+  $pdf->SetFont('montserratb', '', 10);
+  // $pdf->SetTextColor(80, 76, 75);
+  $pdf->SetTextColor(150, 146, 143);
+  $pdf->SetFillColor(255, 255, 255);
+  $pdf->MultiCell(50, 10,$array_datos[0]['encabezado_n_periodo'].' PERIODO', 0, 'R', false, 0, 150, 30, 'M');
 
 
-$pdf->Image('assets/img/admiracion.png', 16,66,5, 5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image('assets/img/admiracion.png', 16,47,5, 5, '', '', '', false, 300, '', false, false, 0);
 $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos con alto y muy alto riesgo de abandono<sup>2</sup></h2>
 <table WIDTH="104mm" HEIGHT="12mm">
       <tbody>
@@ -1850,9 +1752,36 @@ Cite a su padre, madre o tutor en forma inmediata para acordar acciones y asegur
 $msj
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=37, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
- $str_html='
+//  $str_html='
+//  <style>
+//  table td{
+//    padding: 2px !important;
+//    border: .3px solid #BFC0C3;
+//    font-weight: bold;
+//    font-family: montserratb;
+//    line-height: 10px;
+//  }
+//  table th{
+//    padding: 2px !important;
+//    text-align: center;
+//    border: .3px solid #BFC0C3;
+//    background-color:#E6E7E9;
+//    line-height: 10px;
+//  }
+//  </style>
+//  <table width= "100%">
+// <tr>
+// <th width= "55mm" HEIGHT="20">Nombre</th>
+// <th width= "23.4mm" >Grado / Grupo</th>
+// <th width= "22.18mm">Inasistencias en periodo</th>
+// <th width= "21.10mm">Asignaturas Reprobadas</th>
+// <th width= "20.11mm">Extraedad</th>
+// <th width= "44.15mm">Madre, Padre o Tutor</th>
+// </tr>';
+
+   $str_html='
  <style>
  table td{
    padding: 2px !important;
@@ -1870,59 +1799,61 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
  }
  </style>
  <table width= "100%">
-<tr>
-<th width= "55mm" HEIGHT="20">Nombre</th>
-<th width= "23.4mm" >Grado / Grupo</th>
-<th width= "22.18mm">Inasistencias en periodo</th>
-<th width= "21.10mm">Asignaturas Reprobadas</th>
-<th width= "20.11mm">Extraedad</th>
-<th width= "44.15mm">Madre, Padre o Tutor</th>
-</tr>';
 
- // $contador = 1;
- // echo "<pre>"; print_r($array_datos); die();
+<tr>
+<th width= "55mm" HEIGHT="20" rowspan="2">Municipio</th>
+<th width= "23.4mm" rowspan="2">Total de escuelas</th>
+<th width= "20.18mm" rowspan="2">Total de alumno</th>
+<th width="64.15mm" colspan="3">Alumnos en riesgo de abandono</th>
+<th width= "23.22mm" rowspan="2">% de alto y muy alto riesgo de abandono</th>
+</tr>
+<tr>
+<th width= "21.38mm">Alto</th>
+<th width= "21.38mm">Muy alto</th>
+<th width= "21.38mm">Total</th>
+</tr>
+';
+
+
  if($array_datos[0] == 'No hay datos para mostrar'){
   $str_html .= '<tr>
   <td HEIGHT="20" colspan="6"> <font face="Montserrat" color="black">'.$array_datos[0].'</font></td>
   </tr>';
 
 }else{
+  // print_r($array_datos); die();
+
  foreach ($array_datos as $key => $alumno) {
-  if (isset($alumno['muyalto_alto'])) {
-      if ($alumno['muyalto_alto'] == 'M') {
-       $cuadrito='   <img src="assets/img/cuadrito-rojo.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
-     }else if ($alumno['muyalto_alto'] == 'A') {
-      $cuadrito='   <img src="assets/img/cuadrito-naranja.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
-    }
-  }else{
-    $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
-  }
+
+    $total_escuelas=number_format($alumno['total_escuelas']);
+    $total_alumnos=number_format($alumno['total_alumnos']);
+    $total_alto=number_format($alumno['total_alto']);
+    $total_muy_alto=number_format($alumno['total_muy_alto']);
+    $total_alto_riesgo=number_format($alumno['total_alto_riesgo']);
      $str_html .= '<tr>
-     <td width= "55mm" style="border-left-style: none;" HEIGHT="20"><font face="Montserrat" color="black">'.$cuadrito.$alumno['nombre_alu'].'</font></td>
-     <td width= "23.4mm" style="text-align:center;" > <font face="Montserrat" color="black">'.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
-     <td width= "22.18mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['inasistencias'].'</font></td>
-     <td width= "21.10mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['asig_reprobadas'].'</font></td>
-     <td width= "20.11mm" style="text-align:center;" ><font face="Montserrat" color="black"> '.$alumno['extraedad'].'</font></td>
-     <td width= "44.15mm"><font face="Montserrat" color="black"> '.$alumno['nombre_madre_padre_tutor'].'</font></td>
+     <td width= "55mm" style="border-left-style: none; text-align:center;" HEIGHT="20"><font face="Montserrat" color="black">'.$alumno['municipio'].'</font></td>
+     <td width= "23.4mm" style="text-align:center;" > <font face="Montserrat" color="black">'.$total_escuelas.'</font></td>
+     <td width= "20.18mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$total_alumnos.'</font></td>
+     <td width= "21.38mm"><font face="Montserrat" color="black"> '.$total_alto.'</font></td>
+      <td width= "21.38mm"><font face="Montserrat" color="black"> '.$total_muy_alto.'</font></td>
+      <td width= "21.38mm"><font face="Montserrat" color="black"> '.$total_alto_riesgo.'</font></td>
+      <td width= "23.22mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['porcentaje'].'</font></td>
      </tr>';
   }
 }
 
  $str_html .= '</table>';
 
- // echo $str_html;die();
 
-// $str_html = "";
 $html= <<<EOT
 $str_html
 EOT;
 
-$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=78, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
+$pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=58, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
  return [
    'pdf' => $pdf
    ];
 }// pinta_muy_alto()
-
 
 }

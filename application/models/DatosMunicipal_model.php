@@ -14,6 +14,7 @@ class DatosMunicipal_model extends CI_Model
       if($idnivel==2){
         $periodo_planea="2018";
       }
+      // print_r($periodo_planea_mun_max); die();
       $q = "SELECT GROUP_CONCAT(c.idreporteapa) AS idreporteapa
             ,c.encabezado_n_nivel
             ,c.`encabezado_n_periodo`
@@ -213,6 +214,48 @@ class DatosMunicipal_model extends CI_Model
       // }
       // return $this->db->query($q)->result_array();
     }
+    function get_planea_max_periodo_municipal($idnivel,$idmunicipio){
+      $q="SELECT MAX(periodo_planea) AS periodo_planea,
+                idnivel
+                FROM planea_nlogro_x_municipio WHERE idnivel= ?";
+      return $this->db->query($q, array($idnivel))->row_array();
+    }
+
+    function get_planea_min_periodo_municipal($idnivel,$idmunicipio){
+      $q="SELECT MIN(periodo_planea) periodo_planea,
+                  idnivel
+                FROM planea_nlogro_x_municipio WHERE idnivel= ?";
+      return $this->db->query($q, array($idnivel))->row_array();
+    }
+    
+    function get_planea_nl_max_municipal($idnivel,$idmunicipio,$periodo_planea){
+      $q="SELECT MAX(periodo_planea) AS periodo_planea,
+                ni_lyc AS ni_lyc_mun_max,
+                nii_lyc AS nii_lyc_mun_max,
+                niii_lyc AS niii_lyc_mun_max,
+                niv_lyc AS niv_lyc_mun_max,
+                (nii_lyc+niii_lyc+niv_lyc) planea_ii_iii_iv_lyc_mun_max,
+                ni_mat AS ni_mat_mun_max,
+                nii_mat as nii_mat_mun_max,
+                niii_mat as niii_mat_mun_max,
+                niv_mat as niv_mat_mun_mun,
+                (nii_mat+niii_mat+niv_mat) planea_ii_iii_iv_mat_mun_max,
+                idmunicipio,idnivel
+                FROM planea_nlogro_x_municipio WHERE idnivel= ? AND idmunicipio= ? AND periodo_planea= ?";
+      return $this->db->query($q, array($idnivel,$idmunicipio,$periodo_planea))->row_array();
+    }
+
+    function get_planea_nl_min_municipal($idnivel,$idmunicipio,$periodo_planea){
+      $q="SELECT MIN(periodo_planea) periodo_planea,
+                  ni_lyc as ni_lyc_mun_min ,
+                  (nii_lyc+niii_lyc+niv_lyc) planea_ii_iii_iv_lyc_mun_min,
+                  ni_mat as ni_mat_mun_min,
+                  (nii_mat+niii_mat+niv_mat) planea_ii_iii_iv_mat_mun_min,
+                  idmunicipio,
+                  idnivel
+                FROM planea_nlogro_x_municipio WHERE idnivel= ? AND idmunicipio= ? AND periodo_planea= ?";
+      return $this->db->query($q, array($idnivel,$idmunicipio,$periodo_planea))->row_array();
+    }
 
     function get_alumnos_baja($idreporte){
       // $q = "SELECT
@@ -229,18 +272,46 @@ class DatosMunicipal_model extends CI_Model
     }
 
     function get_alumnos_mar($idreporte){
-      // $q = "SELECT
-      //       *
-      //       FROM muy_alto_riesgo
-      //       WHERE idreporteapa IN({$idreporte}) order by muyalto_alto desc, grado asc, grupo, nombre_alu";
-       $q = "SELECT
-            m.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
-            FROM muy_alto_riesgo as m
-            INNER JOIN complemento_apa c ON c.idreporteapa=m.idreporteapa
-            WHERE m.idreporteapa IN({$idreporte}) order by c.idcentrocfg,m.muyalto_alto desc, m.grado asc, m.grupo, m.nombre_alu";
+       $q = " SELECT d.idcentrocfg,
+                    d.total_muy_alto,
+                    d.total_alto,
+                    d.cct,
+                    d.turno,
+                    d.nombre_escuela,
+                    d.encabezado_muni_escuela,
+                    d.total_alumnos,
+                    d.encabezado_n_nivel,
+                    d.encabezado_n_periodo,
+                    d.localidad,
+                    (d.total_alto+d.total_muy_alto) as total_alto_riesgo,
+                    ROUND((((d.total_alto+d.total_muy_alto)*100)/d.total_alumnos),2) AS porcentaje 
+
+                    FROM (
+                      SELECT 
+                      c.idcentrocfg
+                      ,SUM(c.per_riesgo_al_muy_alto) AS total_muy_alto
+                      ,SUM(c.per_riesgo_al_alto) AS total_alto
+                      ,c.cct
+                      ,c.turno
+                      ,c.encabezado_n_escuela AS nombre_escuela
+                      ,c.encabezado_muni_escuela
+                      ,c.per_riesgo_al_t AS total_alumnos
+                      ,c.encabezado_n_nivel
+                      ,c.encabezado_n_periodo
+                      ,ct.localidad
+                      FROM complemento_apa c
+                      INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
+                      INNER JOIN cct ct ON ct.idct=cfg.idct
+                      WHERE c.idreporteapa IN({$idreporte})
+
+                      AND  c.per_riesgo_al_t IS NOT NULL 
+                      GROUP BY c.`idcentrocfg` ) AS d 
+                      -- WHERE d.total_muy_alto!=0 OR d.total_alto!=0
+                  ORDER BY d.total_muy_alto DESC";
             // echo $q;die();
       return $this->db->query($q)->result_array();
     }
+
 
       function insertacontenidos_xcentrocfgall(){
             $q = "SELECT

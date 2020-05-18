@@ -17,18 +17,19 @@ class Generar_reporte extends CI_Controller {
     // $this->rep($cct,$turno,$periodo,$ciclo);
     
     // $query="SELECT cct,turno,periodo,ciclo 
-    //         FROM complemento_apa
-    //         LIMIT 3010";
+    //         FROM complemento_apa 
+    //         WHERE periodo=2 
+    //         LIMIT 3001";
     // $datos=$this->db->query($query)->result_array();
     // for ($i=0; $i < count($datos) ; $i++) { 
     //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
     // }
-
+    die();
   }
 
 
    // function rep(){
-  function rep($cct,$turno,$periodo,$ciclo){
+  function rep($cct = null,$turno = null,$periodo =null,$ciclo= null){
  
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
     // echo "<pre>";print_r($reporte_datos);die();
@@ -1172,6 +1173,7 @@ for ($i=0; $i < count($planea_aprov_mat); $i++) {
 if($x3<4 || $x2<4){
 
 /////Inicia gráfica mate
+$vector100 = array(10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
 $data1y=$prom_cal_mat;
 $data2y=$planea_aprov_mat;
 $data3y=array(0,0,0,0,0,0);
@@ -1406,9 +1408,9 @@ foreach ($array_items as $key => $item) {
 
 
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
-  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/";
-  // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P1".".pdf";
-  // $pdf->Output($ruta."REPORTES_SINALOA/".$archivom,'F');
+  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2PERIODO/";
+  // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P2".".pdf";
+  // $pdf->Output($ruta.$archivom,'F');
       // ob_end_flush();
 
 

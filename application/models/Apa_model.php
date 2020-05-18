@@ -428,7 +428,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
-                                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE eval.p2=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS a ON a.idcentrocfg=cfg.idcentrocfg
 
                               LEFT JOIN (
@@ -439,7 +439,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                          WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE eval.p2=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS b ON b.idcentrocfg=cfg.idcentrocfg
                               LEFT JOIN (
                                     SELECT cfg.idcentrocfg,COUNT(*) AS total_89_lyc
@@ -449,7 +449,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
-                                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE (eval.p2>=8 AND eval.p2<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS c ON c.idcentrocfg=cfg.idcentrocfg
 
                               LEFT JOIN (
@@ -460,7 +460,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                          WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE (eval.p2>=8 AND eval.p2<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS d ON d.idcentrocfg=cfg.idcentrocfg
 
                               LEFT JOIN (
@@ -471,7 +471,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
-                                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE (eval.p2>=6 AND eval.p2<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS e ON e.idcentrocfg=cfg.idcentrocfg
 
                               LEFT JOIN (
@@ -482,7 +482,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                          WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE (eval.p2>=6 AND eval.p2<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS f ON f.idcentrocfg=cfg.idcentrocfg
 
                               LEFT JOIN (
@@ -493,7 +493,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Español'
-                                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE (eval.p2=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS g ON g.idcentrocfg=cfg.idcentrocfg
                               LEFT JOIN (
                                      SELECT cfg.idcentrocfg,COUNT(*) AS total_5_mat
@@ -503,7 +503,7 @@ class Apa_model extends CI_Model
                                           INNER JOIN alumno a ON a.idalumno=e.idalumno
                                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                                           INNER JOIN asignatura_prim asig ON asig.`idasigprim`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                          WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                          WHERE (eval.p2=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                               ) AS h ON h.idcentrocfg=cfg.idcentrocfg
                               LEFT JOIN (
                     SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM (
@@ -513,7 +513,7 @@ class Apa_model extends CI_Model
                           INNER JOIN expediente_prim e ON e.idgrupo=g.idgrupo
                           INNER JOIN eval_prim eval ON eval.idexpediente=e.idexpediente
                           INNER JOIN alumno a ON a.idalumno=e.idalumno
-                          WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A' AND eval.p1 IS NOT NULL AND eval.`p1`!=0 GROUP BY e.`idexpediente`
+                          WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A' AND eval.p2 IS NOT NULL AND eval.`p1`!=0 GROUP BY e.`idexpediente`
                                       ) AS a
                               ) AS i ON i.idcentrocfg=cfg.idcentrocfg
                               WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']}
@@ -527,7 +527,7 @@ class Apa_model extends CI_Model
                         t.`apr_prom_al_esc_mat_6-7`=d.`apr_prom_al_esc_mat_6-7`,
                         t.`apr_prom_al_esc_mat_8-9`=d.`apr_prom_al_esc_mat_8-9`,
                         t.`apr_prom_al_esc_mat_10`=d.`apr_prom_al_esc_mat_10`
-              WHERE t.idcentrocfg=d.idcentrocfg";
+              WHERE t.idcentrocfg=d.idcentrocfg AND t.periodo=2";
               $this->db->query($query);
 
       }
@@ -556,7 +556,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                                              WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE eval.p2=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS a ON a.idcentrocfg=cfg.idcentrocfg
 
                                   LEFT JOIN (
@@ -567,7 +567,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                              WHERE eval.p1=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE eval.p2=10 AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS b ON b.idcentrocfg=cfg.idcentrocfg
                                   LEFT JOIN (
                                         SELECT cfg.idcentrocfg,COUNT(*) AS total_89_lyc
@@ -577,7 +577,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                                              WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE (eval.p2>=8 AND eval.p2<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS c ON c.idcentrocfg=cfg.idcentrocfg
 
                                   LEFT JOIN (
@@ -588,7 +588,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                              WHERE (eval.p1>=8 AND eval.p1<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE (eval.p2>=8 AND eval.p2<=9) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS d ON d.idcentrocfg=cfg.idcentrocfg
 
                                   LEFT JOIN (
@@ -599,7 +599,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                                              WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE (eval.p2>=6 AND eval.p2<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS e ON e.idcentrocfg=cfg.idcentrocfg
 
                                   LEFT JOIN (
@@ -610,7 +610,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                              WHERE (eval.p1>=6 AND eval.p1<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE (eval.p2>=6 AND eval.p2<=7) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS f ON f.idcentrocfg=cfg.idcentrocfg
 
                                   LEFT JOIN (
@@ -621,7 +621,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Español'
-                                              WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE (eval.p2=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS g ON g.idcentrocfg=cfg.idcentrocfg
                                   LEFT JOIN (
                                          SELECT cfg.idcentrocfg,COUNT(*) AS total_5_mat
@@ -631,7 +631,7 @@ class Apa_model extends CI_Model
                                               INNER JOIN alumno a ON a.idalumno=e.idalumno
                                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                                               INNER JOIN asignatura_sec asig ON asig.`idasigsec`=eval.`idasig` AND asig.`descr`='Matematicas'
-                                              WHERE (eval.p1=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
+                                              WHERE (eval.p2=5) AND cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A'
                                   ) AS h ON h.idcentrocfg=cfg.idcentrocfg
                                   LEFT JOIN (
                         SELECT COUNT(*) AS total_alumnos,a.idcentrocfg FROM (
@@ -641,7 +641,7 @@ class Apa_model extends CI_Model
                               INNER JOIN expediente_sec e ON e.idgrupo=g.idgrupo
                               INNER JOIN eval_sec eval ON eval.idexpediente=e.idexpediente
                               INNER JOIN alumno a ON a.idalumno=e.idalumno
-                              WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A' AND eval.p1 IS NOT NULL AND eval.`p1`!=0  AND eval.`idasig` IN(1,2,3,8,9,10)
+                              WHERE cfg.idcentrocfg={$datos[$i]['idcentrocfg']} AND e.`status`='A' AND eval.p2 IS NOT NULL AND eval.`p1`!=0  AND eval.`idasig` IN(1,2,3,8,9,10)
                               GROUP BY e.`idexpediente`
                                           ) AS a
                                   ) AS i ON i.idcentrocfg=cfg.idcentrocfg
@@ -656,7 +656,7 @@ class Apa_model extends CI_Model
                             t.`apr_prom_al_esc_mat_6-7`=d.`apr_prom_al_esc_mat_6-7`,
                             t.`apr_prom_al_esc_mat_8-9`=d.`apr_prom_al_esc_mat_8-9`,
                             t.`apr_prom_al_esc_mat_10`=d.`apr_prom_al_esc_mat_10`
-                  WHERE t.idcentrocfg=d.idcentrocfg
+                  WHERE t.idcentrocfg=d.idcentrocfg AND t.periodo=2
               ";
               $this->db->query($query);
           }
