@@ -1409,12 +1409,9 @@ foreach ($array_items as $key => $item) {
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 /// Termina Cuarta PÄGINA
 
-$view = $this->load->view('Auxiliar/contador', '', TRUE);
-
-echo $view;
-
-ob_end_clean();
+$this->contador('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf');
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
+
 
   // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2PERIODO/";
   // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P2".".pdf";
@@ -1423,6 +1420,29 @@ $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabe
 
 
 }
+
+public function contador($url){
+    $ch = curl_init();
+    // $url_pat = "";
+     
+    // definimos la URL a la que hacemos la petición
+    curl_setopt($ch, CURLOPT_URL,"http://www.google-analytics.com/collect?");
+    // indicamos el tipo de petición: POST
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    // definimos cada uno de los parámetros
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "v=1&t=pageview&tid=UA-168882556-1&cid=8cbdc37b-f7f0-46c5-9950-e3ebdcf28f43&dp=%2F{$url}&sc=start");
+     
+    // recibimos la respuesta y la guardamos en una variable
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $remote_server_output = curl_exec ($ch);
+     
+    // cerramos la sesión cURL
+    curl_close ($ch);
+     
+    // hacemos lo que queramos con los datos recibidos
+    // por ejemplo, los mostramos
+    // print_r($remote_server_output);
+    }
 
 
 private function planea_graf($pdf,$a,$b,$yg,$tipo){
