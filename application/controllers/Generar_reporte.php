@@ -1425,7 +1425,8 @@ public function contador($url){
     $ch = curl_init();
     $version = "1";
     $tid = "UA-168882556-1";
-    $cid = "8cbdc37b-f7f0-46c5-9950-e3ebdcf28f43";
+    $cid = $this->gen_uuid();
+    // $cid = "8cbdc37b-f7f0-46c5-9950-e3ebdcf28f43";
     // definimos la URL a la que hacemos la petición
     curl_setopt($ch, CURLOPT_URL,"http://www.google-analytics.com/collect?");
     // indicamos el tipo de petición: POST
@@ -1442,6 +1443,27 @@ public function contador($url){
 
     }
 
+    private function gen_uuid() {
+        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            // 32 bits for "time_low"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+
+            // 16 bits for "time_mid"
+            mt_rand( 0, 0xffff ),
+
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand( 0, 0x0fff ) | 0x4000,
+
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand( 0, 0x3fff ) | 0x8000,
+
+            // 48 bits for "node"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+        );
+    }
 
 private function planea_graf($pdf,$a,$b,$yg,$tipo){
 
