@@ -9,19 +9,20 @@ class Generar_reporte extends CI_Controller {
     parent::__construct();
     $this->load->helper('url');
     $this->load->model('Apa_model');
+
   }// __construct()
 
 
   function index(){
-    
+
     // $this->rep($cct,$turno,$periodo,$ciclo);
-    
-    // $query="SELECT cct,turno,periodo,ciclo 
-    //         FROM complemento_apa 
-    //         WHERE periodo=2 
-    //         LIMIT 3001";
+
+    // $query="SELECT cct,turno,periodo,ciclo
+    //         FROM complemento_apa
+    //         WHERE periodo=2
+    //         LIMIT 2940,3001";
     // $datos=$this->db->query($query)->result_array();
-    // for ($i=0; $i < count($datos) ; $i++) { 
+    // for ($i=0; $i < count($datos) ; $i++) {
     //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
     // }
     die();
@@ -30,8 +31,9 @@ class Generar_reporte extends CI_Controller {
 
    // function rep(){
   function rep($cct = null,$turno = null,$periodo =null,$ciclo= null){
- 
+
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
+
     // echo "<pre>";print_r($reporte_datos);die();
     if ($reporte_datos==null) {
     echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
@@ -64,8 +66,8 @@ class Generar_reporte extends CI_Controller {
 
     $this->graf($riesgo,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos);
 
-    
-    
+
+
   }
 
   function graf($riesgo,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos){
@@ -90,6 +92,7 @@ class Generar_reporte extends CI_Controller {
 
 $str_htm3 =<<<EOD
         <style>
+
         table td{
           border: none;
           padding: 5px !important;
@@ -189,7 +192,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 // echo "<pre>";
 //     print_r(
 //       array_sum($riesgo)
-//     ); 
+//     );
 // die();
 $imagenpie = "";
     if(array_sum($riesgo) != 0){
@@ -205,12 +208,12 @@ $imagenpie = "";
 
       // $p1->SetSliceColors(array('#ffffff'));
       $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
-    
+
     // $graph_p->SetColor('#F7F7F6');
     $graph_p->SetColor('#EFEFEF');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
-    
+
     $pdf->Image('pastel.png', 110,95,70, 50, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
     }else{
@@ -1102,7 +1105,7 @@ if($vect_mat[0] == 0){
 // die();
 
 $x=0;
-for ($i=0; $i < count($prom_cal_esp); $i++) { 
+for ($i=0; $i < count($prom_cal_esp); $i++) {
   if($prom_cal_esp[$i]==0){
     $x=$x+1;
   }
@@ -1110,7 +1113,7 @@ for ($i=0; $i < count($prom_cal_esp); $i++) {
 
 
 $x1=0;
-for ($i=0; $i < count($planea_aprov_esp); $i++) { 
+for ($i=0; $i < count($planea_aprov_esp); $i++) {
   if($planea_aprov_esp[$i]==0){
     $x1=$x1+1;
   }
@@ -1154,7 +1157,7 @@ unlink('barras2.png');
 // print_r($planea_aprov_mat);
 // die();
 $x2=0;
-for ($i=0; $i < count($prom_cal_mat); $i++) { 
+for ($i=0; $i < count($prom_cal_mat); $i++) {
   if($prom_cal_mat[$i]==0){
     $x2=$x2+1;
   }
@@ -1162,7 +1165,7 @@ for ($i=0; $i < count($prom_cal_mat); $i++) {
 
 
 $x3=0;
-for ($i=0; $i < count($planea_aprov_mat); $i++) { 
+for ($i=0; $i < count($planea_aprov_mat); $i++) {
   if($planea_aprov_mat[$i]==0){
     $x3=$x3+1;
   }
@@ -1406,8 +1409,13 @@ foreach ($array_items as $key => $item) {
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 /// Termina Cuarta PÄGINA
 
+$view = $this->load->view('Auxiliar/contador', '', TRUE);
 
+echo $view;
+
+ob_end_clean();
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'.pdf', 'I');
+
   // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2PERIODO/";
   // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P2".".pdf";
   // $pdf->Output($ruta.$archivom,'F');
