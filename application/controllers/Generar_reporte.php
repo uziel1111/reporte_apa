@@ -15,12 +15,13 @@ class Generar_reporte extends CI_Controller {
 
   function index(){
 
-    // $this->rep($cct,$turno,$periodo,$ciclo);
+    $this->rep($cct,$turno,$periodo,$ciclo);
 
     // $query="SELECT cct,turno,periodo,ciclo
     //         FROM complemento_apa
-    //         WHERE periodo=2
-    //         LIMIT 2940,3001";
+    //         WHERE periodo=3
+    //     ORDER BY cct DESC
+    //     LIMIT 2770,3000 ";
     // $datos=$this->db->query($query)->result_array();
     // for ($i=0; $i < count($datos) ; $i++) {
     //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
@@ -1413,10 +1414,10 @@ $this->contador('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['enc
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'_'.$reporte_datos['encabezado_n_periodo'].'_'.$ciclo.'.pdf', 'I');
 
 
-  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2PERIODO/";
-  // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P2".".pdf";
+  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/3PERIODO/";
+  // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P3".".pdf";
   // $pdf->Output($ruta.$archivom,'F');
-      // ob_end_flush();
+  //     ob_end_flush();
 
 
 }

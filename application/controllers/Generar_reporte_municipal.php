@@ -14,30 +14,30 @@ class Generar_reporte_municipal extends CI_Controller {
 
 
   function index(){
-    // $this->rep($cct,$turno,$periodo,$ciclo);
-    
+    $this->rep($cct,$turno,$periodo,$ciclo);
+
     // $query="SELECT idmunicipio FROM municipio";
     // $datos=$this->db->query($query)->result_array();
-    // for ($i=0; $i < count($datos) ; $i++) { 
-    //   $this->rep($datos[$i]['idmunicipio'],2,2,'2020');
+    // for ($i=0; $i < count($datos) ; $i++) {
+    //   $this->rep($datos[$i]['idmunicipio'],2,3,'2020');
     // }
-
-    // for ($i=0; $i < count($datos) ; $i++) { 
-    //   $this->rep($datos[$i]['idmunicipio'],3,2,'2020');
+    //
+    // for ($i=0; $i < count($datos) ; $i++) {
+    //   $this->rep($datos[$i]['idmunicipio'],3,3,'2020');
     // }
     die();
   }
 
 
   function rep($idmunicipio = null,$idnivel = null,$periodo = null,$ciclo = null){
-     
+
 
     $reporte_datos=$this->DatosMunicipal_model->get_reporte_apa($idmunicipio,$idnivel,$periodo,$ciclo);
     $planea_max=$this->DatosMunicipal_model->get_planea_max_periodo_municipal($idnivel,$idmunicipio);
     $planea_min=$this->DatosMunicipal_model->get_planea_min_periodo_municipal($idnivel,$idmunicipio);
     $planea_mun1=$this->DatosMunicipal_model->get_planea_nl_max_municipal($idnivel,$idmunicipio,$planea_max['periodo_planea']);
     $planea_mun2=$this->DatosMunicipal_model->get_planea_nl_min_municipal($idnivel,$idmunicipio,$planea_min['periodo_planea']);
-    
+
     // echo "<pre>"; print_r($reporte_datos); die();
     // echo $reporte_datos['idreporteapa']; die();
     if ($reporte_datos==null || $reporte_datos['idreporteapa']=='' || $reporte_datos['idreporteapa']==null) {
@@ -77,8 +77,8 @@ class Generar_reporte_municipal extends CI_Controller {
 
     $this->graf($riesgo,$array_datos_escuela,$est_asis_alumnos0,$est_asis_gr0,$est_asis_alumnosh1,$est_asis_alumnosh2,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$riesgo_alto0,$riesgo_muy_alto0,$riesgo0,$reporte_datos,$planea_mun1,$planea_mun2);
 
-    
-    
+
+
   }
 
   function graf($riesgo,$array_datos_escuela,$est_asis_alumnos0,$est_asis_gr0,$est_asis_alumnosh1,$est_asis_alumnosh2,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$riesgo_alto0,$riesgo_muy_alto0,$riesgo0,$reporte_datos,$planea_mun1,$planea_mun2){
@@ -171,7 +171,7 @@ $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 // echo "<pre>";
 //     print_r(
 //       array_sum($riesgo)
-//     ); 
+//     );
 // die();
 $imagenpie = "";
     if(array_sum($riesgo) != 0){
@@ -187,12 +187,12 @@ $imagenpie = "";
 
       // $p1->SetSliceColors(array('#ffffff'));
       $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
-    
+
     // $graph_p->SetColor('#F7F7F6');
     $graph_p->SetColor('#EFEFEF');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
-    
+
     $pdf->Image('pastel.png', 110,95,70, 50, 'png', '', '', false, 300, '', false, false, 0);
     unlink('pastel.png');
     }else{
@@ -1085,7 +1085,7 @@ if($vect_mat[0] == 0){
 // die();
 
 $x=0;
-for ($i=0; $i < count($prom_cal_esp); $i++) { 
+for ($i=0; $i < count($prom_cal_esp); $i++) {
   if($prom_cal_esp[$i]==0){
     $x=$x+1;
   }
@@ -1093,7 +1093,7 @@ for ($i=0; $i < count($prom_cal_esp); $i++) {
 
 
 $x1=0;
-for ($i=0; $i < count($planea_aprov_esp); $i++) { 
+for ($i=0; $i < count($planea_aprov_esp); $i++) {
   if($planea_aprov_esp[$i]==0){
     $x1=$x1+1;
   }
@@ -1137,7 +1137,7 @@ unlink('barras2.png');
 // print_r($planea_aprov_mat);
 // die();
 $x2=0;
-for ($i=0; $i < count($prom_cal_mat); $i++) { 
+for ($i=0; $i < count($prom_cal_mat); $i++) {
   if($prom_cal_mat[$i]==0){
     $x2=$x2+1;
   }
@@ -1145,7 +1145,7 @@ for ($i=0; $i < count($prom_cal_mat); $i++) {
 
 
 $x3=0;
-for ($i=0; $i < count($planea_aprov_mat); $i++) { 
+for ($i=0; $i < count($planea_aprov_mat); $i++) {
   if($planea_aprov_mat[$i]==0){
     $x3=$x3+1;
   }
@@ -1360,7 +1360,7 @@ $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=220, $html5, $border=0, $ln=1, $fill=0
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 $idreporte=$reporte_datos['idreporteapa'];
 // $ids=explode(",", $idreporte);
-// for ($i=0; $i <count($ids) ; $i++) { 
+// for ($i=0; $i <count($ids) ; $i++) {
 // $alumnos_baja=$this->DatosMunicipal_model->get_alumnos_baja($ids[$i]);
 // if($alumnos_baja == null){
 //   array_push($alumnos_baja,'No hay datos para mostrar');
@@ -1484,7 +1484,7 @@ $idreporte=$reporte_datos['idreporteapa'];
 
 /// INICIA Cuarta PÄGINA
 // $ids=explode(",", $idreporte);
-// for ($i=0; $i <count($ids) ; $i++) { 
+// for ($i=0; $i <count($ids) ; $i++) {
 $alumnos_mar=$this->DatosMunicipal_model->get_alumnos_mar($idreporte);
 // echo "<pre>";print_r($alumnos_mar);die();
 if($alumnos_mar == null){
@@ -1505,9 +1505,9 @@ if($alumnos_mar == null){
 
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['encabezado_muni_escuela'].$reporte_datos['encabezado_n_nivel'].'.pdf', 'I');
   // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/Municipal/";
-  // $archivom = $reporte_datos['encabezado_muni_escuela']."_".$reporte_datos['encabezado_n_nivel']."_P2".".pdf";
+  // $archivom = $reporte_datos['encabezado_muni_escuela']."_".$reporte_datos['encabezado_n_nivel']."_P3".".pdf";
   // $pdf->Output($ruta.$archivom,'F');
-      // ob_end_flush();
+  //     ob_end_flush();
 
 
 }
@@ -1733,7 +1733,7 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
 
 
  function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_v){
-  
+
 
   $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
@@ -1788,9 +1788,9 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
     </tr>';
 
   }else{
-     
+
       foreach ($array_datos as $key => $alumno) {
- 
+
 
           $str_html .= '<tr>
           <td HEIGHT="20" style="color:#000000 !important; font-family: montserrat;"><font face="Montserrat" color="black"> '.$alumno['nombre_alu'].'</font></td>
