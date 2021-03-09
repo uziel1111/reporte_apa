@@ -55,7 +55,6 @@ class Generar_reporte extends CI_Controller {
     $est_asis_gr= array(0 => $reporte_datos['asi_est_gr_1'],1 => $reporte_datos['asi_est_gr_2'],2 => $reporte_datos['asi_est_gr_3'],3 => $reporte_datos['asi_est_gr_4'],4 => $reporte_datos['asi_est_gr_5'],5 => $reporte_datos['asi_est_gr_6'],6=>$reporte_datos['asi_est_gruposmulti'] );
 
     $riesgo=array(0 => $reporte_datos['per_riesgo_al_muy_alto'],1 => $reporte_datos['per_riesgo_al_alto'],2 => $reporte_datos['per_riesgo_al_medio'],3 => $reporte_datos['per_riesgo_al_bajo'] );
-    // echo '<pre>';print_r($reporte_datos);die();
     $riesgo_alto=array(0 => $reporte_datos['per_riesgo_al_alto_1'],1 => $reporte_datos['per_riesgo_al_alto_2'],2 => $reporte_datos['per_riesgo_al_alto_3'],3 => $reporte_datos['per_riesgo_al_alto_4'],4 => $reporte_datos['per_riesgo_al_alto_5'],5 => $reporte_datos['per_riesgo_al_alto_6'] );
     $riesgo_muy_alto=array(0 => $reporte_datos['per_riesgo_al_muy_alto_1'],1 => $reporte_datos['per_riesgo_al_muy_alto_2'],2 => $reporte_datos['per_riesgo_al_muy_alto_3'],3 => $reporte_datos['per_riesgo_al_muy_alto_4'],4 => $reporte_datos['per_riesgo_al_muy_alto_5'],5 => $reporte_datos['per_riesgo_al_muy_alto_6'] );
 
@@ -64,15 +63,11 @@ class Generar_reporte extends CI_Controller {
     $rez_na = array(0 => number_format((float)$reporte_datos['asi_rez_noasiste_h']),1 => number_format((float)$reporte_datos['asi_rez_noasiste_m']),2 =>number_format((float)$reporte_datos['asi_rez_noasiste_t']));
     $analfabeta = array(0 => number_format((float)$reporte_datos['asi_analfabeta_h']),1 => number_format((float)$reporte_datos['asi_analfabeta_m']),2 => number_format((float)$reporte_datos['asi_analfabeta_t']));
 
-
     $this->graf($riesgo,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos,$ciclo);
-
-
 
   }
 
   function graf($riesgo,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos,$ciclo){
-    // echo "<pre>";print_r($reporte_datos);die();
 
     //// Parámetros iniciales para PDF///
 
@@ -81,7 +76,6 @@ class Generar_reporte extends CI_Controller {
     $pdf->SetAuthor('Proyecto Educativo');
     $pdf->SetTitle('Reporte APA');
     $pdf->SetSubject('Reporte APA');
-    // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
     $nombre=$array_datos_escuela['nombre'];
     $cct=$array_datos_escuela['cct'];
@@ -184,33 +178,22 @@ $encabezado_v = <<<EOT
     		$str_htm3
 EOT;
 
-
-
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 
     ///Empieza creación de grafica de pastel PERMANENCIA
-// echo "<pre>";
-//     print_r(
-//       array_sum($riesgo)
-//     );
-// die();
 $imagenpie = "";
     if(array_sum($riesgo) != 0){
     $graph_p = new PieGraph(350,250);
     $graph_p->SetBox(false);
     $p1 = new PiePlot($riesgo);
-    // echo"<pre>";
-    // print_r($p1); die();
     $graph_p->Add($p1);
     $p1->ShowBorder();
     $p1->SetColor('black');
     $p1->SetGuideLines();
 
-      // $p1->SetSliceColors(array('#ffffff'));
-      $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
+    $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
 
-    // $graph_p->SetColor('#F7F7F6');
     $graph_p->SetColor('#EFEFEF');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
@@ -231,7 +214,6 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
 
     ///Termina creación de grafica de pastel
 
-
     $pdf->SetFont('montserratb', '', 11);
     $pdf->SetTextColor(145, 145, 145);
     $pdf->MultiCell(99, 8,"Alumnos en riesgo de abandono escolar", 0, 'L', 0, 0, 112, 87, 'M');
@@ -243,29 +225,19 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $data1y=$est_asis_alumnos_h1;
     $data2y=$est_asis_alumnos_h2;
     $data3y=$est_asis_alumnos;
-    // print_r($data1y);
-    // print_r($data2y);
-    // print_r($data3y);
-    // die();
+
     }
     else {
     $data1y= array_slice($est_asis_alumnos_h1, 0, 3);
     $data2y= array_slice($est_asis_alumnos_h2, 0, 3);
     $data3y= array_slice($est_asis_alumnos, 0, 3);
     }
-// echo "<pre>";
-//  print_r($est_asis_alumnos);
-//     print_r($est_asis_alumnos_h1);
-//     print_r($est_asis_alumnos_h2);
-//     die();
+
     $graph = new Graph(350,200,'auto');
     $graph->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph->SetTheme($theme_class);
     $graph->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-    // $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
-    // $graph->yaxis->SetTickPositions(array(0,50,100,150,200,250,300,350), array(25,75,125,175,275,325));
-// $graph->y2axis->SetTickPositions(array(30,40,50,60,70,80,90));
     $graph->SetBox(false);
     $graph->ygrid->SetFill(false);
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
@@ -281,10 +253,6 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $b3plot = new BarPlot($data3y);
     $gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
     $graph->Add($gbplot);
-
-    // $vector100 = array(0,2,4,6,8,10,12,14,16,18,20);
-    // $vect_esp = array(1,3,5,7,9,11,13,15,17,19);
-    // $graph->yaxis->SetTickPositions($vector100, $vect_esp);
 
     $b1plot->SetColor("white");
     $b1plot->SetFillColor("#e68dab");
@@ -330,10 +298,8 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $graph1->SetTheme($theme_class);
     $graph1->yaxis->title->Set("Alumnos");
     $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-     // $graph1->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
-    // $graph1->xaxis->Hide();
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
       $graph1->xaxis->SetTickLabels(array('1°','2°','3°','4°','5°','6°'));
     }
@@ -415,14 +381,7 @@ $html5 = <<<EOT
 $str_htm3
 EOT;
 
-// $pdf->writeHTMLCell($w=200,$h=55,$x=12,$y=70, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-
-
-// $pdf->writeHTMLCell($w=200,$h=55,$x=107,$y=70, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-
 $pdf->SetFillColor(0, 0, 127);
-
-// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0)
 $pdf->SetFont('montserratb', '', 13);
 // set some text for example
 $txt = 'ASISTENCIA';
@@ -450,8 +409,6 @@ $pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 65, 85, true);
 
 $pdf->SetFont('montserratb', '', 10);
 $pdf->MultiCell(85, 10,"Inicio de ciclo escolar ".$reporte_datos['asi_est_ciclo1'], 0, 'L', 0, 0, 20, 90, true);
-
-// $pdf->MultiCell(80, 0, $left_column, 0, 'J', 1, 0, '', '', true, 0, false, true, 0);
 
 //pinta el fondo de color de las 2 columnas de la 1ra y segunda hoja
 $pdf->SetFillColor(239, 239, 239);
@@ -590,9 +547,6 @@ $ti_ciclo_h2=$reporte_datos['asi_est_ac_ciclo'];
 $tot_ciclo_h1=$reporte_datos['asi_est_h1_gr_t'];
 $tot_ciclo_h2=$reporte_datos['asi_est_h2_gr_t'];
 
-
-
-
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -640,14 +594,6 @@ $pdf->SetTextColor(145, 145, 145);
 $pdf->MultiCell(75, 8,"Rezago educativo del municipio", 0, 'L', 0, 0, 20, 182, 'M');
 $pdf->SetFont('montserrat', '', 9);
 $pdf->MultiCell(5, 5,"3", 0, 'L', 0, 0, 87, 182, 'M');
-
-/*$rez_ed0=number_format((float)$rez_ed[0]);
-$rez_ed1=number_format((float)$rez_ed[1]);
-$rez_ed2=number_format((float)$rez_ed[2]);
-$rez_na0=number_format((float)$rez_na[0]);
-$rez_na1=number_format((float)$rez_na[1]);
-$rez_na2=number_format((float)$rez_na[2]);*/
-
 
 $str_htm3 = <<<EOT
 <style>
@@ -880,15 +826,11 @@ EOT;
 
 $pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=205, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-
   $retencion=$reporte_datos['per_ind_retencion']." %";
-
 
   $aprobacion=$reporte_datos['per_ind_aprobacion']." %";
 
   $efic_ter=$reporte_datos['per_ind_et']." %";
-
-
 
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(110, 217, 195, 217, $style);
@@ -1011,9 +953,6 @@ else {
   $pdf->MultiCell(120, 10,'Porcentaje de alumnos egresados con aprendizajes suficientes.', 0, 'L', 1, 0, 32, 83, 'M');
 }
 
-
-// $pdf->SetFillColor(0, 0, 0);
-// $pdf->MultiCell(50, 4.8,'', 0, 'C', true, 0, 0, 100, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(18, 89, 193, 89, $style);
 
@@ -1023,9 +962,6 @@ $pdf->SetTextColor(145, 145, 145);
 $pdf->MultiCell(65, 8,"Resultados PLANEA ".$reporte_datos['apr_planea1_nlogro_esc_periodo'], 0, 'L', 0, 0, 22, 92, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(108.89, 98, 108.89, 156, $style);
-
-// $pdf->SetFillColor(0, 0, 0);
-// $pdf->MultiCell(68.89, 10,'', 0, 'C', true, 0, 130, 100, 'M');
 
 $pdf->SetFont('montserratextraboldi', '', 11);
 $pdf->SetTextColor(75, 74, 72);
@@ -1045,8 +981,6 @@ $pdf->MultiCell(50, 10,'Estado '.$reporte_datos['apr_planea_nlogro_estado_period
 $pdf->Image('assets/img/pais_icon.png', 26,145,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->MultiCell(50, 10,'País '.$reporte_datos['apr_planea_nlogro_pais_periodo'], 0, 'L', 1, 0, 32, 147, 'M');
 
-
-
 $tipo='leng';
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_lyc_i'],$reporte_datos['apr_planea2_nlogro_esc_lyc_ii-iii-iv'],1,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_lyc_i'],$reporte_datos['apr_planea1_nlogro_esc_lyc_ii-iii-iv'],2,$tipo);
@@ -1058,8 +992,6 @@ $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_mat_i'],$r
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_mat_i'],$reporte_datos['apr_planea1_nlogro_esc_mat_ii-iii-iv'],2,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_mat_i'],$reporte_datos['apr_planea_nlogro_estado_mat_ii-iii-iv'],3,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$reporte_datos['apr_planea_nlogro_pais_mat_ii-iii-iv'],4,$tipo);
-
-
 
 ///Empieza creación de grafica de barras
 
@@ -1100,10 +1032,6 @@ if($vect_esp[0] == 0){
 if($vect_mat[0] == 0){
   $vect_mat = array();
 }
-// echo "<pre>";
-// print_r($prom_cal_esp);
-// print_r($planea_aprov_esp);
-// die();
 
 $x=0;
 for ($i=0; $i < count($prom_cal_esp); $i++) {
@@ -1119,8 +1047,6 @@ for ($i=0; $i < count($planea_aprov_esp); $i++) {
     $x1=$x1+1;
   }
 }
-
-// echo $x1."\n".$x."\n";
 
 if($x1<4 || $x<4){
 
@@ -1154,9 +1080,6 @@ unlink('barras2.png');
 }
 /////Termina gráfica español
 
-// print_r($prom_cal_mat);
-// print_r($planea_aprov_mat);
-// die();
 $x2=0;
 for ($i=0; $i < count($prom_cal_mat); $i++) {
   if($prom_cal_mat[$i]==0){
@@ -1172,8 +1095,6 @@ for ($i=0; $i < count($planea_aprov_mat); $i++) {
   }
 }
 
-// echo $x3."\n".$x2."\n";
-// die();
 if($x3<4 || $x2<4){
 
 /////Inicia gráfica mate
@@ -1274,7 +1195,6 @@ table td{
 <table WIDTH="222">
   <tbody>
 EOT;
-// echo "<pre>";print_r($cont_tem_lyc);die();
 if ($cont_tem_lyc[0]['txt']=='') {
   $str_htm3 .= <<<EOT
   <tr>
@@ -1286,7 +1206,6 @@ EOT;
 else {
   foreach ($cont_tem_lyc as $lyc) {
     if ($lyc['txt']!=''){
-    // echo $lyc['txt'];
     $txt=$lyc['txt'];
     $por=$lyc['por'];
 
@@ -1299,9 +1218,6 @@ EOT;
     }
   }
 }
-
-// die();
-
 $str_htm3 .= <<<EOT
   </tbody>
 </table>
@@ -1339,7 +1255,6 @@ EOT;
 else {
   foreach ($cont_tem_mat as $mat) {
     if ($mat['txt']!=''){
-    // echo $mat['txt'];
     $txt=$mat['txt'];
     $por=$mat['por'];
 
@@ -1353,9 +1268,6 @@ EOT;
   }
 }
 
-
-// die();
-
 $str_htm3 .= <<<EOT
   </tbody>
 </table>
@@ -1366,26 +1278,14 @@ $str_htm3
 EOT;
 $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=223, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-
-
-
-
-
-
-// $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
-// $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
-
-
 ///Termina contenidos temáticos
 
 /// INICIA TERCERA PÄGINA
-// $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 $idreporte=$reporte_datos['idreporteapa'];
 $alumnos_baja=$this->Apa_model->get_alumnos_baja($idreporte);
 if($alumnos_baja == null){
   array_push($alumnos_baja,'No hay datos para mostrar');
 }
-// echo "<pre>";print_r($alumnos_baja);die();
 $array_items = array_chunk($alumnos_baja, 23);
 foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_al_baja($pdf, $item,$reporte_datos,$encabezado_v);
@@ -1397,7 +1297,6 @@ foreach ($array_items as $key => $item) {
 /// INICIA Cuarta PÄGINA
 
 $alumnos_mar=$this->Apa_model->get_alumnos_mar($idreporte);
-// echo "<pre>";print_r($alumnos_mar);die();
 if($alumnos_mar == null){
   array_push($alumnos_mar,'No hay datos para mostrar');
 }
@@ -1406,8 +1305,6 @@ foreach ($array_items as $key => $item) {
   $array_return =  $this->pinta_muy_alto($pdf, $item,$reporte_datos,$encabezado_v);
   $pdf = $array_return['pdf'];
 }
-
-// $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 /// Termina Cuarta PÄGINA
 
 $this->contador('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'_'.$reporte_datos['encabezado_n_periodo'].'_'.$ciclo.'.pdf');
@@ -1438,7 +1335,6 @@ public function contador($url){
     // recibimos la respuesta y la guardamos en una variable
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $remote_server_output = curl_exec ($ch);
-
     // cerramos la sesión cURL
     curl_close ($ch);
 
@@ -1488,9 +1384,6 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    else {
      $b_fotnt_size=12;
    }
-   // echo "<pre>";
-   // print_r($a);
-   // die();
    if ($a==0 || $a=='') {
      $srthtml_a='';
      $srthtml_a1='';
@@ -1505,9 +1398,6 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    if ($b==0 || $b=='') {
      $srthtml_b='';
      $srthtml_b1='';
-     // if ($b=='') {
-     //   $srthtml_b='<td width="100" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>Dato no disponible.</strong></td>';
-     // }
    }
    else {
      $srthtml_b='<td width="'.$b.'" style="background-color:#9ac27c; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$b_fotnt_size.'" face="Montserrat-Regular"><strong>'.$b.'%</strong></font></td>';
@@ -1587,20 +1477,13 @@ private function header_footer_v($pdf,$reporte_datos,$encabezado_v){
   $pdf->SetFont('', '', 8);
 
   $pdf->writeHTMLCell($w=120,$h=55,$x=11.59,$y=36.78, $encabezado_v, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=false);
-// $pdf->SetFillColor(0, 0, 0);
-// $pdf->MultiCell(12.6, 10,'', 0, 'C', true, 0, 0, 36, 'M');
-
-// $pdf->SetFillColor(0, 0, 0);
-// $pdf->MultiCell(11.22, 10,'', 0, 'C', true, 0, 198.88, 30, 'M');
   return $pdf;
 }
 
 
 
  function pinta_al_baja($pdf,$array_datos,$reporte_datos,$encabezado_v){
-  // echo "<pre>"; print_r($array_datos); die();
-  // add a page
-  // $pdf->SetAutoPageBreak(TRUE, 0);
+
   $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 $pdf->Image('assets/img/admiracion.png', 16,66,5, 5, '', '', '', false, 300, '', false, false, 0);
@@ -1646,8 +1529,6 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
 <th width= "39%">Motivo</th>
 </tr>';
 
-  // $contador = 1;
-  //
   if($array_datos[0] == 'No hay datos para mostrar'){
     $str_html .= '<tr>
     <td HEIGHT="20" colspan="3" style="color:#000000 !important;font-family: montserrat; "><font face="Montserrat" color="black"> '.$array_datos[0].'</font></td>
@@ -1666,7 +1547,6 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
 
   $str_html .= '</table>';
 
-// $str_html = "";
 $html= <<<EOT
 $str_html
 EOT;
@@ -1680,7 +1560,6 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=76, $html, $border=0, $ln=1, $fill=0, $r
 
 function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
  // add a page
- // $pdf->SetAutoPageBreak(TRUE, 0);
  $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 
@@ -1729,8 +1608,6 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
 <th width= "44.15mm">Madre, Padre o Tutor</th>
 </tr>';
 
- // $contador = 1;
- // echo "<pre>"; print_r($array_datos); die();
  if($array_datos[0] == 'No hay datos para mostrar'){
   $str_html .= '<tr>
   <td HEIGHT="20" colspan="6"> <font face="Montserrat" color="black">'.$array_datos[0].'</font></td>
@@ -1760,9 +1637,6 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
 
  $str_html .= '</table>';
 
- // echo $str_html;die();
-
-// $str_html = "";
 $html= <<<EOT
 $str_html
 EOT;

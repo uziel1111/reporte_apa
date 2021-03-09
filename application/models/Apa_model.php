@@ -8,43 +8,6 @@ class Apa_model extends CI_Model
     $this->load->database();
   }
 
-    function get_riesgo_abandono()
-    {
-      $riesgo=array(29,14,30,322);
-      return $riesgo;
-    }
-
-    function get_historico_mat()
-    {
-      $historico=array(array(47,80,40,116,10,20),array(61,30,82,105,10,20),array(115,50,70,93,10,20));
-      return $historico;
-    }
-
-    function get_distribucionxgrado()
-    {
-      $distribucion=array(array(1,2,4,6,10,2),array(6,3,8,5,7,8));
-      return $distribucion;
-    }
-
-    function get_planea_aprov()
-    {
-      $distribucion=array(array(1,2,4,6),array(6,3,8,5));
-      return $distribucion;
-    }
-
-    function get_datos_escuela()
-    {
-      $array = array(
-      "nombre" => "LICENCIADO BENITO JUAREZ",
-      "cct" => "25DPR2893V",
-      "director" => "ALEYDA HERNANDEZ MONTES",
-      "turno" => "MATUTINO",
-      "municipio" => "CULIACAN",
-      "modalidad" => "GENERAL"
-      );
-      return $array;
-    }
-
     function get_reporte_apa($cct,$turno,$periodo,$ciclo){
       $q = "SELECT
             *
@@ -53,14 +16,7 @@ class Apa_model extends CI_Model
             AND turno = ?
             AND periodo = ?
             AND ciclo = ?";
-            // echo $q;die();
-      // if($this->db->query($q, array($cct,$turno,$periodo,$ciclo))->row_array()){
         return $this->db->query($q, array($cct,$turno,$periodo,$ciclo))->row_array();
-      // }else{
-      //   $error =$this->db->error();
-      //   return $error;
-      // }
-      // return $this->db->query($q)->result_array();
     }
 
     function get_alumnos_baja($idreporte){
@@ -68,7 +24,6 @@ class Apa_model extends CI_Model
             *
             FROM bajas_apa
             WHERE idreporteapa = ? order by grado, grupo, nombre_alu";
-            // echo $q;die();
       return $this->db->query($q, array($idreporte))->result_array();
     }
 
@@ -77,7 +32,6 @@ class Apa_model extends CI_Model
             *
             FROM muy_alto_riesgo
             WHERE idreporteapa = ? order by muyalto_alto desc, grado asc, grupo, nombre_alu";
-            // echo $q;die();
       return $this->db->query($q, array($idreporte))->result_array();
     }
 
@@ -120,8 +74,6 @@ class Apa_model extends CI_Model
         }
       }
 
-
-
       //para matematicas,secundaria
 
       for ($i=1; $i<51 ; $i++) {
@@ -155,7 +107,6 @@ class Apa_model extends CI_Model
                     ) aux on aux.n_reactivo = $i
                     WHERE cfg.nivel=3
                  ";
-             // echo $query; die();
            $this->db->query($query);
       }
     }
@@ -191,7 +142,6 @@ class Apa_model extends CI_Model
                 ) aux on aux.n_reactivo = $i
                 WHERE cfg.nivel=2
              ";
-         // echo $query; die();
          $this->db->query($query);
        }
      }
@@ -227,7 +177,6 @@ class Apa_model extends CI_Model
                  ) aux on aux.n_reactivo = $i
                  WHERE cfg.nivel=2
               ";
-          // echo $query; die();
         $this->db->query($query);
         }
       }
@@ -239,8 +188,6 @@ class Apa_model extends CI_Model
     function llenarcontenidos(){
       $query="SELECT idcentrocfg FROM centrocfg";
       $datos=$this->db->query($query)->result_array();
-      // echo "<pre>";
-      // print_r($datos); die();
       for($i=0; $i<count($datos); $i++){
         $query2="INSERT INTO `test`.`temporal_contenidosxcfg` (
                 `idcentrocfg`,
@@ -304,7 +251,6 @@ class Apa_model extends CI_Model
                       GROUP BY r.`id_contenido` ORDER BY b.porcen_alum_respok ";
                       $this->db->query($query2);
       }
-
     }
 
     function llena_contenidosxidcentrocfg(){
