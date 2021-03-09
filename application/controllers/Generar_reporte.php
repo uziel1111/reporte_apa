@@ -35,7 +35,6 @@ class Generar_reporte extends CI_Controller {
 
     $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
 
-    // echo "<pre>";print_r($reporte_datos);die();
     if ($reporte_datos==null) {
     echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
     }
