@@ -480,8 +480,7 @@ class Apa_model extends CI_Model
       $query="SELECT idcentrocfg FROM centrocfg where nivel=3";
       $datos=$this->db->query($query)->result_array();
           for ($i=0; $i<count($datos); $i++) {
-              $query="
-                UPDATE complemento_apa t
+              $query="UPDATE complemento_apa t
                   JOIN
                   (
                     SELECT  cfg.idcentrocfg,
