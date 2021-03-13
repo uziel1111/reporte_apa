@@ -10,11 +10,14 @@ class DatosMunicipal_model extends CI_Model
 
 
     function get_reporte_apa($idmunicipio,$idnivel,$periodo,$ciclo){
-      $periodo_planea="2019";
+      $query="SELECT MAX(periodo_planea) AS periodo_planea
+                FROM planea_nlogro_x_muni WHERE idnivel= ?";
+      $periodo_planea_xnivel = $this->db->query($query, array($idnivel))->row();
+      $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2019');
       if($idnivel==2){
-        $periodo_planea="2018";
+        $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2018');
       }
-      // print_r($periodo_planea_mun_max); die();
+
       $q = "SELECT GROUP_CONCAT(c.idreporteapa) AS idreporteapa
             ,c.encabezado_n_nivel
             ,c.`encabezado_n_periodo`
@@ -214,17 +217,17 @@ class DatosMunicipal_model extends CI_Model
       // }
       // return $this->db->query($q)->result_array();
     }
-    function get_planea_max_periodo_municipal($idnivel,$idmunicipio){
+    function get_planea_max_periodo_municipal($idnivel){
       $q="SELECT MAX(periodo_planea) AS periodo_planea,
                 idnivel
-                FROM planea_nlogro_x_municipio WHERE idnivel= ?";
+                FROM planea_nlogro_x_muni WHERE idnivel= ?";
       return $this->db->query($q, array($idnivel))->row_array();
     }
 
-    function get_planea_min_periodo_municipal($idnivel,$idmunicipio){
+    function get_planea_min_periodo_municipal($idnivel){
       $q="SELECT MIN(periodo_planea) periodo_planea,
                   idnivel
-                FROM planea_nlogro_x_municipio WHERE idnivel= ?";
+                FROM planea_nlogro_x_muni WHERE idnivel= ?";
       return $this->db->query($q, array($idnivel))->row_array();
     }
     
@@ -241,7 +244,7 @@ class DatosMunicipal_model extends CI_Model
                 niv_mat as niv_mat_mun_mun,
                 (nii_mat+niii_mat+niv_mat) planea_ii_iii_iv_mat_mun_max,
                 idmunicipio,idnivel
-                FROM planea_nlogro_x_municipio WHERE idnivel= ? AND idmunicipio= ? AND periodo_planea= ?";
+                FROM planea_nlogro_x_muni WHERE idnivel= ? AND idmunicipio= ? AND periodo_planea= ?";
       return $this->db->query($q, array($idnivel,$idmunicipio,$periodo_planea))->row_array();
     }
 
@@ -253,23 +256,10 @@ class DatosMunicipal_model extends CI_Model
                   (nii_mat+niii_mat+niv_mat) planea_ii_iii_iv_mat_mun_min,
                   idmunicipio,
                   idnivel
-                FROM planea_nlogro_x_municipio WHERE idnivel= ? AND idmunicipio= ? AND periodo_planea= ?";
+                FROM planea_nlogro_x_muni WHERE idnivel= ? AND idmunicipio= ? AND periodo_planea= ?";
       return $this->db->query($q, array($idnivel,$idmunicipio,$periodo_planea))->row_array();
     }
 
-    function get_alumnos_baja($idreporte){
-      // $q = "SELECT
-      //       *
-      //       FROM bajas_apa
-      //       WHERE idreporteapa IN({$idreporte}) order by grado, grupo, nombre_alu";
-      // return $this->db->query($q)->result_array();
-      $q = "SELECT
-            b.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
-            FROM bajas_apa as b
-            INNER JOIN complemento_apa c on c.idreporteapa=b.idreporteapa
-            WHERE b.idreporteapa IN({$idreporte}) order by c.idcentrocfg,b.grado, b.grupo, b.nombre_alu";
-      return $this->db->query($q)->result_array();
-    }
 
     function get_alumnos_mar($idreporte){
        $q = " SELECT d.idcentrocfg,
@@ -313,252 +303,6 @@ class DatosMunicipal_model extends CI_Model
     }
 
 
-      function insertacontenidos_xcentrocfgall(){
-            $q = "SELECT
-                  idcentrocfg
-                  FROM centrocfg
-                  ";
-                  // echo $q;die();
-            $resultado=$this->db->query($q)->result_array();
-            // echo "<pre>";
-            // print_r($resultado); die();
-            //inserto los datos para nivel primaria y campodisciplinario 1
-            if(count($resultado)>0){
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO temporal_contenidosxcfgall (
-                                idcentrocfg,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT b.idcentrocfg,'2' AS idnivel,
-                              '1' campodisciplinario,
-                               '2018' AS periodo,b.id_contenido,b.contenidos,b.porcentaje
-                               FROM (
-                                    SELECT t1.`idcentrocfg`,t4.id_periodo,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`,
-                                         
-                                              ((((SUM(t1.n_aciertos))*100)/((COUNT(t3.id_contenido))*t1.n_almn_eval)))AS porcentaje
-                                              FROM `planeaxidcentrocfg_reactivo` `t1`
-                                              INNER JOIN centrocfg cfg ON cfg.idcentrocfg=t1.idcentrocfg
-                                              INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`
-                                              INNER JOIN `planea_contenido` `t3` ON `t2`.`id_contenido`= `t3`.`id_contenido`
-                                              INNER JOIN `planea_unidad_analisis` `t4` ON `t3`.`id_unidad_analisis`=`t4`.`id_unidad_analisis`
-                                              INNER JOIN `planea_camposdisciplinares` `t5` ON `t4`.`id_campodisiplinario`=`t5`.`id_campodisiplinario`
-                                              WHERE cfg.`idcentrocfg`= {$resultado[$i]['idcentrocfg']}  AND cfg.nivel= 2 
-                                              AND  t5.id_campodisiplinario=1 
-                                              GROUP BY `t3`.`id_contenido`
-                              ) AS b ORDER BY b.porcentaje ASC 
-                        ";
-                        $this->db->query($query);
-                  }
-            }
 
-            //inserto los datos para nivel primaria y campodisciplinario 2
-            if(count($resultado)>0){
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO temporal_contenidosxcfgall (
-                                `idcentrocfg`,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT b.idcentrocfg,'2' AS idnivel,
-                              '2' campodisciplinario,
-                               '2018' AS periodo,b.id_contenido,b.contenidos,b.porcentaje
-                               FROM (
-                                    SELECT t1.`idcentrocfg`,t4.id_periodo,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`,
-                                         
-                                              ((((SUM(t1.n_aciertos))*100)/((COUNT(t3.id_contenido))*t1.n_almn_eval)))AS porcentaje
-                                              FROM `planeaxidcentrocfg_reactivo` `t1`
-                                              INNER JOIN centrocfg cfg ON cfg.idcentrocfg=t1.idcentrocfg
-                                              INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`
-                                              INNER JOIN `planea_contenido` `t3` ON `t2`.`id_contenido`= `t3`.`id_contenido`
-                                              INNER JOIN `planea_unidad_analisis` `t4` ON `t3`.`id_unidad_analisis`=`t4`.`id_unidad_analisis`
-                                              INNER JOIN `planea_camposdisciplinares` `t5` ON `t4`.`id_campodisiplinario`=`t5`.`id_campodisiplinario`
-                                              WHERE cfg.idcentrocfg= {$resultado[$i]['idcentrocfg']}  AND cfg.nivel= 2 
-                                              AND  t5.id_campodisiplinario=2 
-                                              GROUP BY `t3`.`id_contenido`
-                              ) AS b ORDER BY b.porcentaje ASC 
-                        ";
-                        $this->db->query($query);
-                  }
-            
-
-            //inserto los datos para el nivel secundaria y campodisciplinario 1
-        
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO temporal_contenidosxcfgall (
-                                `idcentrocfg`,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT b.idcentrocfg,'3' AS idnivel,
-                              '1' campodisciplinario,
-                               '2019' AS periodo,b.id_contenido,b.contenidos,b.porcentaje
-                               FROM (
-                                    SELECT t1.`idcentrocfg`,t4.id_periodo,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`,
-                                         
-                                              ((((SUM(t1.n_aciertos))*100)/((COUNT(t3.id_contenido))*t1.n_almn_eval)))AS porcentaje
-                                              FROM `planeaxidcentrocfg_reactivo` `t1`
-                                              INNER JOIN centrocfg cfg ON cfg.idcentrocfg=t1.idcentrocfg
-                                              INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`
-                                              INNER JOIN `planea_contenido` `t3` ON `t2`.`id_contenido`= `t3`.`id_contenido`
-                                              INNER JOIN `planea_unidad_analisis` `t4` ON `t3`.`id_unidad_analisis`=`t4`.`id_unidad_analisis`
-                                              INNER JOIN `planea_camposdisciplinares` `t5` ON `t4`.`id_campodisiplinario`=`t5`.`id_campodisiplinario`
-                                              WHERE cfg.idcentrocfg= {$resultado[$i]['idcentrocfg']}  AND cfg.nivel= 3 
-                                              AND  t5.id_campodisiplinario=1 
-                                              GROUP BY `t3`.`id_contenido`
-                              ) AS b ORDER BY b.porcentaje ASC 
-                        ";
-                        $this->db->query($query);
-                  }
-
-            
-
-            //inserto los datos para nivel secundaria y campodisciplinario 2
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO temporal_contenidosxcfgall (
-                                `idcentrocfg`,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT  b.idcentrocfg,'3' AS idnivel,
-                              '2' campodisciplinario,
-                               '2019' AS periodo,b.id_contenido,b.contenidos,b.porcentaje
-                               FROM (
-                                    SELECT t1.`idcentrocfg`,t4.id_periodo,`t3`.`id_contenido`, `t3`.`contenido` AS `contenidos`,
-                                         
-                                              ((((SUM(t1.n_aciertos))*100)/((COUNT(t3.id_contenido))*t1.n_almn_eval)))AS porcentaje
-                                              FROM `planeaxidcentrocfg_reactivo` `t1`
-                                              INNER JOIN centrocfg cfg ON cfg.idcentrocfg=t1.idcentrocfg
-                                              INNER JOIN cct ct ON ct.idct=cfg.idct
-                                              INNER JOIN `planea_reactivo` `t2` ON `t1`.`id_reactivo`=`t2`.`id_reactivo`
-                                              INNER JOIN `planea_contenido` `t3` ON `t2`.`id_contenido`= `t3`.`id_contenido`
-                                              INNER JOIN `planea_unidad_analisis` `t4` ON `t3`.`id_unidad_analisis`=`t4`.`id_unidad_analisis`
-                                              INNER JOIN `planea_camposdisciplinares` `t5` ON `t4`.`id_campodisiplinario`=`t5`.`id_campodisiplinario`
-                                              WHERE cfg.`idcentrocfg`= {$resultado[$i]['idcentrocfg']}  AND cfg.nivel= 3 
-                                              AND  t5.id_campodisiplinario=2 
-                                              GROUP BY `t3`.`id_contenido`
-                              ) AS b ORDER BY b.porcentaje ASC 
-                        ";
-                        $this->db->query($query);
-                  }
-            }
-      }
-
-      function insertacontenidos_xmunxnivel(){
-            $query="SELECT idmunicipio FROM municipio";
-            $resultado=$this->db->query($query)->result_array();
-
-            //inserto los datos para nivel primaria y campodisciplinario 1
-            if(count($resultado)>0){
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO planea_contenidosxmunixnivel (
-                                `idmunicipio`,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT * FROM (
-                                    SELECT '{$resultado[$i]['idmunicipio']}' AS idmunicipio,t.`idnivel`,t.`idcampodisciplinario`,
-                                         t.periodo,t.`id_contenido`,t.`contenido`,((SUM(t.`porcentaje`))/COUNT(t.`idcentrocfg`)) AS porcentaje
-                                    FROM `temporal_contenidosxcfgall` t
-                                    INNER JOIN centrocfg cfg ON cfg.`idcentrocfg`=t.`idcentrocfg`
-                                    INNER JOIN cct c ON c.`idct`=cfg.`idct`
-                                    WHERE c.`idmunicipio`= {$resultado[$i]['idmunicipio']}  AND t.`idcampodisciplinario`=1 AND cfg.nivel=2
-                                    GROUP BY t.`id_contenido`
-                                    ) AS b ORDER BY b.porcentaje ASC LIMIT 5";
-                        $this->db->query($query);
-
-                  }
-
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO planea_contenidosxmunixnivel (
-                                `idmunicipio`,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT * FROM (
-                                    SELECT '{$resultado[$i]['idmunicipio']}' AS idmunicipio,t.`idnivel`,t.`idcampodisciplinario`,
-                                         t.periodo,t.`id_contenido`,t.`contenido`,((SUM(t.`porcentaje`))/COUNT(t.`idcentrocfg`)) AS porcentaje
-                                    FROM `temporal_contenidosxcfgall` t
-                                    INNER JOIN centrocfg cfg ON cfg.`idcentrocfg`=t.`idcentrocfg`
-                                    INNER JOIN cct c ON c.`idct`=cfg.`idct`
-                                    WHERE c.`idmunicipio`= {$resultado[$i]['idmunicipio']}  AND t.`idcampodisciplinario`=2 AND cfg.nivel=2
-                                    GROUP BY t.`id_contenido`
-                                    ) AS b ORDER BY b.porcentaje ASC LIMIT 5";
-                        $this->db->query($query);
-
-                  }
-
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO planea_contenidosxmunixnivel (
-                                `idmunicipio`,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT * FROM (
-                                    SELECT '{$resultado[$i]['idmunicipio']}' AS idmunicipio,t.`idnivel`,t.`idcampodisciplinario`,
-                                         t.periodo,t.`id_contenido`,t.`contenido`,((SUM(t.`porcentaje`))/COUNT(t.`idcentrocfg`)) AS porcentaje
-                                    FROM `temporal_contenidosxcfgall` t
-                                    INNER JOIN centrocfg cfg ON cfg.`idcentrocfg`=t.`idcentrocfg`
-                                    INNER JOIN cct c ON c.`idct`=cfg.`idct`
-                                    WHERE c.`idmunicipio`= {$resultado[$i]['idmunicipio']}  AND t.`idcampodisciplinario`=1 AND cfg.nivel=3
-                                    GROUP BY t.`id_contenido`
-                                    ) AS b ORDER BY b.porcentaje ASC LIMIT 5";
-                        $this->db->query($query);
-
-                  }
-
-                  for ($i=0; $i <count($resultado) ; $i++) { 
-                        $query="INSERT INTO planea_contenidosxmunixnivel (
-                                `idmunicipio`,
-                                `idnivel`,
-                                `idcampodisciplinario`,
-                                `periodo`,
-                                `id_contenido`,
-                                `contenido`,
-                                `porcentaje`
-                              )
-                              SELECT * FROM (
-                                    SELECT '{$resultado[$i]['idmunicipio']}' AS idmunicipio,t.`idnivel`,t.`idcampodisciplinario`,
-                                         t.periodo,t.`id_contenido`,t.`contenido`,((SUM(t.`porcentaje`))/COUNT(t.`idcentrocfg`)) AS porcentaje
-                                    FROM `temporal_contenidosxcfgall` t
-                                    INNER JOIN centrocfg cfg ON cfg.`idcentrocfg`=t.`idcentrocfg`
-                                    INNER JOIN cct c ON c.`idct`=cfg.`idct`
-                                    WHERE c.`idmunicipio`= {$resultado[$i]['idmunicipio']}  AND t.`idcampodisciplinario`=2 AND cfg.nivel=3
-                                    GROUP BY t.`id_contenido`
-                                    ) AS b ORDER BY b.porcentaje ASC LIMIT 5";
-                        $this->db->query($query);
-
-                  }
-            }
-
-      }
 
 }

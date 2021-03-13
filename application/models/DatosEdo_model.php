@@ -10,9 +10,12 @@ class DatosEdo_model extends CI_Model
 
 
     function get_reporte_apa($idnivel,$periodo,$ciclo){
-      $periodo_planea="2019";
+      $query="SELECT MAX(periodo_planea) AS periodo_planea
+                FROM planea_nlogro_x_muni WHERE idnivel= ?";
+      $periodo_planea_xnivel = $this->db->query($query, array($idnivel))->row();
+      $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2019');
       if($idnivel==2){
-        $periodo_planea="2018";
+        $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2018');
       }
       $q = "SELECT GROUP_CONCAT(c.idreporteapa) AS idreporteapa
             ,c.encabezado_n_nivel
@@ -204,15 +207,6 @@ class DatosEdo_model extends CI_Model
             // echo $q;die();
       return $this->db->query($q, array($idnivel,$periodo,$ciclo,$periodo_planea))->row_array();
       // return $this->db->query($q)->result_array();
-    }
-
-    function get_alumnos_baja($idreporte){
-      $q = "SELECT
-            b.*,c.cct,c.encabezado_n_turno,c.encabezado_n_escuela,c.encabezado_muni_escuela,c.idcentrocfg,c.encabezado_n_direc_resp
-            FROM bajas_apa as b
-            INNER JOIN complemento_apa c on c.idreporteapa=b.idreporteapa
-            WHERE b.idreporteapa IN({$idreporte}) order by c.idcentrocfg,b.grado, b.grupo, b.nombre_alu";
-      return $this->db->query($q)->result_array();
     }
 
     function get_alumnos_mar($idreporte){

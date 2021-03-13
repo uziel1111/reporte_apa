@@ -33,9 +33,6 @@ class Generar_reporte_estatal extends CI_Controller {
     if ($reporte_datos==null || $reporte_datos['idreporteapa']=='' || $reporte_datos['idreporteapa']==null) {
       echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
     }
-    // $array_datos_escuela= array(
-    //   "municipio" => $reporte_datos['encabezado_muni_escuela']
-    // );
 
     $est_asis_alumnos0 = array(0 =>number_format((float) $reporte_datos['asi_est_al_1']),1 => number_format((float)$reporte_datos['asi_est_al_2']),2 => number_format((float)$reporte_datos['asi_est_al_3']),3 => number_format((float)$reporte_datos['asi_est_al_4']),4 => number_format((float)$reporte_datos['asi_est_al_5']),5 => number_format((float)$reporte_datos['asi_est_al_6']) );
     $est_asis_alumnosh1 = array(0 => number_format((float)$reporte_datos['asi_est_h1_al_1']),1 => number_format((float)$reporte_datos['asi_est_h1_al_2']),2 => number_format((float)$reporte_datos['asi_est_h1_al_3']),3 => number_format((float)$reporte_datos['asi_est_h1_al_4']),4 => number_format((float)$reporte_datos['asi_est_h1_al_5']),5 => number_format((float)$reporte_datos['asi_est_h1_al_6']));
@@ -78,14 +75,6 @@ class Generar_reporte_estatal extends CI_Controller {
     $pdf->SetAuthor('Proyecto Educativo');
     $pdf->SetTitle('Reporte APA');
     $pdf->SetSubject('Reporte APA');
-    // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-    // $nombre=$array_datos_escuela['nombre'];
-    // $cct=$array_datos_escuela['cct'];
-    // $director=$array_datos_escuela['director'];
-    // $turno=$array_datos_escuela['turno'];
-    // $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
-    // $modalidad=$array_datos_escuela['modalidad'];
 
 
 $str_htm3 =<<<EOD
@@ -155,12 +144,8 @@ EOT;
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 
-    ///Empieza creación de grafica de pastel PERMANENCIA
-// echo "<pre>";
-//     print_r(
-//       array_sum($riesgo)
-//     );
-// die();
+///Empieza creación de grafica de pastel PERMANENCIA
+
 $imagenpie = "";
     if(array_sum($riesgo) != 0){
     $graph_p = new PieGraph(350,250);
@@ -173,10 +158,8 @@ $imagenpie = "";
     $p1->SetColor('black');
     $p1->SetGuideLines();
 
-      // $p1->SetSliceColors(array('#ffffff'));
-      $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
+    $p1->SetSliceColors(array('#cd1719','#ee7521','#ffed00','#dadada'));
 
-    // $graph_p->SetColor('#F7F7F6');
     $graph_p->SetColor('#EFEFEF');
     $graph_p->img->SetImgFormat('png');
     $graph_p->Stroke('pastel.png');
@@ -206,32 +189,22 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
 
     ///Empieza creación de grafica de barras MATRICULA
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-    $data1y=$est_asis_alumnos_h1;
-    $data2y=$est_asis_alumnos_h2;
-    $data3y=$est_asis_alumnos;
-    // print_r($data1y);
-    // print_r($data2y);
-    // print_r($data3y);
-    // die();
+      $data1y=$est_asis_alumnos_h1;
+      $data2y=$est_asis_alumnos_h2;
+      $data3y=$est_asis_alumnos;
     }
     else {
-    $data1y= array_slice($est_asis_alumnos_h1, 0, 3);
-    $data2y= array_slice($est_asis_alumnos_h2, 0, 3);
-    $data3y= array_slice($est_asis_alumnos, 0, 3);
+      $data1y= array_slice($est_asis_alumnos_h1, 0, 3);
+      $data2y= array_slice($est_asis_alumnos_h2, 0, 3);
+      $data3y= array_slice($est_asis_alumnos, 0, 3);
     }
-// echo "<pre>";
-//  print_r($est_asis_alumnos);
-//     print_r($est_asis_alumnos_h1);
-//     print_r($est_asis_alumnos_h2);
-//     die();
+
     $graph = new Graph(350,200,'auto');
     $graph->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph->SetTheme($theme_class);
     $graph->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-    // $graph->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
-    // $graph->yaxis->SetTickPositions(array(0,50,100,150,200,250,300,350), array(25,75,125,175,275,325));
-// $graph->y2axis->SetTickPositions(array(30,40,50,60,70,80,90));
+
     $graph->SetBox(false);
     $graph->ygrid->SetFill(false);
     if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
@@ -247,10 +220,6 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $b3plot = new BarPlot($data3y);
     $gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
     $graph->Add($gbplot);
-
-    // $vector100 = array(0,2,4,6,8,10,12,14,16,18,20);
-    // $vect_esp = array(1,3,5,7,9,11,13,15,17,19);
-    // $graph->yaxis->SetTickPositions($vector100, $vect_esp);
 
     $b1plot->SetColor("white");
     $b1plot->SetFillColor("#e68dab");
@@ -294,9 +263,9 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $graph1->SetScale("textlin");
     $theme_class=new UniversalTheme;
     $graph1->SetTheme($theme_class);
-    // $graph1->yaxis->title->Set("Alumnos");
+
     $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
-     // $graph1->yaxis->SetTickPositions(array(0,30,60,90,120,150), array(15,45,75,105,135));
+
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
     // $graph1->xaxis->Hide();
@@ -358,42 +327,13 @@ $pdf->writeHTMLCell($w=120,$h=55,$x=11.59,$y=50, $html3, $border=0, $ln=1, $fill
 $pdf->Image('assets/img/admiracion.png', 14,52.8,5, 5, '', '', '', false, 300, '', false, false, 0);
 
 
-$str_htm3 = <<<EOT
-<style>
-table td{
-  border: none;
-  padding: 5px !important;
-}
-</style>
-<table WIDTH="257">
-  <tbody>
-    <tr>
-      <td HEIGHT="20" style="background-color:#C2001F; text-align:center;" color="white">ASISTENCIA</td>
-    </tr>
-    <tr>
-      <td HEIGHT="570" style="background-color:#F7F7F6;"></td>
-    </tr>
-  </tbody>
-</table>
-EOT;
-
-$html5 = <<<EOT
-$str_htm3
-EOT;
-
-// $pdf->writeHTMLCell($w=200,$h=55,$x=12,$y=70, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-
-
-// $pdf->writeHTMLCell($w=200,$h=55,$x=107,$y=70, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
-
 $pdf->SetFillColor(0, 0, 127);
 
-// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0)
 $pdf->SetFont('montserratb', '', 13);
 // set some text for example
 $txt = 'ASISTENCIA';
 $txt1 = 'PERMANENCIA';
-$txt2 = 'APRENDIZAJE';
+
 
 
 // Multicell test
@@ -417,7 +357,6 @@ $pdf->MultiCell(5, 5,"1", 0, 'L', 0, 0, 65, 85, true);
 $pdf->SetFont('montserratb', '', 10);
 $pdf->MultiCell(85, 10,"Inicio de ciclo escolar ".$reporte_datos['asi_est_ciclo1'], 0, 'L', 0, 0, 20, 90, true);
 
-// $pdf->MultiCell(80, 0, $left_column, 0, 'J', 1, 0, '', '', true, 0, false, true, 0);
 
 //pinta el fondo de color de las 2 columnas de la 1ra y segunda hoja
 $pdf->SetFillColor(239, 239, 239);
@@ -606,13 +545,6 @@ $pdf->SetTextColor(145, 145, 145);
 $pdf->MultiCell(75, 8,"Rezago educativo del Estado", 0, 'L', 0, 0, 20, 182, 'M');
 $pdf->SetFont('montserrat', '', 9);
 $pdf->MultiCell(5, 5,"3", 0, 'L', 0, 0, 87, 182, 'M');
-
-/*$rez_ed0=number_format((float)$rez_ed[0]);
-$rez_ed1=number_format((float)$rez_ed[1]);
-$rez_ed2=number_format((float)$rez_ed[2]);
-$rez_na0=number_format((float)$rez_na[0]);
-$rez_na1=number_format((float)$rez_na[1]);
-$rez_na2=number_format((float)$rez_na[2]);*/
 
 
 $str_htm3 = <<<EOT
@@ -949,6 +881,7 @@ $pdf->writeHTMLCell($w=80,$h=20,$x=110,$y=240, $html5fuente, $border=0, $ln=1, $
 ///TERMINA PRIMERA PÁGINA
 
 /// INICIA SEGUNDA PÄGINA
+$txt2 = 'APRENDIZAJE';
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 $pdf->SetFont('montserratb', 'B', 13);
 $pdf->SetFillColor(0, 173, 234);
@@ -957,29 +890,7 @@ $pdf->MultiCell(186.3, 3.4,"", 0, 'C', 1, 0, 12.6, 58, true);
 $pdf->MultiCell(186.3, 3.4,$txt2, 0, 'C', 1, 0, 12.6, 61.4, true);
 $pdf->MultiCell(186.3, 3.4,"", 0, 'C', 1, 0, 12.6, 64.8, true);
 
-// $pdf->Image('assets/img/efic_ter_icon.png', 16,76,5, 5, '', '', '', false, 300, '', false, false, 0);
-// $pdf->SetFont('montserratb', '', 11);
-// $pdf->SetTextColor(145, 145, 145);
-// $pdf->MultiCell(65, 8,"Eficiencia terminal efectiva", 0, 'L', 0, 0, 22, 76, 'M');
-// $pdf->SetTextColor(145, 145, 145);
-// $pdf->SetFillColor(255, 255, 255);
-// if ($reporte_datos['apr_ete']=='') {
-//   $pdf->SetFont('montserratb', '', 7);
-//   $pdf->SetTextColor(0, 0, 0);
-//   $pdf->SetFillColor(255, 255, 255);
-//   $pdf->MultiCell(120, 10,'No es posible calcular el dato por falta de información.', 0, 'L', 1, 0, 32, 83, 'M');
-// }
-// else {
-//   $pdf->MultiCell(20, 10,$reporte_datos['apr_ete'].'%', 0, 'L', 1, 0, 22, 82, 'M');
-//   $pdf->SetFont('montserratb', '', 7);
-//   $pdf->SetTextColor(0, 0, 0);
-//   $pdf->SetFillColor(255, 255, 255);
-//   $pdf->MultiCell(120, 10,'Porcentaje de alumnos egresados con aprendizajes suficientes.', 0, 'L', 1, 0, 32, 83, 'M');
-// }
 
-
-// $pdf->SetFillColor(0, 0, 0);
-// $pdf->MultiCell(50, 4.8,'', 0, 'C', true, 0, 0, 100, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(18, 89, 193, 89, $style);
 
@@ -990,8 +901,6 @@ $pdf->MultiCell(65, 8,"Resultados PLANEA ".$reporte_datos['apr_planea_nlogro_est
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(108.89, 98, 108.89, 130, $style);
 
-// $pdf->SetFillColor(0, 0, 0);
-// $pdf->MultiCell(68.89, 10,'', 0, 'C', true, 0, 130, 100, 'M');
 
 $pdf->SetFont('montserratextraboldi', '', 11);
 $pdf->SetTextColor(75, 74, 72);
@@ -1002,10 +911,7 @@ $pdf->MultiCell(50, 10,'Matemáticas', 0, 'L', 1, 0, 130, 98, 'M');
 $pdf->SetTextColor(85, 85, 85);
 $pdf->SetFillColor(255, 255, 255);
 
-// $pdf->Image('assets/img/escuela_icon.png', 26,109,6, 6, '', '', '', false, 300, '', false, false, 0);
-// $pdf->MultiCell(50, 10,'Escuela '.$reporte_datos['apr_planea2_nlogro_esc_periodo'], 0, 'L', 1, 0, 32, 111, 'M');
-// $pdf->Image('assets/img/escuela_icon.png', 26,121,6, 6, '', '', '', false, 300, '', false, false, 0);
-// $pdf->MultiCell(50, 10,'Escuela '.$reporte_datos['apr_planea1_nlogro_esc_periodo'], 0, 'L', 1, 0, 32, 123, 'M');
+
 $pdf->Image('assets/img/esta_icon.png', 26,109,6, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->MultiCell(50, 10,'Estado '.$reporte_datos['apr_planea_nlogro_estado_periodo'], 0, 'L', 1, 0, 32, 111, 'M');
 $pdf->Image('assets/img/pais_icon.png', 26,121,6, 6, '', '', '', false, 300, '', false, false, 0);
@@ -1014,14 +920,10 @@ $pdf->MultiCell(50, 10,'País '.$reporte_datos['apr_planea_nlogro_pais_periodo']
 
 
 $tipo='leng';
-// $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_lyc_i'],$reporte_datos['apr_planea2_nlogro_esc_lyc_ii-iii-iv'],1,$tipo);
-// $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_lyc_i'],$reporte_datos['apr_planea1_nlogro_esc_lyc_ii-iii-iv'],2,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_lyc_i'],$reporte_datos['apr_planea_nlogro_estado_lyc_ii-iii-iv'],1,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_lyc_i'],$reporte_datos['apr_planea_nlogro_pais_lyc_ii-iii-iv'],2,$tipo);
 
 $tipo='mat';
-// $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea2_nlogro_esc_mat_i'],$reporte_datos['apr_planea2_nlogro_esc_mat_ii-iii-iv'],1,$tipo);
-// $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea1_nlogro_esc_mat_i'],$reporte_datos['apr_planea1_nlogro_esc_mat_ii-iii-iv'],2,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_estado_mat_i'],$reporte_datos['apr_planea_nlogro_estado_mat_ii-iii-iv'],1,$tipo);
 $pdf = $this->planea_graf($pdf,$reporte_datos['apr_planea_nlogro_pais_mat_i'],$reporte_datos['apr_planea_nlogro_pais_mat_ii-iii-iv'],2,$tipo);
 
@@ -1333,140 +1235,12 @@ $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=220, $html5, $border=0, $ln=1, $fill=0
 
 
 
-
-
-
-
-// $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
-// $pdf->Image('assets/img/planea_icon.png', 16,85,5, 6, '', '', '', false, 300, '', false, false, 0);
-
-
 ///Termina contenidos temáticos
 
 /// INICIA TERCERA PÄGINA
 // $pdf=$this->header_footer_h($pdf,$reporte_datos,$encabezado_h);
 $idreporte=$reporte_datos['idreporteapa'];
-// $ids=explode(",", $idreporte);
-// for ($i=0; $i <count($ids) ; $i++) {
-// $alumnos_baja=$this->DatosEdo_model->get_alumnos_baja($ids[$i]);
-// if($alumnos_baja == null){
-//   array_push($alumnos_baja,'No hay datos para mostrar');
-// }else{
 
-// $array_items = array_chunk($alumnos_baja, 23);
-// foreach ($array_items as $key => $item) {
-//   // echo "<pre>";
-//   // print_r($item);
-//   // die();
-//   $array_datos_escuela= array(
-//     "nombre" => $item[0]['encabezado_n_escuela'],
-//     "cct" => $item[0]['cct'],
-//     "director" => $item[0]['encabezado_n_direc_resp'],
-//     "turno" => $item[0]['encabezado_n_turno'],
-//     "municipio" => $item[0]['encabezado_muni_escuela']
-//     );
-
-//     $nombre=$array_datos_escuela['nombre'];
-//     $cct=$array_datos_escuela['cct'];
-//     $director=$array_datos_escuela['director'];
-//     $turno=$array_datos_escuela['turno'];
-//     $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
-//     $str_htm_encabezado=<<<EOD
-//         <style>
-//         table td{
-//           border: none;
-//           padding: 5px !important;
-//           background-color:#ECECEE;
-//           font-size: 8px;
-//           padding-top:4px;
-//           padding-left:2px;
-//           padding-right:2px;
-//           padding-bottom:4px;
-//         }
-//         </style>
-//         <table WIDTH="255">
-//           <tbody>
-//             <tr>
-//               <td WIDTH="2"></td>
-//               <td WIDTH="73.88"></td>
-//               <td WIDTH="10"></td>
-//               <td WIDTH="130"></td>
-//               <td WIDTH="5"></td>
-//               <td WIDTH="25"></td>
-//               <td WIDTH="10"></td>
-//               <td WIDTH="45"></td>
-//               <td WIDTH="30"></td>
-//               <td WIDTH="40"></td>
-//               <td WIDTH="20"></td>
-//               <td WIDTH="50"></td>
-//               <td WIDTH="85"></td>
-//               <td WIDTH="2"></td>
-//             </tr>
-//             <tr>
-//               <td WIDTH="10" HEIGHT="13"></td>
-//               <td WIDTH="40" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
-//               <td WIDTH="55" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="170" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
-//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="20" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
-//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="140.88" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$municipio</font></td>
-//               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="2" HEIGHT="13"></td>
-//             </tr>
-//             <tr>
-//               <td WIDTH="10" HEIGHT="13"></td>
-//               <td WIDTH="85" HEIGHT="13"><font face="Montserrat-Regular" color="#555">CCT:</font></td>
-//               <td WIDTH="10" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$cct</font></td>
-//               <td WIDTH="35" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="30" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
-//               <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="55" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$turno</font></td>
-//               <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="50" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="45" HEIGHT="13">&nbsp;</td>
-//               <td WIDTH="102.88" HEIGHT="13">&nbsp;</td>
-//             </tr>
-//             <tr>
-//               <td WIDTH="10"></td>
-//               <td WIDTH="95"><font face="Montserrat-Regular" color="#555">Director / Responsable:</font></td>
-//               <td WIDTH="200"><font face="Montserrat-Bold" color="#555">$director</font></td>
-//               <td WIDTH="222.88">&nbsp;</td>
-//             </tr>
-//             <tr>
-//               <td WIDTH="2"></td>
-//               <td WIDTH="73.88"></td>
-//               <td WIDTH="10"></td>
-//               <td WIDTH="130"></td>
-//               <td WIDTH="5"></td>
-//               <td WIDTH="25"></td>
-//               <td WIDTH="10"></td>
-//               <td WIDTH="45"></td>
-//               <td WIDTH="30"></td>
-//               <td WIDTH="40"></td>
-//               <td WIDTH="20"></td>
-//               <td WIDTH="50"></td>
-//               <td WIDTH="85"></td>
-//               <td WIDTH="2"></td>
-//             </tr>
-//           </tbody>
-//         </table>
-// EOD;
-
-// $encabezado = <<<EOT
-//         $str_htm_encabezado
-// EOT;
-//   $array_return =  $this->pinta_al_baja($pdf,$item,$reporte_datos,$encabezado);
-//   $pdf = $array_return['pdf'];
-// }
-// }
-// }
 /// Termina TERCERA PÄGINA
 
 /// INICIA Cuarta PÄGINA
@@ -1477,7 +1251,7 @@ $idreporte=$reporte_datos['idreporteapa'];
 // die();
 // for ($i=0; $i <count($ids) ; $i++) {
 
-$alumnos_mar=$this->DatosEdo_model->get_alumnos_mar($idreporte);
+$alumnos_mar=$this->DatosEdo_model->get_alumnos_mar(trim($idreporte,','));
 // echo "<pre>";
 // print_r($alumnos_mar); die();
   if($alumnos_mar == null){
@@ -1497,10 +1271,10 @@ $alumnos_mar=$this->DatosEdo_model->get_alumnos_mar($idreporte);
 /// Termina Cuarta PÄGINA
 
 
-// $pdf->Output('Reporte_APA_Sinaloa_Estatal_'.$reporte_datos['encabezado_n_nivel'].'.pdf', 'I');
-  $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/Municipal/";
-  $archivom = "REPORTE_ESTATAL_".$reporte_datos['encabezado_n_nivel']."_P3".".pdf";
-  $pdf->Output($ruta.$archivom,'F');
+$pdf->Output('Reporte_APA_Sinaloa_Estatal_'.$reporte_datos['encabezado_n_nivel'].'.pdf', 'I');
+  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/Municipal/";
+  // $archivom = "REPORTE_ESTATAL_".$reporte_datos['encabezado_n_nivel']."_P3".".pdf";
+  // $pdf->Output($ruta.$archivom,'F');
       ob_end_flush();
 
 
@@ -1546,9 +1320,6 @@ private function planea_graf($pdf,$a,$b,$yg,$tipo){
    if ($b==0 || $b=='') {
      $srthtml_b='';
      $srthtml_b1='';
-     // if ($b=='') {
-     //   $srthtml_b='<td width="100" style="text-align:center; border-radius: 1em 0 0 0;" HEIGHT="15"><strong>Dato no disponible.</strong></td>';
-     // }
    }
    else {
      $srthtml_b='<td width="'.$b.'" style="background-color:#9ac27c; text-align:center; border-radius: 1em 0 0 0;" color="white" HEIGHT="15"><font size="'.$b_fotnt_size.'" face="Montserrat-Regular"><strong>'.$b.'%</strong></font></td>';
@@ -1587,12 +1358,7 @@ $yg=105;
 elseif ($yg==2){
 $yg=117;
 }
-// elseif ($yg==3){
-// $yg=129;
-// }
-// else {
-// $yg=141;
-// }
+
 
 if ($tipo=='leng'){
   $xg=60;
@@ -1754,32 +1520,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=37, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-//  $str_html='
-//  <style>
-//  table td{
-//    padding: 2px !important;
-//    border: .3px solid #BFC0C3;
-//    font-weight: bold;
-//    font-family: montserratb;
-//    line-height: 10px;
-//  }
-//  table th{
-//    padding: 2px !important;
-//    text-align: center;
-//    border: .3px solid #BFC0C3;
-//    background-color:#E6E7E9;
-//    line-height: 10px;
-//  }
-//  </style>
-//  <table width= "100%">
-// <tr>
-// <th width= "55mm" HEIGHT="20">Nombre</th>
-// <th width= "23.4mm" >Grado / Grupo</th>
-// <th width= "22.18mm">Inasistencias en periodo</th>
-// <th width= "21.10mm">Asignaturas Reprobadas</th>
-// <th width= "20.11mm">Extraedad</th>
-// <th width= "44.15mm">Madre, Padre o Tutor</th>
-// </tr>';
+
 
    $str_html='
  <style>
