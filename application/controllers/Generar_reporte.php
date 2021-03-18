@@ -83,7 +83,7 @@ class Generar_reporte extends CI_Controller {
     $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
     $modalidad=$array_datos_escuela['modalidad'];
 
-
+//método de cadena HEREDOC
 $str_htm3 =<<<EOD
         <style>
 
