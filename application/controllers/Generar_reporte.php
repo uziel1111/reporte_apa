@@ -33,8 +33,8 @@ class Generar_reporte extends CI_Controller {
    // function rep(){
   function rep($cct = null,$turno = null,$periodo =null,$ciclo= null){
 
-    $reporte_datos=$this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
-
+    $reporte_datos = $this->Apa_model->get_reporte_apa($cct,$turno,$periodo,$ciclo);
+    // echo "<pre>";print_r($reporte_datos);die();
     if ($reporte_datos==null) {
     echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
     }
@@ -44,7 +44,8 @@ class Generar_reporte extends CI_Controller {
     "director" => $reporte_datos['encabezado_n_direc_resp'],
     "turno" => $reporte_datos['encabezado_n_turno'],
     "municipio" => $reporte_datos['encabezado_muni_escuela'],
-    "modalidad" => $reporte_datos['encabezado_n_modalidad']
+    "modalidad" => $reporte_datos['encabezado_n_modalidad'],
+    "ciclo" => ($reporte_datos['ciclo']-1)."-".$reporte_datos['ciclo']
     );
 
     $est_asis_alumnos = array(0 => $reporte_datos['asi_est_al_1'],1 => $reporte_datos['asi_est_al_2'],2 => $reporte_datos['asi_est_al_3'],3 => $reporte_datos['asi_est_al_4'],4 => $reporte_datos['asi_est_al_5'],5 => $reporte_datos['asi_est_al_6'] );
@@ -61,6 +62,7 @@ class Generar_reporte extends CI_Controller {
     $rez_ed = array(0 => number_format((float)$reporte_datos['asi_rez_pob_h']),1 => number_format((float)$reporte_datos['asi_rez_pob_m']),2 => number_format((float)$reporte_datos['asi_rez_pob_t']));
     $rez_na = array(0 => number_format((float)$reporte_datos['asi_rez_noasiste_h']),1 => number_format((float)$reporte_datos['asi_rez_noasiste_m']),2 =>number_format((float)$reporte_datos['asi_rez_noasiste_t']));
     $analfabeta = array(0 => number_format((float)$reporte_datos['asi_analfabeta_h']),1 => number_format((float)$reporte_datos['asi_analfabeta_m']),2 => number_format((float)$reporte_datos['asi_analfabeta_t']));
+
 
     $this->graf($riesgo,$array_datos_escuela,$est_asis_alumnos,$est_asis_gr,$est_asis_alumnos_h1,$est_asis_alumnos_h2,$rez_ed,$rez_na,$analfabeta,$riesgo_alto,$riesgo_muy_alto,$reporte_datos,$ciclo);
 
@@ -82,6 +84,7 @@ class Generar_reporte extends CI_Controller {
     $turno=$array_datos_escuela['turno'];
     $municipio=mb_strtoupper ($array_datos_escuela['municipio'], 'UTF-8');
     $modalidad=$array_datos_escuela['modalidad'];
+    $ciclo=$array_datos_escuela['ciclo'];
 
 //método de cadena HEREDOC
 $str_htm3 =<<<EOD
@@ -151,7 +154,9 @@ $str_htm3 =<<<EOD
               <td WIDTH="10"></td>
               <td WIDTH="95"><font face="Montserrat-Regular" color="#555">Director / Responsable:</font></td>
               <td WIDTH="200"><font face="Montserrat-Bold" color="#555">$director</font></td>
-              <td WIDTH="222.88">&nbsp;</td>
+              <td WIDTH="5">&nbsp;</td>
+              <td WIDTH="70"><font face="Montserrat-Regular" color="#555">Ciclo escolar:</font></td>
+              <td WIDTH="147.8"><font face="Montserrat-Bold" color="#555">$ciclo</font></td>
             </tr>
             <tr>
               <td WIDTH="2"></td>
@@ -831,6 +836,8 @@ $pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=205, $html5, $border=0, $ln=1, $fill=0
 
   $efic_ter=$reporte_datos['per_ind_et']." %";
 
+  $inegi_ciclo = $reporte_datos['asi_anio_inegi'];
+
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(110, 217, 195, 217, $style);
 $pdf->SetFont('montserratb', '', 11);
@@ -907,7 +914,7 @@ table td{
       <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>2</sup> Sistema de Control Escolar del Estado de Sinaloa.</td>
     </tr>
     <tr>
-      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>3</sup> INEGI, encuesta Intercensal 2015.</td>
+      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>3</sup> INEGI, encuesta Intercensal {$inegi_ciclo}.</td>
     </tr>
     <tr>
       <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>4</sup> INALI con información de INEGI.</td>
@@ -1559,9 +1566,11 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=76, $html, $border=0, $ln=1, $fill=0, $r
 
 function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
  // add a page
+ // $reporte_datos['ciclo'] = 2021;
+ // $reporte_datos['periodo'] = 2;
  $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
-
+// echo "<pre>";print_r($reporte_datos);die();
 $pdf->Image('assets/img/admiracion.png', 16,66,5, 5, '', '', '', false, 300, '', false, false, 0);
 $msj = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos con alto y muy alto riesgo de abandono<sup>2</sup></h2>
 <table WIDTH="104mm" HEIGHT="12mm">
@@ -1574,9 +1583,27 @@ Cite a su padre, madre o tutor en forma inmediata para acordar acciones y asegur
         </tbody>
       </table>
   ';
-  $html= <<<EOT
+  $msj2 = '<h2 style="font-size=300px !important; color:#919191 !important;">Alumnos con alto y muy alto riesgo de abandono<sup>2</sup></h2>
+  <table WIDTH="104mm" HEIGHT="12mm">
+        <tbody>
+          <tr>
+            <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
+            <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular" size="7" color="black">Para identificar a los alumnos en riesgo se observó especialmente a quienes no han tenido comunicación y participación sostenida, así como los que obtuvieron muy bajas calificaciones durante las clases de este período de evaluación. La escuela implementará las mejores estrategias para vincular nuevamente a estos niños y apoyarlos a conseguir los aprendizajes básicos del grado escolar.</font></td>
+            </tr>
+          </tbody>
+        </table>
+    ';
+  if ($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 2) {
+$html= <<<EOT
+$msj2
+EOT;
+  }
+  else {
+$html= <<<EOT
 $msj
 EOT;
+  }
+
 
 $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
@@ -1633,12 +1660,69 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
      </tr>';
   }
 }
-
  $str_html .= '</table>';
 
+ $str_html2='
+ <style>
+ table td{
+   padding: 2px !important;
+   border: .3px solid #BFC0C3;
+   font-weight: bold;
+   font-family: montserratb;
+   line-height: 10px;
+ }
+ table th{
+   padding: 2px !important;
+   text-align: center;
+   border: .3px solid #BFC0C3;
+   background-color:#E6E7E9;
+   line-height: 10px;
+ }
+ </style>
+ <table width= "100%">
+<tr>
+<th width= "55mm" HEIGHT="20">Nombre</th>
+<th width= "23.4mm" >Grado / Grupo</th>
+<th width= "63.39mm">Condición de desvinculación</th>
+<th width= "44.15mm">Madre, Padre o Tutor</th>
+</tr>';
+
+ if($array_datos[0] == 'No hay datos para mostrar'){
+  $str_html2 .= '<tr>
+  <td HEIGHT="20" colspan="6"> <font face="Montserrat" color="black">'.$array_datos[0].'</font></td>
+  </tr>';
+
+}else{
+ foreach ($array_datos as $key => $alumno) {
+  if (isset($alumno['muyalto_alto'])) {
+      if ($alumno['muyalto_alto'] == 'M') {
+       $cuadrito='   <img src="assets/img/cuadrito-rojo.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+     }else if ($alumno['muyalto_alto'] == 'A') {
+      $cuadrito='   <img src="assets/img/cuadrito-naranja.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+    }
+  }else{
+    $cuadrito='   <img src="assets/img/cuadrito-gris.png"  height="7" padding-top="2mm" width="7" align-v="center"/>  ';
+  }
+     $str_html2 .= '<tr>
+     <td width= "55mm" style="border-left-style: none;" HEIGHT="20"><font face="Montserrat" color="black">'.$cuadrito.$alumno['nombre_alu'].'</font></td>
+     <td width= "23.4mm" style="text-align:center;" > <font face="Montserrat" color="black">'.$alumno['grado'].'<sup>o</sup>'.strtoupper($alumno['grupo']).'</font></td>
+     <td width= "63.39mm" style="text-align:center;"><font face="Montserrat" color="black"> '.$alumno['cond_desvinculacion'].'</font></td>
+     <td width= "44.15mm"><font face="Montserrat" color="black"> '.$alumno['nombre_madre_padre_tutor'].'</font></td>
+     </tr>';
+  }
+}
+ $str_html2 .= '</table>';
+
+if ($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 2) {
+$html= <<<EOT
+$str_html2
+EOT;
+}
+else {
 $html= <<<EOT
 $str_html
 EOT;
+}
 
 $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=78, $html, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
