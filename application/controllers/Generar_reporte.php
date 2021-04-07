@@ -686,13 +686,13 @@ EOT;
 
 $pdf->writeHTMLCell($w=90,$h=22.95,$x=12.1,$y=220, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-$pdf->SetFont('montserratmedium','','9');
-$pdf->SetTextColor(98,87,85);
-$pdf->MultiCell(80, 10,'Lengua nativa: '.$reporte_datos['asi_lenguas_nativas'], 0, 'L', 1, 0, 23, 247, 'M');
+// $pdf->SetFont('montserratmedium','','9');
+// $pdf->SetTextColor(98,87,85);
+// $pdf->MultiCell(80, 10,'Lengua nativa: '.$reporte_datos['asi_lenguas_nativas'], 0, 'L', 1, 0, 23, 247, 'M');
 
-$pdf->SetFont('montserratmedium','','7');
-$pdf->SetTextColor(98,87,85);
-$pdf->MultiCell(5, 5,'4', 0, 'L', 1, 0, 60, 247, 'M');
+// $pdf->SetFont('montserratmedium','','7');
+// $pdf->SetTextColor(98,87,85);
+// $pdf->MultiCell(5, 5,'4', 0, 'L', 1, 0, 60, 247, 'M');
 
 $rit=$reporte_datos['per_riesgo_al_t'];
 $str_htm3 = <<<EOT
@@ -885,7 +885,7 @@ $pdf->writeHTMLCell($w=81.46,$h=10.71,$x=110,$y=230, $html5, $border=0, $ln=1, $
 $pdf->Image('assets/img/escuela_icon.png', 13,88,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/mat_his.png', 13,120,5, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/porcen_asis.png', 13,182,4, 6, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image('assets/img/lenguas_icon.png', 13,247,6, 5, '', '', '', false, 300, '', false, false, 0);
+// $pdf->Image('assets/img/lenguas_icon.png', 13,247,6, 5, '', '', '', false, 300, '', false, false, 0);
 
 $pdf->Image('assets/img/alu_riesgo_icon.png', 109,88,3, 5, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image('assets/img/dist_grado_icon.png', 110,161,6, 4, '', '', '', false, 300, '', false, false, 0);
@@ -914,11 +914,9 @@ table td{
       <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>2</sup> Sistema de Control Escolar del Estado de Sinaloa.</td>
     </tr>
     <tr>
-      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>3</sup> INEGI, encuesta Intercensal {$inegi_ciclo}.</td>
+      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>3</sup> INEGI, Censo de Población y Vivienda {$inegi_ciclo}.</td>
     </tr>
-    <tr>
-      <td width="80mm" style="font-family:Montserrat-Bold; font-size:7; color:#000;"><sup>4</sup> INALI con información de INEGI.</td>
-    </tr>
+
   </tbody>
 </table>
 EOT;
@@ -965,7 +963,7 @@ $pdf->Line(18, 89, 193, 89, $style);
 $pdf->Image('assets/img/planea_icon.png', 16,92,5, 6, '', '', '', false, 300, '', false, false, 0);
 $pdf->SetFont('montserratb', '', 11);
 $pdf->SetTextColor(145, 145, 145);
-$pdf->MultiCell(65, 8,"Resultados PLANEA ".$reporte_datos['apr_planea1_nlogro_esc_periodo'], 0, 'L', 0, 0, 22, 92, 'M');
+$pdf->MultiCell(65, 8,"Resultados PLANEA ", 0, 'L', 0, 0, 22, 92, 'M');
 $style = array('width' => 1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(192, 192, 192));
 $pdf->Line(108.89, 98, 108.89, 156, $style);
 
@@ -1013,12 +1011,12 @@ $prom_cal_mat=array(
   3 => ($reporte_datos['apr_prom_al_esc_mat_10'] == '') ? 0: $reporte_datos['apr_prom_al_esc_mat_10']  );
 
 $planea_aprov_esp=array(
-  0 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_i'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_i'] ,
+  0 => ($reporte_datos['apr_planea2_nlogro_esc_lyc_i'] == '' ) ? 0 :$reporte_datos['apr_planea2_nlogro_esc_lyc_i'] ,
   1 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_ii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_ii'] ,
   2 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_iii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_iii'] ,
   3 => ($reporte_datos['apr_planea1_nlogro_esc_lyc_iv'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_lyc_iv']  );
 $planea_aprov_mat=array(
-  0 => ($reporte_datos['apr_planea1_nlogro_esc_mat_i'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_i'] ,
+  0 => ($reporte_datos['apr_planea2_nlogro_esc_mat_i'] == '' ) ? 0 :$reporte_datos['apr_planea2_nlogro_esc_mat_i'] ,
   1 => ($reporte_datos['apr_planea1_nlogro_esc_mat_ii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_ii'] ,
   2 => ($reporte_datos['apr_planea1_nlogro_esc_mat_iii'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_iii'] ,
   3 => ($reporte_datos['apr_planea1_nlogro_esc_mat_iv'] == '' ) ? 0 :$reporte_datos['apr_planea1_nlogro_esc_mat_iv']  );
@@ -1142,7 +1140,7 @@ unlink('barras3.png');
 
 $pdf->SetFont('montserratb', 'B', 7);
 
-$planea_ciclo=$reporte_datos['apr_planea1_nlogro_esc_periodo'];
+$planea_ciclo=$reporte_datos['apr_planea2_nlogro_esc_periodo'];
 $str_htm3 = <<<EOT
 <style>
 table td{
@@ -1588,7 +1586,7 @@ Cite a su padre, madre o tutor en forma inmediata para acordar acciones y asegur
         <tbody>
           <tr>
             <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="10mm" HEIGHT="9.7mm"></td>
-            <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular" size="7" color="black">Para identificar a los alumnos en riesgo se observó especialmente a quienes no han tenido comunicación y participación sostenida, así como los que obtuvieron muy bajas calificaciones durante las clases de este período de evaluación. La escuela implementará las mejores estrategias para vincular nuevamente a estos niños y apoyarlos a conseguir los aprendizajes básicos del grado escolar.</font></td>
+            <td  style="background-color:#e4e0df; !important; font-weight:normal !important; border:none !important;" WIDTH="176mm" HEIGHT="9.7mm"><font face="Montserrat-Regular" size="7" color="black">Para identificar a los alumnos en riesgo se consideró especialmente a quienes no han tenido comunicación y participación sostenida en las actividades académicas, así como a quienes obtuvieron muy bajas calificaciones durante este período de evaluación.</font></td>
             </tr>
           </tbody>
         </table>
