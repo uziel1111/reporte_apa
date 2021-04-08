@@ -31,7 +31,10 @@ class Apa_model extends CI_Model
       $q = "SELECT
             *
             FROM muy_alto_riesgo
-            WHERE idreporteapa = ? order by muyalto_alto desc, grado asc, grupo, nombre_alu";
+            WHERE idreporteapa = ?
+            order by  grado asc, grupo, muyalto_alto desc,
+            FIELD(cond_desvinculacion,'Sin Vinculación','Sin Calificación','Parcialmente desvinculado','Con promedio menor al 6.9') ,
+            nombre_alu";
       return $this->db->query($q, array($idreporte))->result_array();
     }
 
