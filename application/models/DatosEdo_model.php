@@ -17,6 +17,11 @@ class DatosEdo_model extends CI_Model
       if($idnivel==2){
         $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2018');
       }
+      $ciclo_planea= " AND p.periodo_planea= {$periodo_planea} ";
+      if($idnivel==6){
+        $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2018');
+        $ciclo_planea= "";
+      }
       $q = "SELECT GROUP_CONCAT(c.idreporteapa) AS idreporteapa
             ,c.encabezado_n_nivel
             ,c.`encabezado_n_periodo`
@@ -137,75 +142,75 @@ class DatosEdo_model extends CI_Model
             ,c10.contenido  AS apr_planea1_ct_mat_5txt
             FROM complemento_apa c
             INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
-            INNER JOIN `planea_nlogro_x_entidad` p ON p.`idnivel`=c.`idnivel` 
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN `planea_nlogro_x_entidad` p ON p.`idnivel`=c.`idnivel`
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 1 ) AS c1 ON c1.idnivel=cfg.nivel
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 1,1 ) AS c2 ON c2.idnivel=cfg.nivel
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel}  
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 2,1 ) AS c3 ON c3.idnivel=cfg.nivel
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 3,1 ) AS c4 ON c4.idnivel=cfg.nivel
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 4,1
             ) AS c5 on c5.idnivel=cfg.nivel
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 1 ) AS c6 ON c6.idnivel=cfg.nivel
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 1,1 ) AS c7 ON c7.idnivel=cfg.nivel
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel}  
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 2,1 ) AS c8 ON c8.idnivel=cfg.nivel
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 3,1 ) AS c9 ON c9.idnivel=cfg.nivel
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel 
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idnivel
                   FROM planea_contenidos_xedo_xnivel
-                  WHERE  idnivel={$idnivel} 
+                  WHERE  idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 4,1
             ) AS c10 ON c10.idnivel=cfg.nivel
 
-            WHERE  cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ? 
-            AND p.periodo_planea= ?
+            WHERE  cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ?
+            {$ciclo_planea}
             ";
             // echo $q;die();
-      return $this->db->query($q, array($idnivel,$periodo,$ciclo,$periodo_planea))->row_array();
+      return $this->db->query($q, array($idnivel,$periodo,$ciclo))->row_array();
       // return $this->db->query($q)->result_array();
     }
 
@@ -213,7 +218,7 @@ class DatosEdo_model extends CI_Model
       // echo $idreporte;
       // die();
       $q = "SELECT d.total_muy_alto,
-                    d.total_alto,              
+                    d.total_alto,
                     d.municipio,
                     d.total_alumnos,
                     d.encabezado_n_nivel,
@@ -221,7 +226,7 @@ class DatosEdo_model extends CI_Model
                     (d.total_alto+d.total_muy_alto) AS total_alto_riesgo,
                     d.total_escuelas,
                     ROUND((((d.total_muy_alto+d.total_alto)*100)/d.total_alumnos),2) AS porcentaje FROM (
-                      SELECT 
+                      SELECT
                       SUM(c.per_riesgo_al_muy_alto) AS total_muy_alto
                       ,SUM(c.per_riesgo_al_alto) AS total_alto
                       ,c.encabezado_muni_escuela as municipio
@@ -233,10 +238,10 @@ class DatosEdo_model extends CI_Model
                       INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
                       INNER JOIN cct ct ON ct.idct=cfg.idct
                       WHERE c.idreporteapa IN({$idreporte})
-                     AND  c.per_riesgo_al_t IS NOT NULL 
+                     AND  c.per_riesgo_al_t IS NOT NULL
                       GROUP BY ct.idmunicipio
-                      
-                          ) AS d 
+
+                          ) AS d
             -- WHERE d.total_muy_alto!=0 OR d.total_alto!=0
         ORDER BY d.total_muy_alto DESC";
             // echo $q;die();

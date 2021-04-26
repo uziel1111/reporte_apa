@@ -14,8 +14,14 @@ class DatosMunicipal_model extends CI_Model
                 FROM planea_nlogro_x_muni WHERE idnivel= ?";
       $periodo_planea_xnivel = $this->db->query($query, array($idnivel))->row();
       $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2019');
+
       if($idnivel==2){
         $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2018');
+      }
+      $ciclo_planea= " AND p.periodo_planea= {$periodo_planea} ";
+      if($idnivel==6){
+        $periodo_planea=(isset($periodo_planea_xnivel->periodo_planea)?$periodo_planea_xnivel->periodo_planea:'2018');
+        $ciclo_planea= "";
       }
 
       $q = "SELECT GROUP_CONCAT(c.idreporteapa) AS idreporteapa
@@ -139,78 +145,78 @@ class DatosMunicipal_model extends CI_Model
             ,c10.contenido  AS apr_planea1_ct_mat_5txt
             FROM complemento_apa c
             INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
-            INNER JOIN `planea_nlogro_x_entidad` p ON p.`idnivel`=c.`idnivel` 
+            LEFT JOIN `planea_nlogro_x_entidad` p ON p.`idnivel`=c.`idnivel`
             INNER JOIN cct ct ON ct.idct=cfg.idct
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 1 ) AS c1 ON c1.idmunicipio=ct.idmunicipio
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 1,1 ) AS c2 ON c2.idmunicipio=ct.idmunicipio
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}  
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 2,1 ) AS c3 ON c3.idmunicipio=ct.idmunicipio
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 3,1 ) AS c4 ON c4.idmunicipio=ct.idmunicipio
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=1
                   ORDER BY porcentaje ASC LIMIT 4,1
             ) AS c5 on c5.idmunicipio=ct.idmunicipio
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 1 ) AS c6 ON c6.idmunicipio=ct.idmunicipio
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 1,1 ) AS c7 ON c7.idmunicipio=ct.idmunicipio
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}  
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 2,1 ) AS c8 ON c8.idmunicipio=ct.idmunicipio
-            INNER JOIN(
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN(
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 3,1 ) AS c9 ON c9.idmunicipio=ct.idmunicipio
-            INNER JOIN (
-                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio 
+            LEFT JOIN (
+                  SELECT contenido,ROUND(porcentaje,1) AS porcentaje,idmunicipio
                   FROM `planea_contenidosxmunixnivel`
-                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel} 
+                  WHERE idmunicipio={$idmunicipio} AND idnivel={$idnivel}
                   AND idcampodisciplinario=2
                   ORDER BY porcentaje ASC LIMIT 4,1
             ) AS c10 ON c10.idmunicipio=ct.idmunicipio
 
-            WHERE ct.`idmunicipio`= ?  AND cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ? 
-            AND p.periodo_planea= ?
+            WHERE ct.`idmunicipio`= ?  AND cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ?
+            {$ciclo_planea}
             ";
-            // echo $q;die();
-      
+            // print_r( array($idmunicipio,$idnivel,$periodo,$ciclo));die();
+
        // if($this->db->query($this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo,$periodo_planea))){
-        return $this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo,$periodo_planea))->row_array();
+        return $this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo))->row_array();
       // }else{
       //   $error =$this->db->error();
       //   return $error;
@@ -230,7 +236,7 @@ class DatosMunicipal_model extends CI_Model
                 FROM planea_nlogro_x_muni WHERE idnivel= ?";
       return $this->db->query($q, array($idnivel))->row_array();
     }
-    
+
     function get_planea_nl_max_municipal($idnivel,$idmunicipio,$periodo_planea){
       $q="SELECT MAX(periodo_planea) AS periodo_planea,
                 ni_lyc AS ni_lyc_mun_max,
@@ -274,10 +280,10 @@ class DatosMunicipal_model extends CI_Model
                     d.encabezado_n_periodo,
                     d.localidad,
                     (d.total_alto+d.total_muy_alto) as total_alto_riesgo,
-                    ROUND((((d.total_alto+d.total_muy_alto)*100)/d.total_alumnos),2) AS porcentaje 
+                    ROUND((((d.total_alto+d.total_muy_alto)*100)/d.total_alumnos),2) AS porcentaje
 
                     FROM (
-                      SELECT 
+                      SELECT
                       c.idcentrocfg
                       ,SUM(c.per_riesgo_al_muy_alto) AS total_muy_alto
                       ,SUM(c.per_riesgo_al_alto) AS total_alto
@@ -294,8 +300,8 @@ class DatosMunicipal_model extends CI_Model
                       INNER JOIN cct ct ON ct.idct=cfg.idct
                       WHERE c.idreporteapa IN({$idreporte})
 
-                      AND  c.per_riesgo_al_t IS NOT NULL 
-                      GROUP BY c.`idcentrocfg` ) AS d 
+                      AND  c.per_riesgo_al_t IS NOT NULL
+                      GROUP BY c.`idcentrocfg` ) AS d
                       -- WHERE d.total_muy_alto!=0 OR d.total_alto!=0
                   ORDER BY d.total_muy_alto DESC";
             // echo $q;die();

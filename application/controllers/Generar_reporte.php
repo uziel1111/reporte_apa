@@ -15,13 +15,13 @@ class Generar_reporte extends CI_Controller {
 
   function index(){
 
-    $this->rep($cct,$turno,$periodo,$ciclo);
+    // $this->rep($cct,$turno,$periodo,$ciclo);
 
     // $query="SELECT cct,turno,periodo,ciclo
     //         FROM complemento_apa
     //         WHERE periodo=2 AND ciclo=2021
     //     ORDER BY cct DESC
-    //     LIMIT 2870, 4000";
+    //     LIMIT 2950, 4000";
     // $datos=$this->db->query($query)->result_array();
     // for ($i=0; $i < count($datos) ; $i++) {
     //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
@@ -122,12 +122,8 @@ $str_htm3 =<<<EOD
             <tr>
               <td WIDTH="10" HEIGHT="13"></td>
               <td WIDTH="40" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Nombre:</font></td>
-              <td WIDTH="55" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="170" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="5" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="240" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$nombre</font></td>
               <td WIDTH="20" HEIGHT="13">&nbsp;</td>
               <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Municipio:</font></td>
               <td WIDTH="5" HEIGHT="13">&nbsp;</td>
@@ -142,9 +138,9 @@ $str_htm3 =<<<EOD
               <td WIDTH="60" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$cct</font></td>
               <td WIDTH="35" HEIGHT="13">&nbsp;</td>
               <td WIDTH="30" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Turno:</font></td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
-              <td WIDTH="55" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$turno</font></td>
-              <td WIDTH="15" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="10" HEIGHT="13">&nbsp;</td>
+              <td WIDTH="65" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$turno</font></td>
+              <td WIDTH="10" HEIGHT="13">&nbsp;</td>
               <td WIDTH="50" HEIGHT="13"><font face="Montserrat-Regular" color="#555">Modalidad:</font></td>
               <td WIDTH="15" HEIGHT="13">&nbsp;</td>
               <td WIDTH="45" HEIGHT="13"><font face="Montserrat-Bold" color="#555">$modalidad</font></td>
@@ -225,16 +221,16 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $pdf->MultiCell(5, 5,"2", 0, 'L', 0, 0, 193.5, 87, 'M');
 
     ///Empieza creación de grafica de barras MATRICULA
-    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-    $data1y=$est_asis_alumnos_h1;
-    $data2y=$est_asis_alumnos_h2;
-    $data3y=$est_asis_alumnos;
-
+    if ($reporte_datos['encabezado_n_nivel']=='SECUNDARIA'|| $reporte_datos['encabezado_n_nivel']=='secundaria'){
+      $data1y= array_slice($est_asis_alumnos_h1, 0, 3);
+      $data2y= array_slice($est_asis_alumnos_h2, 0, 3);
+      $data3y= array_slice($est_asis_alumnos, 0, 3);
     }
     else {
-    $data1y= array_slice($est_asis_alumnos_h1, 0, 3);
-    $data2y= array_slice($est_asis_alumnos_h2, 0, 3);
-    $data3y= array_slice($est_asis_alumnos, 0, 3);
+      $data1y=$est_asis_alumnos_h1;
+      $data2y=$est_asis_alumnos_h2;
+      $data3y=$est_asis_alumnos;
+
     }
 
     $graph = new Graph(350,200,'auto');
@@ -244,11 +240,11 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $graph->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
     $graph->SetBox(false);
     $graph->ygrid->SetFill(false);
-    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-      $graph->xaxis->SetTickLabels(array('1°','2°','3°','4°','5°','6°'));
+    if ($reporte_datos['encabezado_n_nivel']=='SECUNDARIA'|| $reporte_datos['encabezado_n_nivel']=='secundaria'){
+      $graph->xaxis->SetTickLabels(array('1°','2°','3°'));
     }
     else {
-      $graph->xaxis->SetTickLabels(array('1°','2°','3°'));
+      $graph->xaxis->SetTickLabels(array('1°','2°','3°','4°','5°','6°'));
     }
     $graph->yaxis->HideLine(false);
     $graph->yaxis->HideTicks(false,false);
@@ -283,13 +279,13 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $data1y=$riesgo_alto;
     $data2y=$riesgo_muy_alto;
 
-    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-      $data1y=$riesgo_alto;
-      $data2y=$riesgo_muy_alto;
-    }
-    else {
+    if ($reporte_datos['encabezado_n_nivel']=='SECUNDARIA'|| $reporte_datos['encabezado_n_nivel']=='secundaria'){
       $data1y= array_slice($riesgo_alto, 0, 3);
       $data2y= array_slice($riesgo_muy_alto, 0, 3);
+    }
+    else {
+      $data1y=$riesgo_alto;
+      $data2y=$riesgo_muy_alto;
     }
 
 
@@ -304,11 +300,11 @@ $pdf->writeHTMLCell($w=70,$h=50,$x=130,$y=115, $htmlmsn, $border=0, $ln=1, $fill
     $graph1->SetBackgroundImage("assets/img/background.jpg",BGIMG_FILLFRAME);
     $graph1->SetBox(false);
     $graph1->ygrid->SetFill(false);
-    if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-      $graph1->xaxis->SetTickLabels(array('1°','2°','3°','4°','5°','6°'));
+    if ($reporte_datos['encabezado_n_nivel']=='SECUNDARIA'|| $reporte_datos['encabezado_n_nivel']=='secundaria'){
+      $graph1->xaxis->SetTickLabels(array('1°','2°','3°'));
     }
     else {
-      $graph1->xaxis->SetTickLabels(array('1°','2°','3°'));
+      $graph1->xaxis->SetTickLabels(array('1°','2°','3°','4°','5°','6°'));
     }
     $graph1->yaxis->HideLine(false);
     $graph1->yaxis->HideTicks(false,false);
@@ -425,70 +421,7 @@ $asi_est_al_t=$reporte_datos['asi_est_al_t'];
 $asi_est_gr_t=$reporte_datos['asi_est_gr_t'];
 $asi_est_doc=$reporte_datos['asi_est_do_t'];
 $pdf->SetFont('montserrat', '', 8);
-if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-$str_htm3 = <<<EOT
-<style>
-table td{
-  border: .3px solid #BFC0C3;
-  padding: 2px !important;
-  padding-top:1px;
-  padding-left:1px;
-  padding-right:1px;
-  padding-bottom:1px;
-}
-</style>
-<table width="90mm">
-  <tbody>
-    <tr style="background-color:#e4e4e2; text-align:center;" height="7.31mm">
-      <td width="15mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">&nbsp;</td>
-      <td width="9.40mm"style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">Total</td>
-      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">1<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">2<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">3<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">4<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">5<sup>o</sup></td>
-      <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">6<sup>o</sup></td>
-      <td width="11.40mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">Multigrado</td>
-    </tr>
-    <tr height="5.27mm">
-      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Alumnos</td>
-      <td width="9.40mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_al_t</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[0]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[1]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[2]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[3]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[4]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[5]</td>
-      <td width="11.40mm" style="background-color:#E2E4E4; text-align:center;"></td>
-    </tr>
-    <tr height="5.27mm">
-      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Grupos</td>
-      <td width="9.40mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_gr_t</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[0]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[1]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[2]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[3]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[4]</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[5]</td>
-      <td width="11.40mm" style="background-color:#ffffff; text-align:center; color:#545452; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[6]</td>
-    </tr>
-    <tr height="5.27mm">
-      <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Docentes</td>
-      <td  width="9.40mm"style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_doc</td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
-      <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
-      <td width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
-      <td width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
-      <td width="11.40mm" style="background-color:#E2E4E4; text-align:center;"></td>
-    </tr>
-  </tbody>
-</table>
-EOT;
-}
-
-else {
+if ($reporte_datos['encabezado_n_nivel']=='SECUNDARIA'|| $reporte_datos['encabezado_n_nivel']=='secundaria'){
   $str_htm3 = <<<EOT
   <style>
   table td{
@@ -534,6 +467,68 @@ else {
         <td width="12mm" style="text-align:center; background-color:#ffffff;"></td>
         <td width="22mm"></td>
 
+      </tr>
+    </tbody>
+  </table>
+EOT;
+}
+else {
+  $str_htm3 = <<<EOT
+  <style>
+  table td{
+    border: .3px solid #BFC0C3;
+    padding: 2px !important;
+    padding-top:1px;
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:1px;
+  }
+  </style>
+  <table width="90mm">
+    <tbody>
+      <tr style="background-color:#e4e4e2; text-align:center;" height="7.31mm">
+        <td width="15mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7;">&nbsp;</td>
+        <td width="9.40mm"style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">Total</td>
+        <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">1<sup>o</sup></td>
+        <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">2<sup>o</sup></td>
+        <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">3<sup>o</sup></td>
+        <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">4<sup>o</sup></td>
+        <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">5<sup>o</sup></td>
+        <td width="9.03mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">6<sup>o</sup></td>
+        <td width="11.40mm" style="background-color:#b5b5b5; font-family:Montserrat-Bold; font-size:7; color:#545452;">Multigrado</td>
+      </tr>
+      <tr height="5.27mm">
+        <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Alumnos</td>
+        <td width="9.40mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_al_t</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[0]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[1]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[2]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[3]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[4]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_alumnos[5]</td>
+        <td width="11.40mm" style="background-color:#E2E4E4; text-align:center;"></td>
+      </tr>
+      <tr height="5.27mm">
+        <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Grupos</td>
+        <td width="9.40mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_gr_t</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[0]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[1]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[2]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[3]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[4]</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$est_asis_gr[5]</td>
+        <td width="11.40mm" style="background-color:#ffffff; text-align:center; color:#545452; font-family:Montserrat-Bold; font-size:7;">$est_asis_gr[6]</td>
+      </tr>
+      <tr height="5.27mm">
+        <td  width="15mm" style="background-color:#e4e4e2; font-family:Montserrat-Regular; font-size:7;">Docentes</td>
+        <td  width="9.40mm"style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$asi_est_doc</td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+        <td  width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+        <td width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+        <td width="9.03mm" style="background-color:#ffffff; text-align:center;"></td>
+        <td width="11.40mm" style="background-color:#E2E4E4; text-align:center;"></td>
       </tr>
     </tbody>
   </table>
@@ -737,55 +732,7 @@ EOT;
 
 $pdf->writeHTMLCell($w=81,$h=30,$x=107,$y=146, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
-if ($reporte_datos['encabezado_n_nivel']=='PRIMARIA'|| $reporte_datos['encabezado_n_nivel']=='primaria'){
-$str_htm3 = <<<EOT
-<style>
-table td{
-  border: .3px solid #BFC0C3;
-  padding: 2px !important;
-  padding-top:1px;
-  padding-left:1px;
-  padding-right:1px;
-  padding-bottom:1px;
-}
-</style>
-<table WIDTH="81mm">
-  <tbody>
-
-    <tr style="background-color:#E6E7E9;">
-      <td width="27.82mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">Grados</td>
-      <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">1<sup>o</sup></td>
-      <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">2<sup>o</sup></td>
-      <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">3<sup>o</sup></td>
-      <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">4<sup>o</sup></td>
-      <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">5<sup>o</sup></td>
-      <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">6<sup>o</sup></td>
-    </tr>
-    <tr>
-      <td width="6.02mm" style="background-color:#F5842A;">&nbsp;</td>
-      <td width="21.8mm"  style="text-align:center; background-color:#DCDDDF; font-family:Montserrat-Regular; font-size:7; color:#545452;">Alto</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[0]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[1]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[2]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[3]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[4]</td>
-      <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[5]</td>
-    </tr>
-    <tr>
-      <td width="6.02mm" style="background-color:#D1232A;">&nbsp;</td>
-      <td width="21.8mm" style="text-align:center; background-color:#DCDDDF; font-family:Montserrat-Regular; font-family:7; color:#545452;">Muy alto</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[0]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[1]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[2]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[3]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-family:7; color:#545452;">$riesgo_muy_alto[4]</td>
-      <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[5]</td>
-    </tr>
-  </tbody>
-</table>
-EOT;
-}
-else {
+if ($reporte_datos['encabezado_n_nivel']=='SECUNDARIA'|| $reporte_datos['encabezado_n_nivel']=='secundaria'){
   $str_htm3 = <<<EOT
   <style>
   table td{
@@ -823,6 +770,55 @@ else {
     </tbody>
   </table>
 EOT;
+}
+else {
+  $str_htm3 = <<<EOT
+  <style>
+  table td{
+    border: .3px solid #BFC0C3;
+    padding: 2px !important;
+    padding-top:1px;
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:1px;
+  }
+  </style>
+  <table WIDTH="81mm">
+    <tbody>
+
+      <tr style="background-color:#E6E7E9;">
+        <td width="27.82mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">Grados</td>
+        <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">1<sup>o</sup></td>
+        <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">2<sup>o</sup></td>
+        <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">3<sup>o</sup></td>
+        <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">4<sup>o</sup></td>
+        <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">5<sup>o</sup></td>
+        <td width="9.52mm" style="text-align:center; font-family:Montserrat-Regular; font-size:8; color:#545452;">6<sup>o</sup></td>
+      </tr>
+      <tr>
+        <td width="6.02mm" style="background-color:#F5842A;">&nbsp;</td>
+        <td width="21.8mm"  style="text-align:center; background-color:#DCDDDF; font-family:Montserrat-Regular; font-size:7; color:#545452;">Alto</td>
+        <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[0]</td>
+        <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[1]</td>
+        <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[2]</td>
+        <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[3]</td>
+        <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[4]</td>
+        <td width="9.52mm" style="background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_alto[5]</td>
+      </tr>
+      <tr>
+        <td width="6.02mm" style="background-color:#D1232A;">&nbsp;</td>
+        <td width="21.8mm" style="text-align:center; background-color:#DCDDDF; font-family:Montserrat-Regular; font-family:7; color:#545452;">Muy alto</td>
+        <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[0]</td>
+        <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[1]</td>
+        <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[2]</td>
+        <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[3]</td>
+        <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[4]</td>
+        <td width="9.52mm" style="text-align:center; background-color:#ffffff; text-align:center; font-family:Montserrat-Bold; font-size:7; color:#545452;">$riesgo_muy_alto[5]</td>
+      </tr>
+    </tbody>
+  </table>
+EOT;
+
 }
 $html5 = <<<EOT
 $str_htm3
@@ -929,6 +925,7 @@ $pdf->writeHTMLCell($w=80,$h=20,$x=110,$y=240, $html5fuente, $border=0, $ln=1, $
 ///TERMINA PRIMERA PÁGINA
 
 /// INICIA SEGUNDA PÄGINA
+if ($reporte_datos['encabezado_n_nivel']!='ESPECIAL'){
 $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 $pdf->SetFont('montserratb', 'B', 13);
 $pdf->SetFillColor(0, 173, 234);
@@ -1056,12 +1053,16 @@ if($x1<4 || $x<4){
 
 $data1y=$prom_cal_esp;
 $data2y=$planea_aprov_esp;
+// $prom_cal_mat
+// $planea_aprov_mat
+// echo "<pre>";print_r($prom_cal_esp);die();
 $data3y=array(0,0,0,0,0,0);
+
 $graph = new Graph(350,200,'auto');
 $graph->SetScale("textlin");
 $theme_class=new UniversalTheme;
 $graph->SetTheme($theme_class);
-$vector100 = array(10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+$vector100 = array(0,2,4,5, 10,15, 20, 30, 40, 50, 60, 70, 80, 90, 100);
 $graph->yaxis->SetTickPositions($vector100, $vect_esp);
 $graph->SetBox(false);
 $graph->ygrid->SetFill(false);
@@ -1102,7 +1103,7 @@ for ($i=0; $i < count($planea_aprov_mat); $i++) {
 if($x3<4 || $x2<4){
 
 /////Inicia gráfica mate
-$vector100 = array(10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+$vector100 = array(0,2,4,5, 10,15, 20, 30, 40, 50, 60, 70, 80, 90, 100);
 $data1y=$prom_cal_mat;
 $data2y=$planea_aprov_mat;
 $data3y=array(0,0,0,0,0,0);
@@ -1282,6 +1283,7 @@ $str_htm3
 EOT;
 $pdf->writeHTMLCell($w=70,$h=30,$x=111,$y=223, $html5, $border=0, $ln=1, $fill=0, $reseth=true, $aligh='L', $autopadding=true);
 
+}
 ///Termina contenidos temáticos
 
 /// INICIA TERCERA PÄGINA
@@ -1315,7 +1317,7 @@ $this->contador('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['enc
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabezado_n_turno'].'_'.$reporte_datos['encabezado_n_periodo'].'_'.$ciclo.'.pdf', 'I');
 
 
-  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2021/2PERIODO/";
+  // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2021/Escuelas/";
   // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P2".".pdf";
   // $pdf->Output($ruta.$archivom,'F');
   // flush();
