@@ -60,17 +60,17 @@ class DatosEdo_model extends CI_Model
             ,SUM(c.asi_est_h2_gr_t) AS asi_est_h2_gr_t
             ,SUM(c.asi_est_gruposmulti) AS asi_est_gruposmulti
             ,c.asi_anio_inegi
-            ,c.asi_rez_gedad_noasiste
-            ,c.asi_rez_pob_t
-            ,c.asi_rez_pob_m
-            ,c.asi_rez_pob_h
-            ,c.asi_rez_noasiste_t
-            ,c.asi_rez_noasiste_m
-            ,c.asi_rez_noasiste_h
-            ,c.asi_analfabeta_t
-            ,c.asi_analfabeta_m
-            ,c.asi_analfabeta_h
-            ,c.asi_lenguas_nativas
+            ,c.asi_rez_gedad_noasiste,
+  SUM(DISTINCT c.asi_rez_pob_t) as asi_rez_pob_t,
+	SUM(DISTINCT c.asi_rez_pob_m) as asi_rez_pob_m,
+	SUM(DISTINCT c.asi_rez_pob_h) as asi_rez_pob_h,
+	SUM(DISTINCT c.asi_rez_noasiste_t) as asi_rez_noasiste_t,
+	SUM(DISTINCT c.asi_rez_noasiste_m) as asi_rez_noasiste_m,
+	SUM(DISTINCT c.asi_rez_noasiste_h) as asi_rez_noasiste_h,
+	SUM(DISTINCT c.asi_analfabeta_t) as asi_analfabeta_t,
+	SUM(DISTINCT c.asi_analfabeta_m) as asi_analfabeta_m,
+	SUM(DISTINCT c.asi_analfabeta_h) as asi_analfabeta_h,
+            c.asi_lenguas_nativas
             ,SUM(c.per_riesgo_al_t) AS per_riesgo_al_t
             ,SUM(c.per_riesgo_al_muy_alto) AS per_riesgo_al_muy_alto
             ,SUM(c.per_riesgo_al_alto) AS per_riesgo_al_alto
@@ -206,10 +206,11 @@ class DatosEdo_model extends CI_Model
                   ORDER BY porcentaje ASC LIMIT 4,1
             ) AS c10 ON c10.idnivel=cfg.nivel
 
-            WHERE  cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ?
+            WHERE cfg.`status`='A' AND cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ?
             {$ciclo_planea}
             ";
             // echo $q;die();
+            $this->db->query("SET SESSION group_concat_max_len = 12000000;");
       return $this->db->query($q, array($idnivel,$periodo,$ciclo))->row_array();
       // return $this->db->query($q)->result_array();
     }
@@ -237,7 +238,7 @@ class DatosEdo_model extends CI_Model
                       FROM complemento_apa c
                       INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
                       INNER JOIN cct ct ON ct.idct=cfg.idct
-                      WHERE c.idreporteapa IN({$idreporte})
+                      WHERE cfg.`status`='A' AND c.idreporteapa IN({$idreporte})
                      AND  c.per_riesgo_al_t IS NOT NULL
                       GROUP BY ct.idmunicipio
 
@@ -245,6 +246,7 @@ class DatosEdo_model extends CI_Model
             -- WHERE d.total_muy_alto!=0 OR d.total_alto!=0
         ORDER BY d.total_muy_alto DESC";
             // echo $q;die();
+            $this->db->query("SET SESSION group_concat_max_len = 12000000;");
       return $this->db->query($q)->result_array();
     }
 

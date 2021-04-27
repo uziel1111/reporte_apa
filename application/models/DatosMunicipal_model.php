@@ -210,12 +210,13 @@ class DatosMunicipal_model extends CI_Model
                   ORDER BY porcentaje ASC LIMIT 4,1
             ) AS c10 ON c10.idmunicipio=ct.idmunicipio
 
-            WHERE ct.`idmunicipio`= ?  AND cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ?
+            WHERE cfg.`status` = 'A' AND ct.`idmunicipio`= ?  AND cfg.nivel= ? AND c.periodo= ? AND c.ciclo= ?
             {$ciclo_planea}
             ";
             // print_r( array($idmunicipio,$idnivel,$periodo,$ciclo));die();
 
        // if($this->db->query($this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo,$periodo_planea))){
+       $this->db->query("SET SESSION group_concat_max_len = 12000000;");
         return $this->db->query($q, array($idmunicipio,$idnivel,$periodo,$ciclo))->row_array();
       // }else{
       //   $error =$this->db->error();
@@ -298,7 +299,7 @@ class DatosMunicipal_model extends CI_Model
                       FROM complemento_apa c
                       INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
                       INNER JOIN cct ct ON ct.idct=cfg.idct
-                      WHERE c.idreporteapa IN({$idreporte})
+                      WHERE cfg.`status`='A' AND c.idreporteapa IN({$idreporte})
 
                       AND  c.per_riesgo_al_t IS NOT NULL
                       GROUP BY c.`idcentrocfg` ) AS d

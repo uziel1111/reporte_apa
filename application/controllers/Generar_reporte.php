@@ -15,13 +15,11 @@ class Generar_reporte extends CI_Controller {
 
   function index(){
 
-    // $this->rep($cct,$turno,$periodo,$ciclo);
-
     // $query="SELECT cct,turno,periodo,ciclo
     //         FROM complemento_apa
     //         WHERE periodo=2 AND ciclo=2021
     //     ORDER BY cct DESC
-    //     LIMIT 2950, 4000";
+    //     LIMIT 3360  , 4000";
     // $datos=$this->db->query($query)->result_array();
     // for ($i=0; $i < count($datos) ; $i++) {
     //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);

@@ -19,10 +19,6 @@ class Generar_reporte_municipal extends CI_Controller {
     // for ($i=0; $i < count($datos) ; $i++) {
     //   $this->rep($datos[$i]['idmunicipio'],6,2,'2021');
     // }
-
-    // for ($i=0; $i < count($datos) ; $i++) {
-    //   $this->rep($datos[$i]['idmunicipio'],3,3,'2020');
-    // }
     // die();
   }
 

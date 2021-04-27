@@ -14,7 +14,6 @@ class Generar_reporte_estatal extends CI_Controller {
 
 
   function index(){
-    // $this->rep($cct,$turno,$periodo,$ciclo);
     // $datos=[];
     // array_push($datos,2);
     // array_push($datos,3);
