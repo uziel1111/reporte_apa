@@ -19,7 +19,7 @@ class Generar_reporte_estatal extends CI_Controller {
     // array_push($datos,3);
     // array_push($datos,6);
     // for ($i=0; $i < count($datos) ; $i++) {
-    //   $this->rep($datos[$i],2,"2021");
+    //   $this->rep($datos[$i],3,"2021");
     // }
 
   }
@@ -1275,7 +1275,7 @@ $alumnos_mar=$this->DatosEdo_model->get_alumnos_mar(trim($idreporte,','));
 
 $pdf->Output('Reporte_APA_Sinaloa_Estatal_'.$reporte_datos['encabezado_n_nivel'].'.pdf', 'I');
   // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2021/Estatal/";
-  // $archivom = "REPORTE_ESTATAL_".$reporte_datos['encabezado_n_nivel']."_P2".".pdf";
+  // $archivom = "REPORTE_ESTATAL_".$reporte_datos['encabezado_n_nivel']."_P3".".pdf";
   // $pdf->Output($ruta.$archivom,'F');
   //   flush();
 

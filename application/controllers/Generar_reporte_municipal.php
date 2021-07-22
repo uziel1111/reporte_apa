@@ -17,7 +17,7 @@ class Generar_reporte_municipal extends CI_Controller {
     // $query="SELECT idmunicipio FROM municipio";
     // $datos=$this->db->query($query)->result_array();
     // for ($i=0; $i < count($datos) ; $i++) {
-    //   $this->rep($datos[$i]['idmunicipio'],6,2,'2021');
+    //   $this->rep($datos[$i]['idmunicipio'],6,3,'2021');
     // }
     // die();
   }
@@ -37,7 +37,8 @@ class Generar_reporte_municipal extends CI_Controller {
     // echo "<pre>"; print_r($reporte_datos); die();
     // echo $reporte_datos['idreporteapa']; die();
     if ($reporte_datos==null || $reporte_datos['idreporteapa']=='' || $reporte_datos['idreporteapa']==null) {
-      echo "<h1>¡No se encontraron datos para mostrar!</h1>"; die();
+      echo "<h1>¡No se encontraron datos para mostrar!</h1>";
+      // die();
     }
     // die();
     $array_datos_escuela= array(
@@ -1275,9 +1276,9 @@ if($alumnos_mar == null){
 
 $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['encabezado_muni_escuela'].$reporte_datos['encabezado_n_nivel'].'.pdf', 'I');
   // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2021/Municipal/";
-  // $archivom = $reporte_datos['encabezado_muni_escuela']."_".$reporte_datos['encabezado_n_nivel']."_P2".".pdf";
-  // $pdf->Output($ruta.$archivom,'F');
-  // flush();
+  // $archivom = $reporte_datos['encabezado_muni_escuela']."_".$reporte_datos['encabezado_n_nivel']."_P3".".pdf";
+  $pdf->Output($ruta.$archivom,'F');
+  flush();
 
 
 }

@@ -14,9 +14,7 @@ if ( !function_exists( 'envia_datos_json' ) ) {
 
 if ( !function_exists( 'carga_pagina_basica' ) ) {
     function carga_pagina_basica( $contexto, $data, $vista, $header = 'header', $footer = 'footer' ) {
-        // $contexto->load->view( 'templates/'.$header, $data );
         $contexto->load->view( $vista, $data );
-        // $contexto->load->view( 'templates/'.$footer );
     }
     // carga_pagina_basica()
 }

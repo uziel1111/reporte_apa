@@ -17,9 +17,9 @@ class Generar_reporte extends CI_Controller {
 
     // $query="SELECT cct,turno,periodo,ciclo
     //         FROM complemento_apa
-    //         WHERE periodo=2 AND ciclo=2021 AND encabezado_n_nivel='SECUNDARIA'
+    //         WHERE periodo=3 AND ciclo=2021
     //     ORDER BY cct DESC
-    //     LIMIT 430, 4000";
+    //     LIMIT 2270, 4000";
     // $datos=$this->db->query($query)->result_array();
     // for ($i=0; $i < count($datos) ; $i++) {
     //   $this->rep($datos[$i]['cct'],$datos[$i]['turno'],$datos[$i]['periodo'],$datos[$i]['ciclo']);
@@ -1316,7 +1316,7 @@ $pdf->Output('Reporte_APA_Sinaloa_'.$reporte_datos['cct'].$reporte_datos['encabe
 
 
   // $ruta=$_SERVER["DOCUMENT_ROOT"]."/reporte_apa/application/libraries/2021/Escuelas/";
-  // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P2".".pdf";
+  // $archivom = $reporte_datos['cct']."_".$reporte_datos['turno']."_P3".".pdf";
   // $pdf->Output($ruta.$archivom,'F');
   // flush();
 
@@ -1565,7 +1565,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=76, $html, $border=0, $ln=1, $fill=0, $r
 function pinta_muy_alto($pdf,$array_datos,$reporte_datos,$encabezado_v){
  // add a page
  // $reporte_datos['ciclo'] = 2021;
- // $reporte_datos['periodo'] = 2;
+ // $reporte_datos['periodo'] = 3;
  $pdf=$this->header_footer_v($pdf,$reporte_datos,$encabezado_v);
 
 // echo "<pre>";print_r($reporte_datos);die();
@@ -1591,7 +1591,7 @@ Cite a su padre, madre o tutor en forma inmediata para acordar acciones y asegur
           </tbody>
         </table>
     ';
-  if ($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 2) {
+  if (($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 2) || ($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 3)) {
 $html= <<<EOT
 $msj2
 EOT;
@@ -1711,7 +1711,7 @@ $pdf->writeHTMLCell($w=0,$h=55,$x=12,$y=57, $html, $border=0, $ln=1, $fill=0, $r
 }
  $str_html2 .= '</table>';
 
-if ($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 2) {
+if (($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 2) || ($reporte_datos['ciclo'] == 2021 && $reporte_datos['periodo'] == 3)) {
 $html= <<<EOT
 $str_html2
 EOT;

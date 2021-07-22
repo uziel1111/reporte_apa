@@ -269,6 +269,10 @@ class DatosMunicipal_model extends CI_Model
 
 
     function get_alumnos_mar($idreporte){
+      $aux_="";
+      if ($idreporte!='') {
+         $aux_=" AND c.idreporteapa IN({$idreporte}) ";
+      }
        $q = " SELECT d.idcentrocfg,
                     d.total_muy_alto,
                     d.total_alto,
@@ -299,8 +303,8 @@ class DatosMunicipal_model extends CI_Model
                       FROM complemento_apa c
                       INNER JOIN centrocfg cfg ON cfg.idcentrocfg=c.idcentrocfg
                       INNER JOIN cct ct ON ct.idct=cfg.idct
-                      WHERE cfg.`status`='A' AND c.idreporteapa IN({$idreporte})
-
+                      WHERE cfg.`status`='A'
+                      {$aux_}
                       AND  c.per_riesgo_al_t IS NOT NULL
                       GROUP BY c.`idcentrocfg` ) AS d
                       -- WHERE d.total_muy_alto!=0 OR d.total_alto!=0
